@@ -1,0 +1,82 @@
+main {
+    background-repeat: no-repeat;
+    background-size: cover; 
+}
+main .container {
+    flex-direction: column;
+}
+.poster {
+    height: 300px;
+    margin-right: 2rem;
+    border-radius: 6px;
+}
+.movie-list-content {
+    display: flex;
+    flex-direction: row;
+    width:100%;
+}
+.movie-list-desc {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width:100%
+    
+}
+.movie-title-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 2rem;
+}
+.title, .premiere  {
+    font-size: 2rem;
+}
+.premiere {
+    color: #808080;
+    font-size: 0.8rem;
+}
+.movie-list-metadata {
+    padding: 0.900rem 0;
+}
+.movie-list-metadata:not(:last-child) {
+    border-bottom: 2px solid #808080;
+}
+.movie-list-metadata li {
+    float: left;
+}
+.movie-list-metadata li:not(:first-child):before {
+    content: "|";
+    margin: 0 5px;
+  }
+  .actors p {
+    float: left;
+    padding-right: 8px;
+  }
+  .booking-form {
+    align-self: flex-end;
+  }
+  #booking {
+    padding: 1.4em 4em;
+    border: none;
+    background-color: #ED2939;
+  }
+  #booking:hover {
+    cursor: pointer;
+  }
+  .rating-area {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    min-width: 120px
+}
+.rating-area2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.rating-area i, rating-area p {
+    padding: 2px;
+}

@@ -1,0 +1,102 @@
+main .container {
+    flex-direction: column;
+}
+.page-header {
+    width: 100%;
+    padding-bottom: 2rem;
+    text-align: center;
+}
+.page-title {
+    font-size: 1.5rem;
+}
+
+.page-desc {
+    margin-top: 8px;
+}
+
+.page-header h2 {
+    align-items: center;
+}
+.collapsible {
+    text-align: left;
+    text-transform: uppercase;
+    background-color: transparent;
+    border: none;
+    margin-bottom: 2em;
+}
+.collapsible:hover {
+    cursor: pointer;
+}
+.collapsible:after {
+    content: '\02795'; /* Unicode character for "plus" sign (+) */
+    color: white;
+    float: right;
+}
+.collapsible.active {
+    color: var(--primary-red);
+}
+.collapsible.active:after {
+    background-color: var(--primary-red);
+    content: "\2796"; /* Unicode character for "minus" sign (-) */
+}
+.settings {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+.account-details input {
+    width: 100%;
+    height: 1.5rem;
+    background: #f5f5f5;
+    border: 0px solid;
+    border-radius: 6px;
+    margin: 1em 0;
+    padding: 1em;
+    color: #000000;
+}
+.section {
+    padding: 2em;
+}
+.section-header {
+    border-bottom: #303030 2px solid;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+}
+form {
+    max-width: 500px;
+}
+.form-button {
+    display: flex;
+    justify-content: flex-end;
+}
+form button {
+    width: 50%;
+    height: 2.5rem;
+    border-radius: 0;
+    border: none;
+    color: white;
+    background-color: var(--primary-red);
+    margin-top: 1rem;
+}
+form button:hover {
+    cursor: pointer;
+}
+.section input[type="password"]:first-of-type {
+    margin-bottom: 4em;
+}
+.settings-form input {
+    width: auto;
+}
+.sessions li {
+    display: flex;
+}
+.list-row {
+    margin-bottom: 2em;
+}
+.list-item {
+    padding-right: 2em;
+}
+input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+}
