@@ -1,5 +1,4 @@
 <?php
-require_once('./config/dbconnect.php');
 require_once ('./models/Profile.php');
 require_once('./models/LastSeen.php');
 
@@ -13,7 +12,7 @@ class ProfileController
         $this->conn = $conn;
     }
 
-    public function index()
+    public function index(): void
     {
         $this->UpdateLastSeen();
         $this->fetchProfileData();
@@ -24,13 +23,15 @@ class ProfileController
         require './views/profile/index.php';
         require './views/partials/footer.php';
     }
-    public function UpdateLastSeen() {
+    public function UpdateLastSeen(): void
+    {
         if (isset($_SESSION['user_id'])) {
             $model = new LastSeen($this->conn);
             $model->updateLastSeen();
         }
     }
-    private function fetchProfileData() {
+    private function fetchProfileData(): void
+    {
         $model = new profile($this->conn);
         $this->profile = $model->ProfileLookup();
         $model->GetUserData($this->profile);

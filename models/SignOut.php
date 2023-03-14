@@ -1,4 +1,7 @@
 <?php
+
+use JetBrains\PhpStorm\NoReturn;
+
 class SignOut {
     private $conn;
 
@@ -6,7 +9,8 @@ class SignOut {
     {
         $this->conn = $conn;
     }
-    public function removeSession() {
+    public function removeSession(): void
+    {
         # Delete row from session table
         $phpsessid = filter_var(session_id(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
@@ -25,11 +29,13 @@ class SignOut {
             header("LOCATION: /cinema/");
         }
     }
-    public function signOut() {
+    #[NoReturn] public function signOut(): void
+    {
         # Remove all session variables.
         session_unset();
         # Invalidate session ID
         session_destroy();
+        header("Location: /cinema/index.php");
         exit();
     }
 }

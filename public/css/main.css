@@ -18,7 +18,7 @@
   text-decoration: none;
   color: #FFF;
   box-sizing: border-box;
-  font-family: "Roboto-Bold";
+  font-family: "Roboto-Bold", sans-serif;
   font-size: 1rem;
 }
 
@@ -96,15 +96,15 @@ nav li a:hover {
   border-bottom: 4px solid #FFF;
 }
 
-#signin {
+#sign-in {
   order: 3;
   border: white 2px solid;
-  padding: 12.5px 22px;
+  padding: 12px 22px;
   color: white;
   border-radius: 25px;
 }
 
-#signin:hover {
+#sign-in:hover {
   color: #ED2939;
   background-color: #FFF;
 }
@@ -211,9 +211,9 @@ footer .cell {
 }
 
 .footer-bottom {
-  box-shadow: 1px -2px 7px 0px rgba(0, 0, 0, 0.41);
-  -webkit-box-shadow: 1px -2px 7px 0px rgba(0, 0, 0, 0.41);
-  -moz-box-shadow: 1px -2px 7px 0px rgba(0, 0, 0, 0.41);
+  box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
+  -webkit-box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
   background-color: #ED2939;
 }
 
@@ -238,7 +238,7 @@ footer .cell {
 /* }}} */
 
 /* {{{ LOGGED IN DROPDOWN MENU */
-.dropbtn {
+.drop-button {
   color: white;
   font-size: 16px;
   border: none;
@@ -246,7 +246,7 @@ footer .cell {
   border-radius: 50%;
 }
 
-.dropbtn {
+.drop-button {
   height: 48px;
 }
 
@@ -267,7 +267,7 @@ footer .cell {
   background-color: #303030;
   width: 300px;
   margin-top: 8px;
-  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
   border-radius: 10px;
   overflow: hidden;
@@ -316,6 +316,7 @@ footer .cell {
   background-color: #424242
 }
 
+/*noinspection CssUnusedSymbol*/
 .show {
   display: block;
 }

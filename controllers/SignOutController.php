@@ -1,5 +1,7 @@
 <?php
-require_once ("./config/dbconnect.php");
+
+use JetBrains\PhpStorm\NoReturn;
+
 require_once ("./models/SignOut.php");
 class SignOutController {
     private $conn;
@@ -8,13 +10,14 @@ class SignOutController {
     {
         $this->conn = $conn;
     }
-    public function index() {
+    #[NoReturn] public function index(): void
+    {
         # TODO: Include view maybe.
         echo "Please wait...";
         $this->initiateSignOut();
-        header("Location: /cinema/index.php");
     }
-    private function initiateSignOut() {
+    #[NoReturn] private function initiateSignOut(): void
+    {
         $model = new SignOut($this->conn);
         $model->removeSession();
         $model->signOut();

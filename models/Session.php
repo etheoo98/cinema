@@ -15,7 +15,7 @@ class Session {
         $ip_address = file_get_contents('https://api.ipify.org');
 
         # Request CountryCode from geoplugin API
-        $api_url = "http://www.geoplugin.net/json.gp?ip={$ip_address}";
+        $api_url = "http://www.geoplugin.net/json.gp?ip=$ip_address";
         $api_response = file_get_contents($api_url);
         $api_data = json_decode($api_response, true);
 
@@ -33,9 +33,12 @@ class Session {
             );
 
         } else {
-            # Default country code if API request fails
-            $country_code = 'KP';
-            # $country_name = '';
+            return array (
+                # Default country code if API request fails
+                'country_code' => 'KP',
+                'ip_address' => 'Unable to fetch',
+                # $country_name = '';
+            );
         }
     }
     public function addSession($session) {
@@ -94,10 +97,10 @@ class Session {
     }
     public function validateSession() {
         # Check if the current session is valid
-        $currentphpsessid = session_id();
+        $currentPhpsessid = session_id();
         $sql = "SELECT * FROM session WHERE phpsessid = ?";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('s', $currentphpsessid);
+        $stmt->bind_param('s', $currentPhpsessid);
         $stmt->execute();
         $result = $stmt->get_result();
         $row = mysqli_fetch_assoc($result);
@@ -115,7 +118,7 @@ class Session {
                 # Delete row from session table
                 $sql = "DELETE FROM session WHERE `session`.`phpsessid` = ?";
                 $stmt = $this->conn->prepare($sql);
-                $stmt->bind_param('s', $currentphpsessid);
+                $stmt->bind_param('s', $currentPhpsessid);
                 $stmt->execute();
 
                 # Commit the transaction

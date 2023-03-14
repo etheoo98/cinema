@@ -24,8 +24,13 @@ class SignIn
             echo '<script type="text/javascript">EmptyFields();</script>';
             exit();
         }
+        return null;
     }
-    public function signIn($sanitizedInput)
+
+    /**
+     * @throws Exception
+     */
+    public function signIn($sanitizedInput): void
     {
         $sql = "SELECT user_id, email, username, salt, password FROM user WHERE email=?";
         $stmt = $this->conn->prepare($sql);
@@ -46,7 +51,6 @@ class SignIn
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['username'] = $user['username'];
-                return True;
             }
             else {
                 # TODO: Error handling

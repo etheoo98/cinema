@@ -24,8 +24,8 @@
             <div class="section">
                 <h2 class="section-header">Change Email</h2>
                 <form class="account-details">
-                    <label>Enter New Email</label>
-                    <input placeholder="<Current Email Address PHP>"></input>
+                    <label for="current-email">Enter New Email</label>
+                    <input id="current-email" name="current-email" placeholder="<Current Email Address PHP>">
                     <div class="form-button">
                         <button>Change Email</button>
                     </div>
@@ -34,13 +34,13 @@
             <div class="section">
                 <h2 class="section-header">Change Password</h2>
                 <form class="account-details">
-                    <label>Enter Old Password:</label>
-                    <input type="password"></input>
-                    <label>Enter New Password:</label>
-                    <input type="password"></input>
+                    <label for="current-password">Enter Old Password:</label>
+                    <input id="current-password" name="current-password" type="password">
+                    <label for="new-password">Enter New Password:</label>
+                    <input id="new-password" name="new-password" type="password">
                     <div class="input-container">
-                        <label>Retype New Password:</label>
-                        <input type="password"></input>
+                        <label for="retype-new-password">Retype New Password:</label>
+                        <input id="retype-new-password" name="retype-new-password" type="password">
                     </div>
                     <div class="form-button">
                         <button>Change Password</button>
@@ -55,7 +55,7 @@
                     <ul>
                         <li class="list-header list-row">
                             <div class="list-item">
-                                <input type="checkbox" onClick="toggle(this)"></input>
+                                <input type="checkbox" onClick="toggle(this)">
                             </div>
                             <div class="list-item">Signed In</div>
                             <div class="list-item">Country</div>
@@ -66,7 +66,7 @@
                             ?>
                             <li class="list-row">
                             <div class="list-item">
-                                <input type="checkbox" name="checkboxes[]" value="<?php echo $session['phpsessid'] ?>"></input>
+                                <input type="checkbox" name="checkBoxes[]" value="<?php echo $session['phpsessid'] ?>">
                             </div>
                             <div class="list-item"><?php echo $session['date'] ?></div>
                             <div class="list-item"><?php echo $session['country_code'] ?></div>
@@ -84,6 +84,6 @@
         </div>
     </div>
 </main>
-<script src="/cinema/public/js/collapsible.js"></script>
-<script src="/cinema/public/js/checkall.js"></script>
-<script src="/cinema/public/js/redirect.js"></script>
+<script src="./public/js/collapsible.js"></script>
+<script src="./public/js/check-all.js"></script>
+<script src="./public/js/redirect.js"></script>

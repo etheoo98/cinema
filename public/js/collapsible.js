@@ -1,15 +1,15 @@
-var coll = document.getElementsByClassName("collapsible");
-var i;
+const coll = document.getElementsByClassName("collapsible");
+let i;
 
 for (i = 0; i < coll.length; i++) {
     coll[i].addEventListener("click", function() {
-        var active = document.querySelector(".collapsible.active");
+        const active = document.querySelector(".collapsible.active");
         if (active && active !== this) {
             active.classList.remove("active");
             active.nextElementSibling.style.maxHeight = null;
         }
         this.classList.toggle("active");
-        var content = this.nextElementSibling;
+        const content = this.nextElementSibling;
         if (content.style.maxHeight) {
             content.style.maxHeight = null;
         } else {

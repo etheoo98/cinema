@@ -43,7 +43,6 @@ class profile
     public function GetGravatar($profile) {
         $default = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5bd56c1aa4644a474a2e4972be27ef9e82e517e_full.jpg";
         $size = 184;
-        $gravatar = "https://www.gravatar.com/avatar/" . md5(strtolower(trim($profile['email']))) . "?d=" . urlencode($default) . "&s=" . $size;
-        return $gravatar;
+        return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($profile['email']))) . "?d=" . urlencode($default) . "&s=" . $size;
     }
 }

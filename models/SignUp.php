@@ -77,6 +77,9 @@ class SignUp
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function passwordEncryption($sanitizedInput)
     {
         # Generate a random salt

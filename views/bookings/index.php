@@ -3,8 +3,7 @@
         <div class="page-info">
             <h1 class="page-title">Bookings</h1>
             <?php
-            # If-sats för att kolla om antalet rader är = 0, dvs. om kunden inte har någon biljett.
-            if (mysqli_num_rows($bookingsData) == 0) { ?>
+            if (mysqli_num_rows($this->bookingData) == 0) { ?>
                 <p class="page-desc">It looks like you haven't made any bookings!</p>
                 <p style='text-align:center;'>Explore our wide range of <a href='/cinema/movies' style='color:#a80005;'>movies</a> and book your ticket on the product page.</p>
             <?php
@@ -14,7 +13,7 @@
             <?php } ?>
         </div>
         <?php
-        while ($row = mysqli_fetch_array($bookingsData)) {
+        while ($row = mysqli_fetch_array($this->bookingData)) {
         ?>
 
             <div class="movie-list-content" id="booking-<?php echo $row['movie_id']; ?>" data-id="<?php echo $row['movie_id']; ?>">

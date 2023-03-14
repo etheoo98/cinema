@@ -15,8 +15,7 @@ class Bookings
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
-        $result = $stmt->get_result();
-        return $result;
+        return $stmt->get_result();
     }
 
     public function deleteBooking($user_id, $movie_id)
@@ -24,12 +23,6 @@ class Bookings
         $sql = "DELETE FROM booking WHERE user_id = ? AND movie_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
-        if (!$stmt->execute()) {
-            return true;
-            $stmt->execute();
-        }
-        else {
-            return $stmt->error;
-        }
+        $stmt->execute();
     }
 }

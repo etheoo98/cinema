@@ -1,31 +1,34 @@
 <?php
-require_once('./config/dbconnect.php');
 require_once('./models/Title.php');
 require_once('./models/LastSeen.php');
 
 class TitleController
 {
     private $conn;
+    private $titleData;
+    private $ratingData;
+    private $actorData;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
-    public function index()
+    public function index(): void
     {
         $this->updateLastSeen();
-        $TitleData = $this->getTitleData();
-        $RatingData = $this->getRatingData();
-        $ActorData = $this->getActorData();
+        $this->getTitleData();
+        $this->getRatingData();
+        $this->getActorData();
 
         # TODO: Fix title title
-        $title = $this->TitleData['title'];
+        $title = $this->titleData['title'];
         $css = ["title.css"];
         require_once('./views/partials/header.php');
-        if (isset($TitleData) && isset($RatingData) && isset($ActorData)) {
+        if(isset($this->titleData) && isset($this->ratingData) && isset($this->actorData)) {
             require_once('./views/title/index.php');
-        } else {
-            echo "No data to display";
+        }
+        else {
+            require_once('./views/error/index.php');
         }
         require_once('./views/partials/footer.php');
 
@@ -33,28 +36,25 @@ class TitleController
             $this->addBooking();
         }
     }
-    public function getTitleData()
+    public function getTitleData(): void
     {
         $title_id = $_GET["id"];
         $model = new Title($this->conn);
-        $TitleData = $model->getTitleData($title_id);
-        return $TitleData;
+        $this->titleData = $model->getTitleData($title_id);
     }
-    public function getRatingData()
+    public function getRatingData(): void
     {
         $title_id = $_GET["id"];
         $model = new Title($this->conn);
-        $RatingData = $model->getRatingData($title_id);
-        return $RatingData;
+        $this->ratingData = $model->getRatingData($title_id);
     }
-    public function getActorData()
+    public function getActorData(): void
     {
         $title_id = $_GET["id"];
         $model = new Title($this->conn);
-        $ActorData = $model->getActorData($title_id);
-        return $ActorData;
+        $this->actorData = $model->getActorData($title_id);
     }
-    public function addBooking()
+    public function addBooking(): void
     {
         $user_id = $_SESSION["user_id"];
         $movie_id = $_POST["book"];
@@ -67,7 +67,8 @@ class TitleController
             echo "You have already booked this movie.";
         }
     }
-    public function updateLastSeen() {
+    public function updateLastSeen(): void
+    {
         if (isset($_SESSION['user_id'])) {
             $model = new LastSeen($this->conn);
             $model->updateLastSeen();

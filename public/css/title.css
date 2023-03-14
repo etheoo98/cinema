@@ -64,19 +64,19 @@ main .container {
   #booking:hover {
     cursor: pointer;
   }
-  .rating-area {
+  .rating-area-outer {
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
     min-width: 120px
 }
-.rating-area2 {
+.rating-area-inner {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
-.rating-area i, rating-area p {
+.rating-area i, .rating-area-inner p {
     padding: 2px;
 }

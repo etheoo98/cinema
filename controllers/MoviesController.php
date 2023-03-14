@@ -1,40 +1,41 @@
 <?php
-require_once('./config/dbconnect.php');
 require_once('./models/Movies.php');
 require_once('./models/LastSeen.php');
 
 class MoviesController
 {
     private $conn;
+    private $movieData;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
-    public function index()
+    public function index(): void
     {
         $this->updateLastSeen();
-        $movieData = $this->getMovieData();
+        $this->getMovieData();
 
         $title = "Movies";
         $css = ["movies.css"];
         require_once('./views/partials/header.php');
 
-        if (isset($movieData)) {
+        if (isset($this->movieData)) {
             require_once('./views/movies/index.php');
         }
         else {
-            require_once('./views/partials/error-page.php');
+            require_once('./views/error/index.php');
         }
 
         require_once('./views/partials/footer.php');
     }
-    public function getMovieData()
+    public function getMovieData(): void
     {
         $model = new Movies($this->conn);
-        return $model->getMovieData();
+        $this->movieData = $model->getMovieData();
     }
-    public function updateLastSeen() {
+    public function updateLastSeen(): void
+    {
         if (isset($_SESSION['user_id'])) {
             $model = new LastSeen($this->conn);
             $model->updateLastSeen();

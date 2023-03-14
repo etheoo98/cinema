@@ -1,6 +1,7 @@
 <?php
-
-require_once('./controllers/HomeController.php');
+$conn = null; # Initialize to prevent IDE error
+require_once('config/dbconnect.php');
+require_once('controllers/HomeController.php');
 
 # parse the URL parameter
 if (isset($_GET['url'])) {
@@ -17,7 +18,7 @@ if (empty($url_parts)) {
   $controller->index();
 } elseif ($url_parts[0] == 'sign-in') {
   require_once('./controllers/SignInController.php');
-  $controller = new SignInController($conn);
+    $controller = new SignInController($conn);
   $controller->index();
 } elseif ($url_parts[0] == 'sign-up') {
   require_once('./controllers/SignUpController.php');

@@ -15,14 +15,6 @@ class Title
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
-
-
-        #$sql = "SELECT * FROM poster, movie WHERE movie.movie_id = $movie_id AND movie.movie_id = poster.movie_id AND showing=1";
-        #$sql1 = "SELECT full_name FROM actor, movie_actor WHERE movie_actor.movie_id = $movie_id AND movie_actor.actor_id = actor.actor_id";
-        #$sql2 = "SELECT ROUND(AVG(rating), 1), COUNT(rating) FROM rating WHERE movie_id= $movie_id";
-        #$title_data = $this->conn->query($sql);
-        #$rating_data = $this->conn->query($sql2);
-        #return $title_data;
     }
 
     public function getRatingData($title_id) {
@@ -63,15 +55,7 @@ class Title
 
     public function addBooking($user_id, $movie_id) {
         $stmt = $this->conn->prepare("INSERT INTO booking (booking_id, user_id, movie_id, `date`) VALUES (NULL, ?, ?, NOW())");
-        if (!$stmt) {
-            return $this->conn->error;
-        }
         $stmt->bind_param('ii', $user_id, $movie_id);
-        if (!$stmt->execute()) {
-            return $stmt->error;
-        }
-        return true;
         $stmt->execute();
     }
 }
-?>
