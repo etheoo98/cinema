@@ -4,10 +4,10 @@ require_once('./models/LastSeen.php');
 
 class TitleController
 {
-    private mysqli $conn;
-    private ?array $titleData = null;
-    private ?array $ratingData = null;
-    private ?array $actorData = null;
+    private $conn;
+    private $titleData;
+    private $ratingData;
+    private $actorData;
 
     public function __construct($conn)
     {

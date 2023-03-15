@@ -1,7 +1,7 @@
 <?php
 class profile
 {
-    private mysqli $conn;
+    private $conn;
 
     public function __construct($conn)
     {
@@ -26,7 +26,7 @@ class profile
         }
     }
     
-    public function GetUserData(&$profile): void
+    public function GetUserData(&$profile)
     {
         # Getting the email may pose a security concern. Alternatively make your own avatar upload.
         $stmt = $this->conn->prepare("SELECT username, email, date_of_registration FROM user WHERE user_id=?");
@@ -40,8 +40,7 @@ class profile
         $profile['email'] = $row['email'];
         $profile['date_of_registration'] = $row['date_of_registration'];
     }
-    public function GetGravatar($profile): string
-    {
+    public function GetGravatar($profile) {
         $default = "https://steamcdn-a.akamaihd.net/steamcommunity/public/images/avatars/b5/b5bd56c1aa4644a474a2e4972be27ef9e82e517e_full.jpg";
         $size = 184;
         return "https://www.gravatar.com/avatar/" . md5(strtolower(trim($profile['email']))) . "?d=" . urlencode($default) . "&s=" . $size;

@@ -1,55 +1,12 @@
 <?php
 class Settings {
-    private mysqli $conn;
+    private $conn;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
-
-    /**
-     * @throws Exception
-     */
-    public function emailLookup(): void
-    {
-        $email = mysqli_real_escape_string($this->conn, $_POST['new-email']);
-
-        $sql = 'SELECT * FROM `user` WHERE user.email = ?';
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('s', $email);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        # Check that no rows are returned
-        if ($result->num_rows > 0) {
-            throw new Exception('Email is already in use.');
-        }
-    }
-
-    /**
-     * @throws Exception
-     */
-    public function changeEmail(): void
-    {
-        $user_id = $_SESSION['user_id'];
-        $email = mysqli_real_escape_string($this->conn, $_POST['new-email']);
-
-        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $sql = "UPDATE `user` SET `email` = ? WHERE `user`.`user_id` = ?;";
-            $stmt = $this->conn->prepare($sql);
-            $stmt->bind_param('ss', $email, $user_id);
-            $stmt->execute();
-
-            if ($stmt->affected_rows == 0) {
-                throw new Exception('Unable to change email.');
-            }
-        }
-        else {
-            throw new Exception('Invalid email format.');
-        }
-    }
-    public function getSessions(): array
-    {
+    public function getSessions() {
         $user_id = $_SESSION['user_id'];
         $sql = "SELECT * FROM user_session, session WHERE user_session.session_id = session.session_id AND user_id = ? AND valid=1 ORDER BY date DESC;";
         $stmt = $this->conn->prepare($sql);

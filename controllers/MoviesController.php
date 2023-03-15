@@ -4,8 +4,8 @@ require_once('./models/LastSeen.php');
 
 class MoviesController
 {
-    private mysqli $conn;
-    private false|mysqli_result $movieData;
+    private $conn;
+    private $movieData;
 
     public function __construct($conn)
     {

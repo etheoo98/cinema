@@ -23,11 +23,11 @@
         <div class="settings">
             <div class="section">
                 <h2 class="section-header">Change Email</h2>
-                <form class="account-details" method="POST">
-                    <label for="new-email">Enter New Email</label>
-                    <input id="new-email" name="new-email" placeholder="<?php echo $_SESSION['email'] ?>" title="Email address that will be used to log in" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required>
+                <form class="account-details">
+                    <label for="current-email">Enter New Email</label>
+                    <input id="current-email" name="current-email" placeholder="<Current Email Address PHP>">
                     <div class="form-button">
-                        <button name="change-email">Change Email</button>
+                        <button>Change Email</button>
                     </div>
                 </form>
             </div>

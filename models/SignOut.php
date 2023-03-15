@@ -3,7 +3,7 @@
 use JetBrains\PhpStorm\NoReturn;
 
 class SignOut {
-    private mysqli $conn;
+    private $conn;
 
     public function __construct($conn)
     {

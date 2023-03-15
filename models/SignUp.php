@@ -3,7 +3,7 @@
 class SignUp
 {
 
-    private mysqli $conn;
+    private $conn;
 
     public function __construct($conn)
     {
@@ -32,7 +32,7 @@ class SignUp
             exit();
         }
     }
-    public function validateEmail($sanitizedInput): void
+    public function validateEmail($sanitizedInput)
     {
         # Check if input matches email format
         if (!filter_var($sanitizedInput['email'], FILTER_VALIDATE_EMAIL)) {
@@ -41,7 +41,7 @@ class SignUp
             exit();
         }
     }
-    public function validatePassword($sanitizedInput): void
+    public function validatePassword($sanitizedInput)
     {
         # Check if password fields match
         if ($sanitizedInput['password'] != $sanitizedInput['_password']) {
@@ -50,7 +50,7 @@ class SignUp
             exit();
         }
     }
-    public function emailLookup($sanitizedInput): void
+    public function emailLookup($sanitizedInput)
     {
         # Check if email is available
         $stmt = $this->conn->prepare("SELECT email FROM user WHERE email=?");
@@ -63,7 +63,7 @@ class SignUp
             exit();
         }
     }
-    public function usernameLookup($sanitizedInput): void
+    public function usernameLookup($sanitizedInput)
     {
         # Check if username is available
         $stmt = $this->conn->prepare("SELECT username FROM user WHERE username=?");
@@ -99,7 +99,7 @@ class SignUp
         return $sanitizedInput;
     }
 
-    public function addUser($sanitizedInput): void
+    public function addUser($sanitizedInput)
     {
         $sql = "INSERT INTO user (role, email, username, salt, password, date_of_registration, last_seen) VALUES ('user', ?, ?, ?, ?, now(), now())";
         $stmt = $this->conn->prepare($sql);

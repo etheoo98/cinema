@@ -4,7 +4,7 @@ require_once('./models/SignUp.php');
 
 class SignUpController {
 
-    private mysqli $conn;
+    private $conn;
 
     public function __construct($conn)
     {
