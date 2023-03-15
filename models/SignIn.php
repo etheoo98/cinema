@@ -3,7 +3,7 @@
 class SignIn
 {
 
-    private $conn;
+    private mysqli $conn;
 
     public function __construct($conn)
     {

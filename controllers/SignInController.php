@@ -4,7 +4,7 @@ require_once('./models/Session.php');
 
 class SignInController {
 
-    private $conn;
+    private mysqli $conn;
 
     public function __construct($conn)
     {
@@ -28,8 +28,9 @@ class SignInController {
                 header("Location: index.php");
                 exit;
             } catch (Exception $e) {
-                # TODO: Setup js exception handling
-                echo "CATCH ERROR";
+                # Log the error message
+                error_log($e->getMessage());
+                echo 'An error occurred while signing ip. Please try again later.';
                 # echo '<script type="text/javascript">ShowErrorMessage("' . $e->getMessage() . '");</script>';
             }
         }
@@ -40,14 +41,9 @@ class SignInController {
      */
     private function attemptSignIn(): void
     {
-        try {
-            $model = new SignIn($this->conn);
-            $sanitizedInput = $model->sanitizeInput();
-            $model->signIn($sanitizedInput);
-        } catch (Exception $e) {
-            error_log($e->getMessage());
-            echo 'An error occurred while signing in. Please try again later.';
-        }
+        $model = new SignIn($this->conn);
+        $sanitizedInput = $model->sanitizeInput();
+        $model->signIn($sanitizedInput);
     }
     private function logSession(): void
     {

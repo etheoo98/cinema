@@ -2,12 +2,13 @@
 
 class Movies
 {
-    private $conn;
+    private mysqli $conn;
 
     public function __construct($conn) {
         $this->conn = $conn;
     }
-    public function getMovieData()
+
+    public function getMovieData(): false|mysqli_result
     {
         $sql = "SELECT poster, title, genre, age_limit, `length`, movie.movie_id FROM poster, movie WHERE showing=1 AND poster.movie_id = movie.movie_id;";
         $stmt = $this->conn->prepare($sql);

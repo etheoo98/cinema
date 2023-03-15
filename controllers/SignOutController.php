@@ -4,7 +4,7 @@ use JetBrains\PhpStorm\NoReturn;
 
 require_once ("./models/SignOut.php");
 class SignOutController {
-    private $conn;
+    private mysqli $conn;
 
     public function __construct($conn)
     {
@@ -12,7 +12,7 @@ class SignOutController {
     }
     #[NoReturn] public function index(): void
     {
-        # TODO: Include view maybe.
+        # TODO: Include view, maybe.
         echo "Please wait...";
         $this->initiateSignOut();
     }
