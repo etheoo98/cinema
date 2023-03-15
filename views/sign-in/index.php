@@ -4,7 +4,7 @@
             <p>Enter the credentials used during sign up.</p>
             <form action="#" method="post" id="register-form">
                 <div class="form-item">
-                    <input type="text" name="email" placeholder="Email address" title="Email address that will be used to log in" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required   >
+                    <input type="text" name="email" placeholder="Email address" title="Email address that will be used to log in" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required>
                 </div>
 
                 <div class="form-item">

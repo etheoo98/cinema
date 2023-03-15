@@ -3,8 +3,8 @@ require_once ('./models/Settings.php');
 require_once ('./models/Session.php');
 
 class SettingsController {
-    private $conn;
-    private $sessions;
+    private mysqli $conn;
+    private ?array $sessions = null;
     public function __construct($conn)
     {
         $this->conn = $conn;
@@ -25,8 +25,26 @@ class SettingsController {
         }
         require_once './views/partials/footer.php';
 
+        if(isset($_POST['change-email']) && isset($_POST['new-email']) && !empty($_POST['new-email'])) {
+            try {
+                $model = new Settings($this->conn);
+                $model->emailLookup();
+                $model->changeEmail();
+                echo '<script>alert("Your email was successfully changed.")</script>';
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                echo '<script>alert("'.$e->getMessage().'")</script>';
+            }
+        }
+
+
         if (isset($_POST['terminate']) && isset($_POST['checkBoxes'])) {
-            $this->terminateSession();
+            try {
+                $this->terminateSession();
+            } catch (Exception $e) {
+                error_log($e->getMessage());
+                echo '<script>alert("We were unable to terminate your session(s).")</script>';
+            }
         }
     }
     private function requireSignIn(): void
@@ -39,6 +57,10 @@ class SettingsController {
         $model = new Settings($this->conn);
         $this->sessions = $model->getSessions();
     }
+
+    /**
+     * @throws Exception
+     */
     private function terminateSession(): void
     {
         $checkedBoxes = $_POST['checkBoxes'];

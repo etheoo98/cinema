@@ -4,8 +4,8 @@ require_once('./models/LastSeen.php');
 
 class ProfileController
 {
-    private $conn;
-    private $profile;
+    private mysqli $conn;
+    private ?array $profile = null;
 
     public function __construct($conn)
     {

@@ -1,13 +1,14 @@
 <?php
 
 class Session {
-    private $conn;
+    private mysqli $conn;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
     }
-    public function getCountryCode() {
+    public function getCountryCode(): array
+    {
         # TODO: Remove ipify if "$_SERVER['REMOTE_ADDR']" works for clients except server
         # This function slows down sign in considerably!
 
@@ -41,7 +42,8 @@ class Session {
             );
         }
     }
-    public function addSession($session) {
+    public function addSession($session): void
+    {
         # Sanitize session details
         $ip_address = $session['ip_address'];
         $country_code = $session['country_code'];
@@ -73,29 +75,51 @@ class Session {
             $this->conn->rollback();
         }
     }
-    public function terminateSession($checkedBoxes) {
-        # Lookup selected session(s) in database
-        $sql = "SELECT * FROM session WHERE phpsessid = ?";
-        $stmt = $this->conn->prepare($sql);
 
-        $selectedSessions = array(); // Create an array to store the selected sessions
-        foreach ($checkedBoxes as $value) {
-            $stmt->execute([$value]);
-            $result = $stmt->get_result();
-            while ($row = mysqli_fetch_assoc($result)) {
-                $selectedSessions[] = $row; // Add the row to the selected sessions array
-            }
-        }
+    /**
+     * @throws Exception
+     */
+    public function terminateSession($checkedBoxes): void
+    {
+        try {
+            $this->conn->begin_transaction();
 
-        $sql = "UPDATE `session` SET `valid` = '0' WHERE `session`.`phpsessid` = ?;";
-        $stmt = $this->conn->prepare($sql);
-        foreach ($selectedSessions as $session) {
-            if ($session['valid'] == 1) {
-                $stmt->execute([$session['phpsessid']]);
+            # Lookup selected session(s) in database
+            $sql = "SELECT * FROM session WHERE phpsessid = ?";
+            $stmt = $this->conn->prepare($sql);
+
+            $selectedSessions = array(); # Create an array to store the selected sessions
+            foreach ($checkedBoxes as $value) {
+                $stmt->execute([$value]);
+                $result = $stmt->get_result();
+                while ($row = mysqli_fetch_assoc($result)) {
+                    $selectedSessions[] = $row; # Add the row to the selected sessions array
+                }
             }
+
+            $sql = "UPDATE `session` SET `valid` = '0' WHERE `session`.`phpsessid` = ?;";
+            $stmt = $this->conn->prepare($sql);
+            $rowsAffected = 0;
+            foreach ($selectedSessions as $session) {
+                if ($session['valid'] == 1) {
+                    $stmt->execute([$session['phpsessid']]);
+                    $rowsAffected += $stmt->affected_rows;
+                }
+            }
+
+            if ($rowsAffected === 0) {
+                throw new Exception('No rows were affected by the UPDATE statement');
+            }
+
+            $this->conn->commit();
+        } catch (Exception $e) {
+            $this->conn->rollback();
+            throw $e;
         }
     }
-    public function validateSession() {
+
+    public function validateSession(): void
+    {
         # Check if the current session is valid
         $currentPhpsessid = session_id();
         $sql = "SELECT * FROM session WHERE phpsessid = ?";
