@@ -84,6 +84,6 @@
         </div>
     </div>
 </main>
-<script src="./public/js/collapsible.js"></script>
+<script src="./public/js/settings.js"></script>
 <script src="./public/js/check-all.js"></script>
 <script src="./public/js/redirect.js"></script>

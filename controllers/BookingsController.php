@@ -13,6 +13,10 @@ class BookingsController
     {
         $this->conn = $conn;
     }
+
+    /**
+     * @throws Exception
+     */
     public function index(): void
     {
         $this->requireSignIn();
@@ -43,6 +47,10 @@ class BookingsController
             }
         }
     }
+
+    /**
+     * @throws Exception
+     */
     private function requireSignIn(): void
     {
         $model = new Session($this->conn);

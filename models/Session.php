@@ -42,6 +42,10 @@ class Session {
             );
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function addSession($session): void
     {
         # Sanitize session details
@@ -73,6 +77,7 @@ class Session {
         } catch (Exception $e) {
             # Rollback the transaction if an error occurred
             $this->conn->rollback();
+            throw $e;
         }
     }
 
@@ -118,6 +123,9 @@ class Session {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function validateSession(): void
     {
         # Check if the current session is valid
@@ -156,6 +164,7 @@ class Session {
             } catch (Exception $e) {
                 # Rollback the transaction if an error occurred
                 $this->conn->rollback();
+                throw $e;
             }
         }
         # If the current phpsessid is not stored in the database, and page requires sign in, redirect.

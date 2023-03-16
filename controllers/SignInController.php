@@ -45,10 +45,14 @@ class SignInController {
         $sanitizedInput = $model->sanitizeInput();
         $model->signIn($sanitizedInput);
     }
+
+    /**
+     * @throws Exception
+     */
     private function logSession(): void
     {
         $model = new Session($this->conn);
         $session = $model->GetCountryCode();
-        $model->AddSession($session);
+        $model->addSession($session);
     }
 }

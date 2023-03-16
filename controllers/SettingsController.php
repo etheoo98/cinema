@@ -9,6 +9,10 @@ class SettingsController {
     {
         $this->conn = $conn;
     }
+
+    /**
+     * @throws Exception
+     */
     public function index(): void
     {
         $this->requireSignIn();
@@ -47,6 +51,10 @@ class SettingsController {
             }
         }
     }
+
+    /**
+     * @throws Exception
+     */
     private function requireSignIn(): void
     {
         $model = new Session($this->conn);
