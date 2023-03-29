@@ -1,0 +1,254 @@
+@font-face {
+    font-family: Shin-Go-Pro-R;
+    src: url("/cinema/public/fonts/Shin-Go/Shin-Go-Pro-R.otf") format("opentype");
+}
+@font-face {
+    font-family: Shin-Go-Pro-B;
+    src: url("/cinema/public/fonts/Shin-Go/Shin-Go-Pro-B.otf") format("opentype");
+}
+:root {
+    --primary-white: #FFFFFF;
+    --primary-black: #000000;
+    --primary-gray: #111111;
+    --secondary-gray: #202020;
+    --primary-red: #ED2939;
+    --secondary-red: #911822;
+}
+* {
+    font-family: 'Shin-Go-Pro-R';
+    box-sizing: border-box;
+    text-decoration: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #000;
+}
+header {
+    order: 1;
+    position: sticky;
+    top: 0;
+    background: #ED2939;
+    z-index: 998;
+}
+.container {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+}
+header .container {
+    justify-content: flex-start;
+}
+.dashboard-text {
+    display: inline-block;
+    background-color: #111;
+    color: #fff;
+    padding: 12px 24px;
+}
+.dashboard-text:hover {
+    cursor: pointer;
+    background-color: #2b2b2b;
+}
+.page-container {
+    order: 2;
+    flex: 1;
+    display: flex;
+    height: 100vh;
+}
+#nav-toggle {
+    display: none;
+}
+nav {
+    width: 260px;
+    background-color: #111;
+    position: absolute;
+    left: -100%;
+    transition: all .5s ease-in-out;
+    min-height: 100vh;
+    z-index: 999;
+}
+nav ul {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+nav li {
+    border-bottom: 2px solid #202020;
+}
+nav a {
+    display: inline-block;
+    position: relative;
+    color: #fff;
+    font-size: 1em;
+    padding: 16px;
+    border-left: 4px solid transparent;
+    opacity: 0.75;
+    transition: 200ms;
+    width: 100%;
+    cursor: pointer;
+}
+nav a:hover {
+    border-left: 4px solid #fff;
+    opacity: 1;
+}
+nav a:active {
+    border-left: 4px solid #fff;
+    opacity: 1;
+}
+main {
+    flex: 4;
+    order: 3;
+    color: white;
+}
+
+#nav-toggle:checked + nav {
+    position: relative;
+    left: 0;
+}
+@media only screen and (max-width: 768px) {
+    #nav-toggle:checked + nav {
+        position: fixed;
+        width: 100%;
+    }
+    nav a {
+        font-size: 1.2em;
+    }
+}
+/* {{{ add-movie.php */
+main .container {
+    justify-content: flex-start;
+    padding: 2em 1em;
+}
+.add-movie {
+    display: flex;
+}
+.add-movie-container {
+    display: flex;
+    flex-direction: column;
+    max-width: 696px;
+}
+.input-row {
+    display: flex;
+    margin-bottom: 16px;
+}
+.input-column {
+    width: 100%;
+}
+#title-column  {
+    flex: 4;
+}
+#premiere-column {
+    flex: 1;
+}
+.input-row > div:not(:first-child) {
+    margin-left: 16px;
+}
+.add-movie-container input[type=text],
+.add-movie-container input[type=number]{
+    width: 100%;
+}
+.add-movie-container .icon {
+    fill: var(--primary-white);
+    color: #ffffff;
+    height: 1em;
+    width: 1em;
+    border-radius: 50%;
+    vertical-align: -0.125em;
+    border: 1px solid;
+}
+#description {
+    height: 200px;
+}
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--primary-red);
+    font-size: 0.8em;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--primary-red) transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.input-row:last-of-type {
+    justify-content: flex-end;
+}
+.btn {
+    cursor: pointer;
+    width: 50%;
+    height: 50px;
+    border: none;
+    outline: none;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: var(--primary-red);
+    font-family: "Shin-Go-Pro-B", sans-serif;
+}
+.add-movie-right {
+    margin-left: 64px;
+    align-self: flex-start;
+    display: flex;
+    flex-direction: column;
+}
+.add-movie-right .input-row {
+    flex-direction: column;
+}
+.poster {
+    border: none;
+    max-height: 300px;
+    max-width: 210px;
+    width: auto;
+    height: auto;
+    border-radius: 6px;
+}
+@media only screen and (max-width: 768px) {
+    .btn {
+        width: 100%;
+    }
+    #title-column {
+        flex: 2;
+    }
+}
+@media only screen and (max-width: 400px) {
+    #title-column {
+        flex: 1;
+    }
+    #metadata-row {
+        flex-direction: column;
+    }
+    #metadata-row .input-column {
+        margin-left: 0;
+    }
+}

@@ -110,8 +110,6 @@ class SignUp
             $_SESSION['user_id'] = $user_id;
             $_SESSION['email'] = $sanitizedInput['email'];
             $_SESSION['username'] = $sanitizedInput['username'];
-            header("Location: /cinema/");
-            exit();
         } else {
             # Query failed to execute
             echo "Error executing query: " . $stmt->error;

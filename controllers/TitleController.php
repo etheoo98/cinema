@@ -22,15 +22,15 @@ class TitleController
 
         # TODO: Fix title title
         $title = $this->titleData['title'];
-        $css = ["title.css"];
-        require_once('./views/partials/header.php');
+        $css = ["main.css", "title.css"];
+        require_once('./views/shared/header.php');
         if(isset($this->titleData) && isset($this->ratingData) && isset($this->actorData)) {
             require_once('./views/title/index.php');
         }
         else {
             require_once('./views/error/index.php');
         }
-        require_once('./views/partials/footer.php');
+        require_once('./views/shared/footer.php');
 
         if (isset($_POST['book'])) {
             $this->addBooking();

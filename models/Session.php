@@ -173,4 +173,29 @@ class Session {
             header("LOCATION: /cinema/sign-in");
         }
     }
+    # Function for checking if current session id valid and is admin
+    public function requireAdminRole(): bool
+    {
+        $currentPhpsessid = session_id();
+        $user_id = $_SESSION['user_id'];
+        $sql = "SELECT user.user_id, user.role, session.valid, session.phpsessid FROM `user`, `user_session`, `session` WHERE `user`.`user_id` = ? AND `session`.`phpsessid` = ? AND `user`.`user_id` = `user_session`.`user_id` AND `session`.`session_id` = `user_session`.`session_id`";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('ss', $user_id, $currentPhpsessid);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        if ($result->num_rows == 1) {
+            $row = $result->fetch_assoc();
+            if ($row['role'] == 'admin' && $row['valid'] == 1) {
+                # Admin role is verified, proceed with further processing
+                return true;
+            } else {
+                # Admin role is not verified
+                return false;
+            }
+        } else {
+            # No rows found
+            return false;
+        }
+    }
+
 }

@@ -18,6 +18,7 @@ main .container {
     align-items: center;
 }
 .collapsible {
+    width: 100%;
     text-align: left;
     text-transform: uppercase;
     background-color: transparent;
@@ -28,9 +29,11 @@ main .container {
     cursor: pointer;
 }
 .collapsible:after {
+    text-align: center;
     content: '\02795'; /* Unicode character for "plus" sign (+) */
-    color: white;
+    width: 32px;
     float: right;
+    border-radius: 6px;
 }
 
 /*noinspection ALL*/
@@ -44,6 +47,7 @@ main .container {
     content: "\2796"; /* Unicode character for "minus" sign (-) */
 }
 .settings {
+    width: 100%;
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.2s ease-out;

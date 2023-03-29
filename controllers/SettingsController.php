@@ -19,15 +19,15 @@ class SettingsController {
         $this->fetchSessionData();
 
         $title = "Settings";
-        $css = ['settings.css'];
-        require_once './views/partials/header.php';
+        $css = ["main.css", 'settings.css'];
+        require_once (dirname(__DIR__) . '/views/shared/header.php');
         if (isset($this->sessions)) {
             require './views/settings/index.php';
         }
         else {
-            require_once './views/error/index.php';
+            require_once (dirname(__DIR__) . '/views/error/index.php');
         }
-        require_once './views/partials/footer.php';
+        require_once (dirname(__DIR__) . '/views/shared/footer.php');
 
         if(isset($_POST['change-email']) && isset($_POST['new-email']) && !empty($_POST['new-email'])) {
             try {

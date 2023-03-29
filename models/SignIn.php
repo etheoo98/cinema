@@ -47,7 +47,6 @@ class SignIn
             # TODO: $sanitizedInput['password'] and $user['password'] naming may be confusing.
             # Alter user table to password->password_hash & salt->password_salt
             if (password_verify($entered_password_with_salt, $user['password'])) {
-                session_start();
                 $_SESSION['user_id'] = $user['user_id'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['username'] = $user['username'];

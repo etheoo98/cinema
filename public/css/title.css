@@ -27,10 +27,12 @@ main .container {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 2rem;
+    align-content: flex-start;
+    align-items: center;
 }
 .title, .premiere  {
-    font-size: 2rem;
+    align-self: flex-start;
+    font-size: 2em;
 }
 .premiere {
     color: #808080;
@@ -46,7 +48,7 @@ main .container {
     float: left;
 }
 .movie-list-metadata li:not(:first-child):before {
-    content: "|";
+    content: "•";
     margin: 0 5px;
   }
   .actors p {
@@ -76,7 +78,5 @@ main .container {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-.rating-area i, .rating-area-inner p {
-    padding: 2px;
+    font-size: 0.8em;
 }

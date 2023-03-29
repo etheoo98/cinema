@@ -24,17 +24,17 @@ class BookingsController
         $this->getBookingsData();
 
         $title = "Bookings";
-        $css = ["movies.css", "bookings.css"];
-        require_once('./views/partials/header.php');
+        $css = ["main.css", "catalog.css", "bookings.css"];
+        require_once (dirname(__DIR__) . '/views/shared/header.php');
 
         if (isset($this->bookingData)) {
-            require_once('./views/bookings/index.php');
+            require_once(dirname(__DIR__) . '/views/bookings/index.php');
         }
         else {
-            require_once('./views/error/index.php');
+            require_once(dirname(__DIR__) . '/views/error/index.php');
         }
 
-        require_once('./views/partials/footer.php');
+        require_once(dirname(__DIR__) . '/views/shared/footer.php');
 
         if (isset($_POST['remove'])) {
             try {

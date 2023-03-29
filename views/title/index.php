@@ -1,9 +1,9 @@
 <main style="background-image:
         linear-gradient(0deg, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.9)),
-        url('../public/img/hero/<?php echo $this->titleData["poster"] ?>');">
+        url('../public/img/title/hero/<?php echo $this->titleData["hero"] ?>');">
     <div class="container">
         <div class="movie-list-content">
-            <img class="poster" src="../public/img/posters/<?php echo $this->titleData["poster"] ?>" alt="Poster of <?php echo $this->titleData['title'] ?>">
+            <img class="poster" src="../public/img/title/poster/<?php echo $this->titleData["poster"] ?>" alt="Poster of <?php echo $this->titleData['title'] ?>">
             <div class="movie-list-desc">
                 <div class="movie-title-area">
                     <h1 class="title"><?php echo $this->titleData["title"]; ?> <span class="premiere">(<?php echo $this->titleData["premiere"]; ?>)</span></h1>
@@ -37,11 +37,11 @@
                         <?php endforeach; ?>
                     </ul>
                 </div>
-                <form class="booking-form" method="post">
-                    <button type="submit" id="booking" name="book" value="<?php echo $this->titleData["movie_id"] ?>">Book ticket</button>
-                </form>
             </div>
         </div>
+        <form class="booking-form" method="post">
+            <button type="submit" id="booking" name="book" value="<?php echo $this->titleData["movie_id"] ?>">Book ticket</button>
+        </form>
     </div>
 </main>
 <script src="/cinema/public/js/redirect.js"></script>

@@ -35,7 +35,7 @@ class profile
         $result = $stmt->get_result();
         $row = $result->fetch_assoc();
 
-        # Add keys & values to the already existing $profile array
+        # Add keys & values to the already existing $users array
         $profile['username'] = $row['username'];
         $profile['email'] = $row['email'];
         $profile['date_of_registration'] = $row['date_of_registration'];
