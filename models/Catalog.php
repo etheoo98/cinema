@@ -1,6 +1,6 @@
 <?php
 
-class Movies
+class Catalog
 {
     private mysqli $conn;
 
@@ -8,7 +8,7 @@ class Movies
         $this->conn = $conn;
     }
 
-    public function getMovieData(): false|mysqli_result
+    public function getTitleData(): false|mysqli_result
     {
         $sql = "SELECT poster, title, genre, age_limit, `length`, movie.movie_id FROM poster, movie WHERE showing=1 AND poster.movie_id = movie.movie_id;";
         $stmt = $this->conn->prepare($sql);

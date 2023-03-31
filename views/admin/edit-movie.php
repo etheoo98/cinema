@@ -1,7 +1,6 @@
 <form id="myForm">
-    <label for="email">email</label>
-    <input id="email" name="email" type="email">
-    <label for="name">name</label>
-    <input id="name" name="name" type="text">
-    <button type="submit">Submit me</button>
+    <label>Choose movie to edit</label>
+    <select name="cars" id="cars">
+            <option value="test">test</option>
+    </select>
 </form>

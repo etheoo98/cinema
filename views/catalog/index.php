@@ -5,7 +5,7 @@
             <p class="page-desc">These movies are currently being screened</p>
         </div>
         <?php
-        while ($row = mysqli_fetch_array($this->movieData)) {
+        while ($row = mysqli_fetch_array($this->titleData)) {
             ?>
             <div class="movie-list-content">
                 <img class="poster" src="/cinema/public/img/title/poster/<?php echo $row["poster"] ?>" alt="Poster of <?php echo $row['title']?>"    >

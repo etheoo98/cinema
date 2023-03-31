@@ -7,7 +7,7 @@ class Session {
     {
         $this->conn = $conn;
     }
-    public function getCountryCode(): array
+    public function getSessionData(): array
     {
         # TODO: Remove ipify if "$_SERVER['REMOTE_ADDR']" works for clients except server
         # This function slows down sign in considerably!
@@ -46,11 +46,11 @@ class Session {
     /**
      * @throws Exception
      */
-    public function addSession($session): void
+    public function addSession($sessionData): void
     {
         # Sanitize session details
-        $ip_address = $session['ip_address'];
-        $country_code = $session['country_code'];
+        $ip_address = $sessionData['ip_address'];
+        $country_code = $sessionData['country_code'];
         $user_agent = htmlspecialchars($_SERVER['HTTP_USER_AGENT'], ENT_QUOTES, 'UTF-8');
         $phpsessid = filter_var(session_id(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
         $user_id = $_SESSION['user_id'];
@@ -126,7 +126,7 @@ class Session {
     /**
      * @throws Exception
      */
-    public function validateSession(): void
+    public function validateSession(): bool
     {
         # Check if the current session is valid
         $currentPhpsessid = session_id();
@@ -167,12 +167,23 @@ class Session {
                 throw $e;
             }
         }
+
         # If the current phpsessid is not stored in the database, and page requires sign in, redirect.
         # TODO: When terminating current session, redirect doesn't happen unless refresh page
         elseif (!$row) {
             header("LOCATION: /cinema/sign-in");
         }
+
+        return true;
     }
+
+    public function updateLastSeen(): void
+    {
+        $stmt = $this->conn->prepare("UPDATE user SET last_seen = NOW() WHERE user_id = ?");
+        $stmt->bind_param('i', $_SESSION['user_id']);
+        $stmt->execute();
+    }
+
     # Function for checking if current session id valid and is admin
     public function requireAdminRole(): bool
     {

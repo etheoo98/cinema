@@ -1,5 +1,5 @@
 <?php
-class profile
+class User
 {
     private mysqli $conn;
 

@@ -35,7 +35,7 @@ class SignOut {
         session_unset();
         # Invalidate session ID
         session_destroy();
-        header("Location: /cinema/index.php");
+        header("Location: /cinema/");
         exit();
     }
 }
