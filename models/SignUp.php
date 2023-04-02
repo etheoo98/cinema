@@ -10,7 +10,10 @@ class SignUp
         $this->conn = $conn;
     }
 
-    public function sanitizeInput()
+    /**
+     * @throws Exception
+     */
+    public function sanitizeInput(): array
     {
         # Check if no value is left empty in form
         if (!empty($_POST['email']) && !empty($_POST['username']) && !empty($_POST['password']) && !empty($_POST['_password'])) {
@@ -27,29 +30,35 @@ class SignUp
                 '_password' => $_password
             );
         } else {
-            # Call js error function
-            echo '<script type="text/javascript">EmptyFields()</script>';
-            exit();
+            throw new Exception('Please Fill In All Form Fields!');
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function validateEmail($sanitizedInput): void
     {
         # Check if input matches email format
         if (!filter_var($sanitizedInput['email'], FILTER_VALIDATE_EMAIL)) {
-            # Call js error function
-            echo '<script type="text/javascript">InvalidEmailFormat();</script>';
-            exit();
+            throw new Exception('Please Enter A Valid Email Format');
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function validatePassword($sanitizedInput): void
     {
         # Check if password fields match
         if ($sanitizedInput['password'] != $sanitizedInput['_password']) {
-            # Call js error function
-            echo '<script type="text/javascript">PasswordMatch();</script>';
-            exit();
+            throw new Exception("Passwords Don't Match!");
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function emailLookup($sanitizedInput): void
     {
         # Check if email is available
@@ -59,10 +68,13 @@ class SignUp
         $result = $stmt->get_result();
 
         if ($result->num_rows != 0) {
-            echo '<script type="text/javascript">EmailInUse();</script>';
-            exit();
+            throw new Exception("Email Is Already In Use!");
         }
     }
+
+    /**
+     * @throws Exception
+     */
     public function usernameLookup($sanitizedInput): void
     {
         # Check if username is available
@@ -72,14 +84,10 @@ class SignUp
         $result = $stmt->get_result();
 
         if ($result->num_rows != 0) {
-            echo '<script type="text/javascript">UsernameInUse();</script>';
-            exit();
+            throw new Exception("Username Is Already In Use!");
         }
     }
 
-    /**
-     * @throws Exception
-     */
     public function passwordEncryption($sanitizedInput)
     {
         # Generate a random salt

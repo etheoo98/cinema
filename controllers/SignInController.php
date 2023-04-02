@@ -2,6 +2,7 @@
 require_once(dirname(__DIR__) . '/models/SignIn.php');
 require_once(dirname(__DIR__) . '/models/SignUp.php');
 require_once(dirname(__DIR__) . '/models/Session.php');
+require_once(dirname(__DIR__) . '/public/scripts/SignInControllerMiddleware.php');
 
 class SignInController {
 
@@ -39,7 +40,7 @@ class SignInController {
 
         require_once (dirname(__DIR__) . '/views/shared/small-footer.php');
 
-
+        /**
         if(isset($_POST['SignIn'])) {
             try {
                 ini_set('display_errors', 1);
@@ -78,5 +79,58 @@ class SignInController {
                 # echo '<script type="text/javascript">ShowErrorMessage("' . $e->getMessage() . '");</script>';
             }
         }
+        */
+    }
+    public function ajaxHandler(): void
+    {
+        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+
+        switch ($action) {
+            case 'sign-in':
+                try {
+                    ini_set('display_errors', 1);
+                    error_reporting(E_ALL);
+                    $sanitizedInput = $this->signInModel->sanitizeInput();
+                    $this->signInModel->signIn($sanitizedInput);
+                    $this->signUpModel->validateEmail($sanitizedInput);
+                    $sessionData = $this->sessionModel->getSessionData();
+                    $this->sessionModel->addSession($sessionData);
+                    $response = [
+                        'status' => 'Sign-In Success'
+                    ];
+                } catch (Exception $e) {
+                    $response = [
+                        'status' => 'Sign-In Failed',
+                        'message' => $e->getMessage()
+                    ];
+                }
+                break;
+            case 'sign-up':
+                try {
+                    $sanitizedInput = $this->signUpModel->sanitizeInput();
+                    $this->signUpModel->validateEmail($sanitizedInput);
+                    $this->signUpModel->validatePassword($sanitizedInput);
+                    $this->signUpModel->emailLookup($sanitizedInput);
+                    $this->signUpModel->usernameLookup($sanitizedInput);
+                    $sanitizedInput = $this->signUpModel->passwordEncryption($sanitizedInput);
+                    $this->signUpModel->addUser($sanitizedInput);
+                    $response = [
+                        'status' => 'Sign-Up Success'
+                    ];
+                } catch (Exception $e) {
+                    $response = [
+                        'status' => 'Sign-Up Failed',
+                        'message' => $e->getMessage()
+                    ];
+                }
+                break;
+            default:
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Invalid action'
+                ];
+                break;
+        }
+        echo json_encode($response);
     }
 }

@@ -73,6 +73,17 @@ form {
     line-height: 50px;
     opacity: 0.75;
 }
+.error-message {
+    visibility: hidden;
+    margin-bottom: 1em;
+}
+.error-message i {
+    margin-right: 6px;
+    color: orange;
+}
+.error-message span {
+    color: var(--primary-black);
+}
 .btn {
     cursor: pointer;
     width: 100%;
