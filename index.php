@@ -70,11 +70,6 @@ switch ($url_parts[0]) {
             $controller = new BrowseTitlesController($conn);
             $controller->index();
         }
-        elseif (isset($url_parts[1]) && $url_parts[1] == 'add-actors') {
-            require_once('./controllers/AddActorsController.php');
-            $controller = new AddActorsController($conn);
-            $controller->index();
-        }
         else {
             require_once('./controllers/AdminController.php');
             $controller = new AdminController($conn);
