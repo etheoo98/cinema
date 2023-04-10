@@ -3,8 +3,26 @@ RewriteEngine On
 # exclude requests to the public directory from being routed through the front controller
 RewriteRule ^public/ - [L]
 
-# redirect requests to index.php?url=xxx to the appropriate controller
+# redirect requests to index.php?url=xxx&id=yyy to the appropriate controller
+# handle URLs with IDs
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.+)/([0-9]+)/?$ index.php?url=$1&id=$2 [L,QSA]
+RewriteRule ^(.+)/(\d+)/?$ index.php?url=$1&id=$2 [L,QSA]
+
+# redirect requests to index.php?url=xxx&id=yyy to the appropriate controller
+# handle URLs with IDs (with trailing slash)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.+)/(\d+)/?$ index.php?url=$1&id=$2/ [L,QSA]
+
+# handle the add-actors endpoint without an ID
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^admin/add-actors/?$ index.php?url=admin/add-actors [L,QSA]
+
+# redirect requests to index.php?url=xxx to the appropriate controller
+# handle URLs without IDs (except for add-actors)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/admin/add-actors/?$
 RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]

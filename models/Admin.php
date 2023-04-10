@@ -7,6 +7,15 @@ class Admin {
         $this->conn = $conn;
     }
 
+    function sanitize_text_field( $str ) {
+        $filtered = trim( $str );
+        $filtered = strip_tags( $filtered );
+        $filtered = stripslashes( $filtered );
+        $filtered = htmlspecialchars( $filtered, ENT_QUOTES, 'UTF-8' );
+        return $filtered;
+    }
+
+
     /**
      * @throws Exception
      */
@@ -38,7 +47,6 @@ class Admin {
                 $sanitizedInput[$name] = $sanitizedFileName;
             }
 
-
             echo 'Successfully sanitized all';
 
             return array(
@@ -60,6 +68,18 @@ class Admin {
             throw new Exception('Empty Fields');
         }
         echo 'Sanitized input';
+    }
+
+    public function sanitizeActors(): array
+    {
+        $sanitizedActors = array();
+        foreach ($_POST as $key => $value) {
+            if (str_starts_with($key, 'actor-')) {
+                $sanitizedActor = $this->sanitize_text_field($value);
+                $sanitizedActors[] = $sanitizedActor;
+            }
+        }
+        return $sanitizedActors;
     }
 
     /**
@@ -106,7 +126,30 @@ class Admin {
         }
         echo 'Title lookup';
     }
-    public function addTitle($sanitizedInput): void
+
+    public function actorLookup($sanitizedActors): array
+    {
+        $sql = 'SELECT `full_name` FROM `actor` WHERE `full_name` = ?;';
+        $stmt = $this->conn->prepare($sql);
+        $actorsNotFound = [];
+
+        foreach ($sanitizedActors as $key => $actorName) {
+            $stmt->bind_param('s', $actorName);
+            $stmt->execute();
+            $result = $stmt->get_result();
+
+            if (!$result->num_rows) {
+                $actorsNotFound[] = $actorName;
+            }
+        }
+        $actorsFound = array_diff($sanitizedActors, $actorsNotFound);
+
+        return [
+            'actorsNotFound' => $actorsNotFound,
+            'actorsFound' => $actorsFound
+        ];
+    }
+    public function addTitle($sanitizedInput): int
     {
 
         $this->conn->begin_transaction();
@@ -139,12 +182,55 @@ class Admin {
             }
 
             $this->conn->commit();
+            return $movie_id;
         } catch (Exception $e) {
             $this->conn->rollback();
             header("HTTP/1.0 400 Bad Request");
             echo "Error: " . $e->getMessage();
+            return 0;
         }
     }
+
+    public function addNewActors(array $actorsObject): void
+    {
+        $sql = 'INSERT INTO `actor` (`actor_id`, `full_name`) VALUES (NULL, ?);';
+        $stmt = $this->conn->prepare($sql);
+        foreach ($actorsObject['actorsNotFound'] as $actor) {
+            $stmt->bind_param('s', $actor);
+            $stmt->execute();
+        }
+        $stmt->close();
+    }
+
+    public function getActorID($actorsObject): array
+    {
+        $actors = array_merge($actorsObject['actorsFound'], $actorsObject['actorsNotFound']);
+        $placeholders = implode(',', array_fill(0, count($actors), '?'));
+        $sql = "SELECT `actor_id`, `full_name` FROM `actor` WHERE `full_name` IN ($placeholders)";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param(str_repeat('s', count($actors)), ...$actors);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $actorIDs = array();
+        while ($row = $result->fetch_assoc()) {
+            $actorIDs[$row['full_name']] = $row['actor_id'];
+        }
+        $stmt->close();
+        return $actorIDs;
+    }
+
+
+    public function addActorsToTitle($movie_id, $actorIDs): void
+    {
+        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`) VALUES (NULL, ?, ?);';
+        $stmt = $this->conn->prepare($sql);
+        foreach ($actorIDs as $actorID) {
+            $stmt->bind_param('ii', $movie_id, $actorID);
+            $stmt->execute();
+        }
+        $stmt->close();
+    }
+
 
     # Edit-movie.php
     public function getTitleData(): false|mysqli_result

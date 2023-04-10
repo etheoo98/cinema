@@ -66,34 +66,27 @@ $(function() {
     $('#page-content').validate();
 });
 
-function populateForm(data) {
-    const form = document.querySelector('#edit-title-form');
-    form.querySelector('#title').value = data[0].title;
-    form.querySelector('#premiere').value = data[0].premiere;
-    form.querySelector('#description').value = data[0].description;
-    form.querySelector('#genre').value = data[0].genre;
-    form.querySelector('#length').value = data[0].length;
-    form.querySelector('#language').value = data[0].language;
-    form.querySelector('#age-limit').value = data[0].age_limit;
+// Clone row and increment value of label 'for' and input 'name' in add-actor
+$(document).ready(function() {
+    var newRowNum = 1;
 
-    if (data[0].subtitles === 1) {
-        form.querySelector('#subtitles-yes').checked = true;
-    } else {
-        form.querySelector('#subtitles-no').checked = true;
-    }
+    $(".new-actor").click(function() {
+        newRowNum++;
 
-    if (data[0].showing === 1) {
-        form.querySelector('#screening-yes').checked = true;
-    } else {
-        form.querySelector('#screening-no').checked = true;
-    }
+        var newActor = $(".actor-section .input-row").first().clone();
 
-    const posterImg = form.querySelector('#poster-img');
-    posterImg.src = '/cinema/public/img/title/poster/' + data[0].poster;
+        newActor.find('input[type="text"], input[type="number"]').val('');
 
-    const heroImg = form.querySelector('#hero-img');
-    heroImg.src = '/cinema/public/img/title/hero/' + data[0].hero;
+        newActor.find('label').each(function() {
+            var labelFor = $(this).attr('for');
+            $(this).attr('for', labelFor.replace(/\d+/, newRowNum));
+        });
 
-    const logoImg = form.querySelector('#logo-img');
-    logoImg.src = '/cinema/public/img/title/logo/' + data[0].logo;
-}
+        newActor.find('input[type="text"], input[type="number"]').each(function() {
+            var inputName = $(this).attr('name');
+            $(this).attr('name', inputName.replace(/\d+/, newRowNum));
+        });
+
+        $("#add-movie-form .new-actor").before(newActor);
+    });
+});

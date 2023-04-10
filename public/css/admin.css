@@ -304,3 +304,38 @@ main .container {
 .movie-list-item:hover .action-section {
     visibility: unset;
 }
+
+/* {{{ ADD ACTOR */
+.actor-section .input-row {
+    width: 250px;
+}
+
+.new-actor {
+    text-align: center;
+    text-transform: uppercase;
+    background-color: var(--primary-red);
+    border: none;
+    margin-bottom: 2em;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+}
+.new-actor:hover {
+    cursor: pointer;
+}
+.new-actor:hover {
+    background-color: var(--secondary-red);
+}
+.svg-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.plus-icon {
+    width: 26px;
+    height: 26px;
+}
+.plus-icon path {
+    fill: var(--primary-white);
+}
+/* }}} */

@@ -1,7 +1,6 @@
 <?php
 require_once (dirname(__DIR__) . '/models/BrowseTitles.php');
 require_once (dirname(__DIR__) . '/models/Session.php');
-require_once (dirname(__DIR__) . '/public/scripts/AdminControllerMiddleware.php');
 
 class BrowseTitlesController
 {
