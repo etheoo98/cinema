@@ -1,5 +1,5 @@
 $(function() {
-    $('#page-content').on('submit', 'form', function(e) {
+    $('#page-content').on('submit', '#edit-title-form   ', function(e) {
         e.preventDefault();
         if ($(this).valid()) {
 
@@ -24,6 +24,7 @@ $(function() {
             });
         }
     });
+
 
     $('#page-content').on('focusout', 'form input', function() {
         $(this).valid();

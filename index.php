@@ -1,4 +1,8 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 $conn = null; # Initialize to prevent IDE error
 require_once('config/dbconnect.php');
 
@@ -53,9 +57,24 @@ switch ($url_parts[0]) {
         $controller->index();
         break;
     case 'admin':
-        require_once('./controllers/AdminController.php');
-        $controller = new AdminController($conn);
-        $controller->index();
+        if (isset($url_parts[1]) && $url_parts[1] == 'edit-title') {
+            require_once('./controllers/EditTitleController.php');
+            $controller = new EditTitleController($conn);
+            $controller->index();
+        } elseif (isset($url_parts[1]) && $url_parts[1] == 'add-title') {
+            require_once('./controllers/AddTitleController.php');
+            $controller = new AddTitleController($conn);
+            $controller->index();
+        } elseif (isset($url_parts[1]) && $url_parts[1] == 'browse-titles') {
+            require_once('./controllers/BrowseTitlesController.php');
+            $controller = new BrowseTitlesController($conn);
+            $controller->index();
+        }
+        else {
+            require_once('./controllers/AdminController.php');
+            $controller = new AdminController($conn);
+            $controller->index();
+        }
         break;
     default:
         header('HTTP/1.1 404 Not Found');

@@ -28,3 +28,18 @@ function filter_var1($str, $filter) {
         </div>
     </div>
 </header>
+<div class="page-container">
+    <input type="checkbox" id="nav-toggle" checked>
+    <nav>
+        <ul>
+            <li><a href="/cinema/admin/add-title">Add New Title</a></li>
+            <li><a href="/cinema/admin/browse-titles">Browse Titles</a></li>
+            <li><a href="#">Add Actors</a></li>
+            <li><a href="#">Manage Roles</a></li>
+            <li><a href="#">View Statistics</a></li>
+            <li><a href="http://localhost/cinema">Leave This Plain</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <div class="container" id="page-content">

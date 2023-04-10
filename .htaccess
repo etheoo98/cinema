@@ -1,5 +1,10 @@
 RewriteEngine On
+
+# exclude requests to the public directory from being routed through the front controller
+RewriteRule ^public/ - [L]
+
+# redirect requests to index.php?url=xxx to the appropriate controller
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^([^/]+)/?([0-9a-zA-Z]+)?$ index.php?url=$1&id=$2 [L,QSA]
-Options -Indexes
+RewriteRule ^(.+)/([0-9]+)/?$ index.php?url=$1&id=$2 [L,QSA]
+RewriteRule ^(.+)$ index.php?url=$1 [L,QSA]
