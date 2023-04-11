@@ -17,6 +17,14 @@ $(function() {
                 processData:false,
                 success: function(response) {
                     console.log('Server Response:', response);
+                    if (response.trim() !== '') {
+                        let responseObject = JSON.parse(response);
+
+                        if (responseObject.status === 'Failed') {
+                            $('.error-message').find('span').html(responseObject.message);
+                            $('.error-message').css('visibility', 'unset');
+                        }
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);

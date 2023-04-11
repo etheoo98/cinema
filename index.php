@@ -14,9 +14,9 @@ if (isset($_GET['url'])) {
     $url_parts = [];
 }
 
-# determine the controller and action based on the URL
+# Determine the controller and action based on the URL
 switch ($url_parts[0]) {
-    case '':
+    case 'home':
         require_once('./controllers/HomeController.php');
         $controller = new HomeController();
         $controller->index();

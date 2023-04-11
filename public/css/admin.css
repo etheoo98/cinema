@@ -131,6 +131,22 @@ main .container {
     flex-direction: column;
     max-width: 696px;
 }
+.error-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    visibility: hidden;
+}
+.error-icon {
+    width: 26px;
+    height: 26px;
+}
+.error-icon path {
+    fill: orange;
+}
+.error-message span {
+    margin-left: 8px;
+}
 .input-row {
     display: flex;
     margin-bottom: 16px;
@@ -306,6 +322,9 @@ main .container {
 }
 
 /* {{{ ADD ACTOR */
+.actor-section {
+    margin-bottom: 16px;
+}
 .actor-section .input-row {
     width: 250px;
 }
@@ -315,7 +334,6 @@ main .container {
     text-transform: uppercase;
     background-color: var(--primary-red);
     border: none;
-    margin-bottom: 2em;
     width: 32px;
     height: 32px;
     border-radius: 6px;

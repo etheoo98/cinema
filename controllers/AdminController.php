@@ -64,11 +64,7 @@ class AdminController
 
         switch ($action) {
             case 'add-movie':
-                $this->addTitle();
-                $response = [
-                    'status' => 'success',
-                    'message' => 'Movie added successfully'
-                ];
+                $response = $this->addTitle();
                 break;
             default:
                 $response = [
@@ -80,7 +76,7 @@ class AdminController
         echo json_encode($response);
     }
 
-    public function addTitle(): void
+    public function addTitle(): array
     {
         try {
             $sanitizedInput = $this->adminModel->sanitizeInput();
@@ -102,9 +98,16 @@ class AdminController
             $actorIDs = $this->adminModel->getActorID($actorsObject);
 
             $this->adminModel->addActorsToTitle($movie_id, $actorIDs);
-            echo 'Success maybe';
-        } catch(Exception $e) {
-            echo 'error exception: ' . $e;
+            $response = [
+                'status' => 'Success',
+                'message' => 'Movie Added Successfully.'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
         }
+        return $response;
     }
 }
