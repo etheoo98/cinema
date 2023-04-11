@@ -18,9 +18,10 @@
     font-family: 'Shin-Go-Pro-R';
     box-sizing: border-box;
     text-decoration: none;
-    list-style: none;
+    color: var(--primary-white);
     margin: 0;
     padding: 0;
+    font-size: 1em;
 }
 body {
     display: flex;
@@ -105,7 +106,7 @@ main {
 }
 
 #nav-toggle:checked + nav {
-    position: relative;
+    position: fixed;
     left: 0;
 }
 @media only screen and (max-width: 768px) {
@@ -122,6 +123,8 @@ main .container {
     justify-content: flex-start;
     flex-direction: column;
     padding: 2em 1em;
+    max-width: 1060px;
+    margin: 0 auto;
 }
 .admin-form {
     display: flex;
@@ -188,6 +191,7 @@ main .container {
 }
 
 .tooltip .tooltiptext {
+    margin-top: 8px;
     visibility: hidden;
     width: 120px;
     background-color: var(--primary-red);
@@ -223,10 +227,10 @@ main .container {
 }
 .btn {
     cursor: pointer;
-    width: 50%;
-    height: 50px;
+    height: 2.5rem;
     border: none;
     outline: none;
+    min-width: 200px;
     border-radius: 6px;
     color: #ffffff;
     background-color: var(--primary-red);
@@ -356,4 +360,64 @@ main .container {
 .plus-icon path {
     fill: var(--primary-white);
 }
+/* }}} */
+
+/* {{{ MANAGE ROLES */
+.page-info {
+    width: 100%;
+    padding-bottom: 2em;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 1.5rem;
+}
+
+.page-desc {
+    margin-top: 8px;
+}
+.section-header {
+    border-bottom: #303030 2px solid;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+}
+
+#promote-form, #demote-form {
+    flex-direction: column;
+    margin-bottom: 2em;
+    max-width: 500px;
+}
+.input-label {
+    display: flex;
+    align-items: center;
+}
+.input-row input {
+    width: 100%;
+    border-radius: 6px;
+    border: 0 solid;
+}
+.input-row input:focus {
+    outline: 2px solid var(--secondary-red);
+}
+.form-button {
+    display: flex;
+    justify-content: flex-end;
+}
+.tooltip {
+    margin-left: 6px;
+    display: inline;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid;
+}
+.tooltip svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin: 2px;
+}
+.tooltip path {
+    fill: white;
+}
+
 /* }}} */

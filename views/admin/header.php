@@ -34,7 +34,7 @@ function filter_var1($str, $filter) {
         <ul>
             <li><a href="/cinema/admin/add-title">Add New Title</a></li>
             <li><a href="/cinema/admin/browse-titles">Browse Titles</a></li>
-            <li><a href="#">Manage Roles</a></li>
+            <li><a href="/cinema/admin/manage-roles">Manage Roles</a></li>
             <li><a href="#">View Statistics</a></li>
             <li><a href="http://localhost/cinema">Leave This Plain</a></li>
         </ul>
