@@ -9,7 +9,7 @@ class BrowseTitles {
     }
     public function getTitleData(): false|mysqli_result
     {
-        $sql = "SELECT `movie`.`movie_id`, `poster`, `title`, `genre`, `age_limit`, `length`, `showing` FROM poster, movie WHERE poster.movie_id = movie.movie_id;";
+        $sql = "SELECT `movie`.`movie_id`, `poster`, `title`, `genre`, `age_limit`, `length`, `showing` FROM `poster`, `movie` WHERE `poster`.`movie_id` = `movie`.`movie_id` ORDER BY `movie`.`movie_id` DESC;";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->get_result();

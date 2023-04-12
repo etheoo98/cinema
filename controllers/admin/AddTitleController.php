@@ -61,13 +61,9 @@ class AddTitleController
     {
         try {
             $sanitizedInput = $this->addTitleModel->sanitizeInput();
-
             $sanitizedActors = $this->addTitleModel->sanitizeActors();
-
             $this->addTitleModel->validateImage();
-
             $this->addTitleModel->titleLookup($sanitizedInput);
-
             $actorsObject = $this->addTitleModel->actorLookup($sanitizedActors);
 
             if (!empty($actorsObject['actorsNotFound'])) {
@@ -75,10 +71,9 @@ class AddTitleController
             }
 
             $movie_id = $this->addTitleModel->addTitle($sanitizedInput);
-
             $actorIDs = $this->addTitleModel->getActorID($actorsObject);
-
             $this->addTitleModel->addActorsToTitle($movie_id, $actorIDs);
+
             $response = [
                 'status' => 'Success',
                 'message' => 'Movie Added Successfully.'
