@@ -19,8 +19,14 @@ class EditTitleController
 
     public function index(): void
     {
-        $this->titleData = $this->editTitleModel->getTitleData();
-        $this->renderIndexView();
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
+            $this->titleData = $this->editTitleModel->getTitleData();
+            $this->renderIndexView();
+        } else {
+            header("LOCATION: http://localhost/cinema/sign-in");
+        }
+
     }
     public function renderIndexView(): void
     {

@@ -9,8 +9,6 @@ class AdminController
     private Session $sessionModel;
     private Admin $adminModel;
     private bool $sessionIsAdmin;
-    private false|mysqli_result $titleData;
-    private false|mysqli_result $editTitleData;
 
     public function __construct($conn)
     {
@@ -30,12 +28,10 @@ class AdminController
     {
         # IMPORTANT: Admin role check
         $this->sessionIsAdmin = $this->sessionModel->requireAdminRole();
-        $this->titleData = $this->adminModel->getTitleData();
-        $this->editTitleData = $this->adminModel->getEditTitleData();
         if ($this->sessionIsAdmin) {
             $this->renderIndexView();
         } else {
-            header('LOCATION: /cinema/');
+            header("LOCATION: /cinema/sign-in");
         }
     }
 

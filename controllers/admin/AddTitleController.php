@@ -1,21 +1,30 @@
 <?php
 require_once(BASE_PATH . '/models/AddTitle.php');
 require_once(BASE_PATH . '/models/Session.php');
+require_once(BASE_PATH . '/public/scripts/AddTitleControllerMiddleware.php');
 
 class AddTitleController
 {
     private mysqli $conn;
+    private Session $sessionModel;
     private AddTitle $addTitleModel;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
+        $this->sessionModel = new Session($this->conn);
         $this->addTitleModel = new AddTitle($this->conn);
     }
     
     public function index(): void
     {
-       $this->renderIndexView();
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
+            $this->renderIndexView();
+        } else {
+            # TODO: Fix .htaccess as to not require absolute path
+            header("LOCATION: http://localhost/cinema/sign-in");
+        }
     }
     public function renderIndexView(): void
     {

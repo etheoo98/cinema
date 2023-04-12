@@ -7,7 +7,6 @@ class BrowseTitlesController
     private mysqli $conn;
     private Session $sessionModel;
     private BrowseTitles $browseTitlesModel;
-
     private false|mysqli_result $titleData;
 
     public function __construct($conn)
@@ -19,8 +18,14 @@ class BrowseTitlesController
 
     public function index(): void
     {
-        $this->titleData = $this->browseTitlesModel->getTitleData();
-        $this->renderIndexView();
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
+            $this->titleData = $this->browseTitlesModel->getTitleData();
+            $this->renderIndexView();
+        } else {
+            header("LOCATION: http://localhost/cinema/sign-in");
+        }
+
     }
     public function renderIndexView(): void
     {

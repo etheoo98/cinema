@@ -6,19 +6,27 @@ require_once (BASE_PATH . '/public/scripts/ManageRolesControllerMiddleware.php')
 class ManageRolesController
 {
     private mysqli $conn;
+    private Session $sessionModel;
     private ManageRoles $manageRolesModel;
     private false|mysqli_result $currentAdmins;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
+        $this->sessionModel = new Session($this->conn);
         $this->manageRolesModel = new ManageRoles($this->conn);
     }
     
     public function index(): void
     {
-        $this->currentAdmins = $this->manageRolesModel->getCurrentAdmins();
-        $this->renderIndexView();
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
+            $this->currentAdmins = $this->manageRolesModel->getCurrentAdmins();
+            $this->renderIndexView();
+        } else {
+            header("LOCATION: http://localhost/cinema/sign-in");
+        }
+
     }
     public function renderIndexView(): void
     {

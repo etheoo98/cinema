@@ -6,17 +6,25 @@ require_once (BASE_PATH . '/public/scripts/ViewStatisticsControllerMiddleware.ph
 class ViewStatisticsController
 {
     private mysqli $conn;
+    private Session $sessionModel;
     private ViewStatistics $viewStatisticsModel;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
+        $this->sessionModel = new Session($this->conn);
         $this->viewStatisticsModel = new ViewStatistics($this->conn);
     }
     
     public function index(): void
     {
-        $this->renderIndexView();
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
+            $this->renderIndexView();
+        } else {
+            header("LOCATION: http://localhost/cinema/sign-in");
+        }
+
     }
     public function renderIndexView(): void
     {
