@@ -18,6 +18,7 @@ function filter_var1($str, $filter) {
             integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
             crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body onresize="handleCheckbox();">
@@ -35,7 +36,7 @@ function filter_var1($str, $filter) {
             <li><a href="/cinema/admin/add-title">Add New Title</a></li>
             <li><a href="/cinema/admin/browse-titles">Browse Titles</a></li>
             <li><a href="/cinema/admin/manage-roles">Manage Roles</a></li>
-            <li><a href="#">View Statistics</a></li>
+            <li><a href="/cinema/admin/view-statistics/">View Statistics</a></li>
             <li><a href="http://localhost/cinema">Leave This Plain</a></li>
         </ul>
     </nav>

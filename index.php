@@ -75,6 +75,11 @@ switch ($url_parts[0]) {
             $controller = new ManageRolesController($conn);
             $controller->index();
         }
+        elseif (isset($url_parts[1]) && $url_parts[1] == 'view-statistics') {
+            require_once('./controllers/ViewStatisticsController.php');
+            $controller = new ViewStatisticsController($conn);
+            $controller->index();
+        }
         else {
             require_once('./controllers/AdminController.php');
             $controller = new AdminController($conn);
