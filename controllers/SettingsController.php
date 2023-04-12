@@ -1,6 +1,6 @@
 <?php
-require_once ('./models/Settings.php');
-require_once ('./models/Session.php');
+require_once (BASE_PATH . '/models/Settings.php');
+require_once (BASE_PATH . '/models/Session.php');
 
 class SettingsController {
     private mysqli $conn;
@@ -48,13 +48,13 @@ class SettingsController {
         require_once (dirname(__DIR__) . '/views/shared/header.php');
 
         if ($this->sessionIsValid && isset($this->sessions)) {
-            require './views/settings/index.php';
+            require_once (BASE_PATH . '/views/settings/index.php');
         }
         else {
-            require_once (dirname(__DIR__) . '/views/shared/error.php');
+            require_once (BASE_PATH . '/views/shared/error.php');
         }
 
-        require_once (dirname(__DIR__) . '/views/shared/footer.php');
+        require_once (BASE_PATH . '/views/shared/footer.php');
 
         # TODO: ajaxHandler for forms
         if(isset($_POST['change-email']) && isset($_POST['new-email']) && !empty($_POST['new-email'])) {

@@ -1,7 +1,7 @@
 <?php
-require_once (dirname(__DIR__) . '/models/EditTitle.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
-require_once (dirname(__DIR__) . '/public/scripts/EditTitleControllerMiddleware.php');
+require_once(BASE_PATH . '/models/EditTitle.php');
+require_once(BASE_PATH . '/models/Session.php');
+require_once(BASE_PATH . '/public/scripts/EditTitleControllerMiddleware.php');
 
 class EditTitleController
 {
@@ -26,13 +26,13 @@ class EditTitleController
     {
 
         $title = 'Edit Title - ' . $this->titleData['title'];
-        $css = ["admin.css"];
+        $css = ["admin/main.css", "admin/add-title.css"];
 
-        require_once (dirname(__DIR__) . '/views/admin/header.php');
-        require_once (dirname(__DIR__) . '/views/admin/edit-title/index.php');
+        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/edit-title/index.php');
         echo '<script src="/cinema/public/js/edit-title.js"></script>';
         echo '<script src="/cinema/public/js/admin.js"></script>';
-        require_once (dirname(__DIR__) . '/views/shared/small-footer.php');
+        require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
     public function ajaxHandler(): void
     {

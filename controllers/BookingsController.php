@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__DIR__) . '/models/Bookings.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
+require_once (BASE_PATH . '/models/Bookings.php');
+require_once (BASE_PATH . '/models/Session.php');
 
 class BookingsController
 {
@@ -52,16 +52,16 @@ class BookingsController
     {
         $title = "Bookings";
         $css = ["main.css", "catalog.css", "bookings.css"];
-        require_once (dirname(__DIR__) . '/views/shared/header.php');
+        require_once (BASE_PATH . '/views/shared/header.php');
 
         if ($this->sessionIsValid && isset($this->bookingsData)) {
-            require_once(dirname(__DIR__) . '/views/bookings/index.php');
+            require_once(BASE_PATH . '/views/bookings/index.php');
         }
         else {
-            require_once(dirname(__DIR__) . '/views/shared/error.php');
+            require_once(BASE_PATH . '/views/shared/error.php');
         }
 
-        require_once(dirname(__DIR__) . '/views/shared/footer.php');
+        require_once(BASE_PATH . '/views/shared/footer.php');
 
         if (isset($_POST['remove'])) {
             try {

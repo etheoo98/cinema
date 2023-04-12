@@ -1,7 +1,7 @@
 <?php
-require_once (dirname(__DIR__) . '/models/ManageRoles.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
-require_once (dirname(__DIR__) . '/public/scripts/ManageRolesControllerMiddleware.php');
+require_once(BASE_PATH . '/models/ManageRoles.php');
+require_once(BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/public/scripts/ManageRolesControllerMiddleware.php');
 
 class ManageRolesController
 {
@@ -24,13 +24,13 @@ class ManageRolesController
     {
 
         $title = "Add Title";
-        $css = ["admin.css"];
+        $css = ["admin/main.css", "admin/manage-roles.css"];
 
-        require_once (dirname(__DIR__) . '/views/admin/header.php');
-        require_once (dirname(__DIR__) . '/views/admin/manage-roles/index.php');
+        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/manage-roles/index.php');
         echo '<script src="/cinema/public/js/manage-roles.js"></script>';
         echo '<script src="/cinema/public/js/admin.js"></script>';
-        require_once (dirname(__DIR__) . '/views/shared/small-footer.php');
+        require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 
     public function ajaxHandler(): void

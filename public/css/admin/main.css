@@ -1,0 +1,234 @@
+@font-face {
+    font-family: Shin-Go-Pro-R;
+    src: url("/cinema/public/fonts/Shin-Go/Shin-Go-Pro-R.otf") format("opentype");
+}
+@font-face {
+    font-family: Shin-Go-Pro-B;
+    src: url("/cinema/public/fonts/Shin-Go/Shin-Go-Pro-B.otf") format("opentype");
+}
+:root {
+    --primary-white: #FFFFFF;
+    --primary-black: #000000;
+    --primary-gray: #111111;
+    --secondary-gray: #202020;
+    --primary-red: #ED2939;
+    --secondary-red: #911822;
+}
+* {
+    font-family: 'Shin-Go-Pro-R';
+    box-sizing: border-box;
+    text-decoration: none;
+    color: var(--primary-white);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 1em;
+}
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+header {
+    order: 1;
+    position: sticky;
+    top: 0;
+    background: #ED2939;
+    z-index: 998;
+}
+.container {
+    display: flex;
+}
+header .container {
+    justify-content: flex-start;
+    flex-direction: row;
+}
+.dashboard-text {
+    display: inline-block;
+    background-color: #111;
+    color: #fff;
+    padding: 12px 24px;
+}
+.dashboard-text:hover {
+    cursor: pointer;
+    background-color: #2b2b2b;
+}
+.page-container {
+    order: 2;
+    flex: 1;
+    display: flex;
+    height: 100vh;
+}
+#nav-toggle {
+    display: none;
+}
+nav {
+    width: 260px;
+    background-color: #111;
+    position: absolute;
+    left: -100%;
+    transition: all .5s ease-in-out;
+    min-height: 100vh;
+    z-index: 999;
+}
+nav ul {
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+}
+nav li {
+    border-bottom: 2px solid #202020;
+}
+nav a {
+    display: inline-block;
+    position: relative;
+    color: #fff;
+    font-size: 1em;
+    padding: 16px;
+    border-left: 4px solid transparent;
+    opacity: 0.75;
+    transition: 200ms;
+    width: 100%;
+    cursor: pointer;
+}
+nav a:hover {
+    border-left: 4px solid #fff;
+    opacity: 1;
+}
+nav a:active {
+    border-left: 4px solid #fff;
+    opacity: 1;
+}
+main {
+    flex: 4;
+    order: 3;
+    color: white;
+    background-color: #000;
+}
+main .container {
+    justify-content: flex-start;
+    flex-direction: column;
+    padding: 2em 1em;
+    max-width: 1060px;
+    margin: 0 auto;
+}
+
+.error-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    visibility: hidden;
+}
+.error-icon {
+    width: 26px;
+    height: 26px;
+}
+.error-icon path {
+    fill: orange;
+}
+.error-message span {
+    margin-left: 8px;
+}
+.input-label {
+    display: flex;
+    align-items: center;
+}
+.input-row {
+    display: flex;
+    margin-bottom: 16px;
+    width: 100%;
+}
+input, textarea {
+    border-radius: 6px;
+    border: 0 solid;
+    color: var(--primary-black);
+}
+input:focus, textarea:focus {
+    outline: 2px solid var(--secondary-red);
+}
+.input-column {
+    width: 100%;
+}
+#poster, #hero, #logo {
+    color: var(--primary-white);
+}
+
+/* Tooltip container */
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+    margin-left: 6px;
+    display: inline;
+    height: auto;
+    border-radius: 50%;
+    border: 2px solid;
+}
+.tooltip svg {
+    width: 16px;
+    height: 16px;
+    display: block;
+    margin: 2px;
+}
+.tooltip path {
+    fill: var(--primary-white);
+}
+
+.tooltip .tooltiptext {
+    margin-top: 8px;
+    visibility: hidden;
+    width: 120px;
+    background-color: var(--primary-red);
+    font-size: 0.8em;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 2px;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+    top: 100%;
+    left: 50%;
+    margin-left: -60px;
+}
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent var(--primary-red) transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+
+.btn {
+    cursor: pointer;
+    height: 2.5rem;
+    border: none;
+    outline: none;
+    min-width: 200px;
+    border-radius: 6px;
+    color: #ffffff;
+    background-color: var(--primary-red);
+    font-family: "Shin-Go-Pro-B", sans-serif;
+}
+
+#nav-toggle:checked + nav {
+    position: fixed;
+    left: 0;
+}
+@media only screen and (max-width: 768px) {
+    #nav-toggle:checked + nav {
+        position: fixed;
+        width: 100%;
+    }
+    nav a {
+        font-size: 1.2em;
+    }
+}

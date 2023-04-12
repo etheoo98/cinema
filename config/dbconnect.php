@@ -1,4 +1,6 @@
 <?php
+define('BASE_PATH', realpath(dirname(__FILE__) . '/../'));
+
 # Database configuration
 $host = "localhost";
 $user = "root";

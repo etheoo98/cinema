@@ -92,9 +92,12 @@ $(document).ready(function() {
 
         newActor.find('input[type="text"], input[type="number"]').each(function() {
             var inputName = $(this).attr('name');
+            var inputId = $(this).attr('id');
             $(this).attr('name', inputName.replace(/\d+/, newRowNum));
+            $(this).attr('id', inputId.replace(/\d+/, newRowNum));
         });
 
         $("#add-movie-form .new-actor").before(newActor);
     });
 });
+

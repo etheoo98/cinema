@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__DIR__) . '/models/BrowseTitles.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
+require_once(BASE_PATH . '/models/BrowseTitles.php');
+require_once(BASE_PATH . '/models/Session.php');
 
 class BrowseTitlesController
 {
@@ -26,11 +26,11 @@ class BrowseTitlesController
     {
 
         $title = "Browse Titles";
-        $css = ["admin.css"];
+        $css = ["admin/main.css", "admin/browse-titles.css"];
 
-        require_once (dirname(__DIR__) . '/views/admin/header.php');
-        require_once (dirname(__DIR__) . '/views/admin/browse-titles/index.php');
+        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/browse-titles/index.php');
         echo '<script src="/cinema/public/js/admin.js"></script>';
-        require_once (dirname(__DIR__) . '/views/shared/small-footer.php');
+        require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 }

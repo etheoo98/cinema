@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__DIR__) . '/models/Catalog.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
+require_once (BASE_PATH . '/models/Catalog.php');
+require_once (BASE_PATH . '/models/Session.php');
 
 class CatalogController
 {
@@ -43,15 +43,15 @@ class CatalogController
         $title = "Catalog";
         $css = ["main.css", "catalog.css"];
 
-        require_once(dirname(__DIR__) . '/views/shared/header.php');
+        require_once(BASE_PATH . '/views/shared/header.php');
 
         if (isset($this->titleData)) {
-            require_once(dirname(__DIR__) . '/views/catalog/index.php');
+            require_once(BASE_PATH . '/views/catalog/index.php');
         }
         else {
-            require_once(dirname(__DIR__) . '/views/shared/error.php');
+            require_once(BASE_PATH . '/views/shared/error.php');
         }
 
-        require_once(dirname(__DIR__) . '/views/shared/footer.php');
+        require_once(BASE_PATH . '/views/shared/footer.php');
     }
 }

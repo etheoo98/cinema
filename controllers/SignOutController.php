@@ -1,6 +1,6 @@
 <?php
 use JetBrains\PhpStorm\NoReturn;
-require_once (dirname(__DIR__) . "/models/SignOut.php");
+require_once (BASE_PATH . "/models/SignOut.php");
 class SignOutController {
     private mysqli $conn;
 

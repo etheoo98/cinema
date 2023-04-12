@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__DIR__) . '/models/User.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
+require_once (BASE_PATH . '/models/User.php');
+require_once (BASE_PATH. '/models/Session.php');
 
 class UserController
 {
@@ -30,8 +30,8 @@ class UserController
         $title = $this->profile['username'];
         $css = ["main.css", "users.css"];
 
-        require_once (dirname(__DIR__) . '/views/shared/header.php');
-        require_once (dirname(__DIR__) . '/views/users/index.php');
-        require_once (dirname(__DIR__) . '/views/shared/footer.php');
+        require_once (BASE_PATH . '/views/shared/header.php');
+        require_once (BASE_PATH . '/views/users/index.php');
+        require_once (BASE_PATH . '/views/shared/footer.php');
     }
 }

@@ -58,30 +58,30 @@ switch ($url_parts[0]) {
         break;
     case 'admin':
         if (isset($url_parts[1]) && $url_parts[1] == 'edit-title') {
-            require_once('./controllers/EditTitleController.php');
+            require_once('./controllers/admin/EditTitleController.php');
             $controller = new EditTitleController($conn);
             $controller->index();
         } elseif (isset($url_parts[1]) && $url_parts[1] == 'add-title') {
-            require_once('./controllers/AddTitleController.php');
+            require_once('./controllers/admin/AddTitleController.php');
             $controller = new AddTitleController($conn);
             $controller->index();
         } elseif (isset($url_parts[1]) && $url_parts[1] == 'browse-titles') {
-            require_once('./controllers/BrowseTitlesController.php');
+            require_once('./controllers/admin/BrowseTitlesController.php');
             $controller = new BrowseTitlesController($conn);
             $controller->index();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'manage-roles') {
-            require_once('./controllers/ManageRolesController.php');
+            require_once('./controllers/admin/ManageRolesController.php');
             $controller = new ManageRolesController($conn);
             $controller->index();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'view-statistics') {
-            require_once('./controllers/ViewStatisticsController.php');
+            require_once('./controllers/admin/ViewStatisticsController.php');
             $controller = new ViewStatisticsController($conn);
             $controller->index();
         }
         else {
-            require_once('./controllers/AdminController.php');
+            require_once('./controllers/admin/AdminController.php');
             $controller = new AdminController($conn);
             $controller->index();
         }

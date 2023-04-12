@@ -1,0 +1,34 @@
+/* {{{ MANAGE ROLES */
+.page-info {
+    width: 100%;
+    padding-bottom: 2em;
+    text-align: center;
+}
+
+.page-title {
+    font-size: 1.5rem;
+}
+
+.page-desc {
+    margin-top: 8px;
+}
+.section-header {
+    border-bottom: #303030 2px solid;
+    padding-bottom: .5em;
+    margin-bottom: 2em;
+}
+
+#promote-form, #demote-form {
+    flex-direction: column;
+    margin-bottom: 2em;
+    max-width: 500px;
+}
+input {
+    width: 100%;
+}
+.form-button {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* }}} */

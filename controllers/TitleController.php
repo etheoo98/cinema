@@ -1,6 +1,6 @@
 <?php
-require_once (dirname(__DIR__) . '/models/Title.php');
-require_once (dirname(__DIR__) . '/models/Session.php');
+require_once (BASE_PATH . '/models/Title.php');
+require_once (BASE_PATH . '/models/Session.php');
 
 class TitleController
 {
@@ -41,16 +41,16 @@ class TitleController
         $title = $this->titleData['title'];
         $css = ["main.css", "title.css"];
 
-        require_once('./views/shared/header.php');
+        require_once(BASE_PATH . '/views/shared/header.php');
 
         if(isset($this->titleData) && isset($this->ratingData) && isset($this->actorData)) {
-            require_once('./views/title/index.php');
+            require_once(BASE_PATH . '/views/title/index.php');
         }
         else {
-            require_once('./views/shared/error.php');
+            require_once(BASE_PATH . '/views/shared/error.php');
         }
 
-        require_once('./views/shared/footer.php');
+        require_once(BASE_PATH . '/views/shared/footer.php');
 
         if (isset($_POST['book'])) {
             $this->addBooking();

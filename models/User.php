@@ -12,7 +12,7 @@ class User
         $user_id = mysqli_real_escape_string($this->conn, $_GET["id"]);
 
         $stmt = $this->conn->prepare("SELECT user_id, username FROM user WHERE user_id=? OR username=?");
-        $stmt->bind_param('ss', $user_id, $user_id);
+        $stmt->bind_param('is', $user_id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
 
