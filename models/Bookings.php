@@ -23,16 +23,15 @@ class Bookings
     /**
      * @throws Exception
      */
-    public function deleteBooking(): void
+    public function deleteBooking($movie_id): void
     {
-        $movie_id = $_POST['remove'];
         $user_id = $_SESSION["user_id"];
 
         $sql = "DELETE FROM booking WHERE user_id = ? AND movie_id = ?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
-        $stmt->execute();
-        if ($stmt->affected_rows == 0) {
+
+        if (!$stmt->execute()) {
             throw new Exception('Unable to delete booking.');
         }
     }

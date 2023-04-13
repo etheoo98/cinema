@@ -1,6 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Bookings.php');
 require_once (BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/public/scripts/BookingsControllerMiddleware.php');
 
 class BookingsController
 {
@@ -60,18 +61,44 @@ class BookingsController
         else {
             require_once(BASE_PATH . '/views/shared/error.php');
         }
-
+        echo '<script src="/cinema/public/js/bookings.js"></script>';
         require_once(BASE_PATH . '/views/shared/footer.php');
+    }
 
-        if (isset($_POST['remove'])) {
-            try {
-                $this->bookingsModel->deleteBooking();
-                # TODO: Don't refresh, remove movie-item with javascript.
-                echo "<script>redirectTo('/cinema/bookings');</script>";
-            } catch (Exception $e) {
-                error_log($e->getMessage());
-                echo '<script>alert("We were unable to cancel your booking.")</script>';
-            }
+    public function ajaxHandler(): void
+    {
+        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+
+        switch ($action) {
+            case 'remove-booking':
+                $response = $this->removeBooking();
+                break;
+            default:
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Invalid action'
+                ];
+                break;
         }
+        echo json_encode($response);
+    }
+
+    public function removeBooking(): array
+    {
+        try {
+            $movie_id = mysqli_real_escape_string($this->conn, $_POST['remove']);
+
+            $this->bookingsModel->deleteBooking($movie_id);
+            $response = [
+                'status' => 'Success',
+                'message' => 'Booking Successfully Removed.'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $response;
     }
 }

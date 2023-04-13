@@ -27,6 +27,14 @@
   word-wrap: break-word;
   font-family: "Shin-Go-Pro-R", sans-serif;
 }
+/* ACCESSIBILITY */
+a:focus-visible, button:focus-visible {
+  outline: 2px solid #29EDDD;
+  border-radius: 6px;
+}
+a:hover, button:hover {
+  cursor: pointer;
+}
 
 .container {
   max-width: 1060px;

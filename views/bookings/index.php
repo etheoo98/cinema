@@ -27,11 +27,11 @@
                             <li><?php echo $row["genre"] ?></li>
                             <li><?php echo (floor($row["length"] / 60)) . "h " . $row["length"] % 60 . "min" ?></li>
                         </ul>
-                        <span>Booked on <?php echo date('d/m/Y', strtotime($row["date"])); ?></span>
-
                     </div>
-                    <form id="remove-form" method="POST">
-                        <button type="submit" class="remove" name="remove" value="<?php echo $row["movie_id"] ?>"><i class="fa-solid fa-trash"></i> Cancel</button>
+                    <span>Booked on <?php echo date('d/m/Y', strtotime($row["date"])); ?></span>
+                    <form class="remove-booking-form" method="POST" data-action="remove-booking">
+                        <input type="hidden" name="remove" value="<?php echo $row["movie_id"] ?>">
+                        <button type="submit" class="button" name="submit"><i class="fa-solid fa-trash"></i> Cancel</button>
                     </form>
                 </div>
             </div>
@@ -39,4 +39,3 @@
         <?php } ?>
     </div>
 </main>
-<script src="/cinema/public/js/redirect.js"></script>

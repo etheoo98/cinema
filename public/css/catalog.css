@@ -37,7 +37,6 @@ main .container {
   flex-direction: column;
   justify-content: center;
 }
-
 .movie-list-metadata li {
   float: left;
   margin-right: 5px;

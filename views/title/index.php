@@ -17,7 +17,10 @@
                     </ul>
                 </div>
                 <div class="book-container">
-                    <button class="button">Book Ticket</button>
+                    <form id="add-booking-form" data-action="add-booking">
+                        <input type="hidden" name="movie_id" value="<?php echo $this->titleData["movie_id"]; ?>">
+                        <button type="submit" class="button">Book Ticket</button>
+                    </form>
                 </div>
             </div>
         </div>

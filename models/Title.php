@@ -40,29 +40,39 @@ class Title
         }
         return $actors;
     }
-    public function duplicateCheck($user_id, $movie_id): bool|string
+
+    /**
+     * @throws Exception
+     */
+    public function duplicateCheck($user_id, $movie_id): void
     {
-        $stmt = $this->conn->prepare("SELECT * FROM `booking` WHERE user_id = ? AND movie_id = ?");
-        if (!$stmt) {
-            return $this->conn->error;
-        }
+        $sql = 'SELECT * FROM `booking` WHERE user_id = ? AND movie_id = ?';
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
+
         if (!$stmt->execute()) {
-            return $stmt->error;
+            throw new Exception("Failed to execute duplicate check.");
         }
+
         $result = $stmt->get_result();
+
         if ($result->num_rows > 0) {
-            return true; // duplicate record found
-        } else {
-            return false; // no duplicate record found
+            throw new Exception("You already have a ticket for this movie.");
         }
-    }    
+    }
 
 
+    /**
+     * @throws Exception
+     */
     public function addBooking($user_id, $movie_id): void
     {
-        $stmt = $this->conn->prepare("INSERT INTO booking (booking_id, user_id, movie_id, `date`) VALUES (NULL, ?, ?, NOW())");
+        $sql = 'INSERT INTO booking (booking_id, user_id, movie_id, `date`) VALUES (NULL, ?, ?, NOW());';
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
-        $stmt->execute();
+
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to add new booking.");
+        }
     }
 }

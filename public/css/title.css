@@ -63,12 +63,6 @@
     height: 60px;
     border-radius: 6px;
 }
-.button:focus {
-    outline: 2px solid #29EDDD;
-}
-.button:hover {
-    cursor: pointer;
-}
 .movie-body {
     padding: 40px 0;
 }

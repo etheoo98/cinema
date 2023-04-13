@@ -1,6 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Title.php');
 require_once (BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/public/scripts/TitleControllerMiddleware.php');
 
 class TitleController
 {
@@ -31,9 +32,6 @@ class TitleController
 
             $this->renderIndexView();
         }
-        else {
-            header ('LOCATION: /cinema/catalog');
-        }
     }
 
     private function renderIndexView(): void
@@ -49,26 +47,46 @@ class TitleController
         else {
             require_once(BASE_PATH . '/views/shared/error.php');
         }
-
+        echo '<script src="/cinema/public/js/add-booking.js"></script>';
         require_once(BASE_PATH . '/views/shared/footer.php');
 
-        if (isset($_POST['book'])) {
-            $this->addBooking();
-        }
     }
 
-    public function addBooking(): void
+    public function ajaxHandler(): void
     {
-        $user_id = $_SESSION["user_id"];
-        $movie_id = mysqli_real_escape_string($this->conn, $_POST['book']);
+        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
 
-        $isDuplicate = $this->titleModel->duplicateCheck($user_id, $movie_id);
-
-        if (!$isDuplicate) {
-            $this->titleModel->addBooking($user_id, $movie_id);
-            echo "<script>redirectTo('/cinema/bookings');</script>";
-        } else {
-            echo "You have already booked this movie.";
+        switch ($action) {
+            case 'add-booking':
+                $response = $this->addBooking();
+                break;
+            default:
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Invalid action'
+                ];
+                break;
         }
+        echo json_encode($response);
+    }
+
+    public function addBooking(): array
+    {
+        try {
+            $user_id = $_SESSION["user_id"];
+            $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
+            $this->titleModel->duplicateCheck($user_id, $movie_id);
+            $this->titleModel->addBooking($user_id, $movie_id);
+            $response = [
+                'status' => 'Success',
+                'message' => 'Booking Successfully Added.'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $response;
     }
 }
