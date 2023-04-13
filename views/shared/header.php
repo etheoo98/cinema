@@ -28,7 +28,7 @@ if (isset($_SESSION['user_id'])) {
 </head>
 
 <body>
-<header>
+<header class="header">
     <div class="container">
         <img class="logo" src="/cinema/public/img/cinema-logo.png" alt="Cinema logo">
         <nav role="navigation" >

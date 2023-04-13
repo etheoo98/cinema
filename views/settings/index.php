@@ -1,8 +1,8 @@
 <main>
+    <div class="page-info">
+        <h1 class="page-title">Settings</h1>
+    </div>
     <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">Settings</h1>
-        </div>
         <button type="button" class="collapsible">Profile</button>
         <div class="settings">
             <div class="section">

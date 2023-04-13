@@ -1,9 +1,9 @@
 <main>
+    <div class="page-info">
+        <h1 class="page-title">Movies</h1>
+        <p class="page-desc">These movies are currently being screened</p>
+    </div>
     <div class="container">
-        <div class="page-info">
-            <h1 class="page-title">Movies</h1>
-            <p class="page-desc">These movies are currently being screened</p>
-        </div>
         <?php
         while ($row = mysqli_fetch_array($this->titleData)) {
             ?>

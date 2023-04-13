@@ -1,82 +1,120 @@
-main {
-    background-repeat: no-repeat;
-    background-size: cover; 
+/* {{{ MAIN */
+.movie-header {
+    width: 100%;
+    height: 70vh;
+    position: relative;
 }
-main .container {
-    flex-direction: column;
+.hero-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+    z-index: 1;
+}
+.movie-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-position: top;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+.movie-main {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+.movie-main .container {
+    display: flex;
+    flex-direction: row;
+    width: 1060px;
+    margin-bottom: 20px;
+
+}
+.poster-container, .movie-info, .book-container {
+    align-self: flex-end;
 }
 .poster {
-    height: 300px;
-    margin-right: 2rem;
+    max-height: 300px;
     border-radius: 6px;
 }
-.movie-list-content {
-    display: flex;
-    flex-direction: row;
-    width:100%;
+.movie-info {
+    padding-left: 20px;
+    padding-right: 20px;
 }
-.movie-list-desc {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width:100%
-    
-}
-.movie-title-area {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    align-content: flex-start;
-    align-items: center;
-}
-.title, .premiere  {
-    align-self: flex-start;
+.title {
     font-size: 2em;
 }
-.premiere {
-    color: #808080;
-    font-size: 0.8rem;
+.book-container {
+    margin-left: auto;
+    width: 25%;
 }
-.movie-list-metadata {
-    padding: 0.900rem 0;
-}
-.movie-list-metadata:not(:last-child) {
-    border-bottom: 2px solid #808080;
-}
-.movie-list-metadata li {
-    float: left;
-}
-.movie-list-metadata li:not(:first-child):before {
-    content: "•";
-    margin: 0 5px;
-  }
-  .actors p {
-    float: left;
-    padding-right: 8px;
-  }
-  .booking-form {
-    align-self: flex-end;
-  }
-  #booking {
-    padding: 1.4em 4em;
-    border: none;
+.button {
     background-color: #ED2939;
-  }
-  #booking:hover {
-    cursor: pointer;
-  }
-  .rating-area-outer {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    align-items: center;
-    min-width: 120px
+    border: none;
+    width: 100%;
+    height: 60px;
+    border-radius: 6px;
 }
-.rating-area-inner {
+.button:focus {
+    outline: 2px solid #29EDDD;
+}
+.button:hover {
+    cursor: pointer;
+}
+.movie-body {
+    padding: 40px 0;
+}
+.movie-metadata {
+    width: 100%;
+}
+.movie-metadata:first-of-type {
+    margin-bottom: 40px;
+}
+.movie-metadata:not(:first-of-type) {
+    margin-bottom: 12px;
+}
+.movie-metadata h3 {
+    color: #4e4e4e;
+    font-size: 0.9em;
+}
+.movie-starring-list {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    font-size: 0.8em;
+}
+.movie-starring-list li:not(:first-child):before {
+    content: ",";
+    margin-right: 5px;
+}
+@media screen and (max-width: 768px) {
+    .movie-main .container {
+        flex-wrap: wrap;
+    }
+    .poster-container {
+        width: 33.33%;
+    }
+    .poster {
+        max-height: unset;
+        width: 100%;
+    }
+    .movie-info {
+        width: 66.66%;
+    }
+    .title {
+        font-size: 1.5em;
+    }
+    .book-container {
+        margin-left: 0;
+        margin-top: 16px;
+        width: 100%;
+    }
+    .button {
+        width: inherit;
+    }
 }

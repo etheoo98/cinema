@@ -1,17 +1,17 @@
 <main>
-    <div class="container">
-        <div class="page-info">
-            <h1 class="page-title">Bookings</h1>
+    <div class="page-info">
+        <h1 class="page-title">Bookings</h1>
+        <?php
+        if (mysqli_num_rows($this->bookingsData) == 0) { ?>
+            <p class="page-desc">It looks like you haven't made any bookings!</p>
+            <p style='text-align:center;'>Explore our wide range of <a href='/cinema/movies' style='color:#a80005;'>movies</a> and book your ticket on the product page.</p>
             <?php
-            if (mysqli_num_rows($this->bookingsData) == 0) { ?>
-                <p class="page-desc">It looks like you haven't made any bookings!</p>
-                <p style='text-align:center;'>Explore our wide range of <a href='/cinema/movies' style='color:#a80005;'>movies</a> and book your ticket on the product page.</p>
-            <?php
-            } else {
+        } else {
             ?>
-                <p class="page-desc">These are your current bookings</p>
-            <?php } ?>
-        </div>
+            <p class="page-desc">These are your current bookings</p>
+        <?php } ?>
+    </div>
+    <div class="container">
         <?php
         while ($row = mysqli_fetch_array($this->bookingsData)) {
         ?>

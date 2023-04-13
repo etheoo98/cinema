@@ -15,46 +15,36 @@
   --primary-red: #ED2939;
   --secondary-red: #911822;
 }
+
 * {
-  margin: 0;
   padding: 0;
+  margin: 0;
   list-style: none;
   text-decoration: none;
-  color: #FFF;
   box-sizing: border-box;
-  font-family: "Shin-Go-Pro-R", sans-serif;
+  color: white;
   font-size: 1em;
+  word-wrap: break-word;
+  font-family: "Shin-Go-Pro-R", sans-serif;
 }
 
-body {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-  background-color: #000;
-  color: #fff;
-}
-header, .footer-bottom {
-  background-color: #ED2939;
-}
 .container {
   max-width: 1060px;
   margin: 0 auto;
-  padding-left: 1em;
-  padding-right: 1em;
-  justify-content: center;
-  align-items: center;
-  display: flex;
-  flex-direction: row;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 /* {{{ HEADER */
-header {
-  order: 1;
+.header {
+  width: 100%;
   position: sticky;
   top: 0;
   z-index: 999;
+  background-color: #ED2939;
 }
-header .container {
+.header .container {
   height: 64px;
+  display: flex;
   justify-content: space-between;
 }
 .logo {
@@ -183,14 +173,14 @@ nav li:last-child a:hover {
 .dropdown-section a:hover .icon path {
   fill: var(--primary-red);
 }
-header nav .dropdown-content a {
+.header nav .dropdown-content a {
   padding: 8px 12px;
   border: none; !important;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-header nav .dropdown-content a:hover {
+.header nav .dropdown-content a:hover {
   border: none; !important;
   border-radius: 0;
 }
@@ -293,7 +283,7 @@ header nav .dropdown-content a:hover {
   #mobile-back {
     display: block;
   }
-  header nav .dropdown-content a {
+  .header nav .dropdown-content a {
     background-color: transparent;
     text-align: left;
   }
@@ -316,29 +306,27 @@ header nav .dropdown-content a:hover {
 /* }}} */
 
 /* {{{ MAIN */
+
 main {
-  flex: 1;
-  order: 2;
+  background-color: black;
+  min-height: calc(100vh - 64px);
+  width: 100%;
 }
 
-main .container {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 2em 1em;
-}
+/* }}} */
 
-/* {{{ FOOTER */
 /* {{{ FOOTER */
 footer {
-  order: 3;
   background: #911822;
+  width: 100%;
 }
 footer .container {
+  display: flex;
   justify-content: space-between;
 }
 footer .cell {
-  padding: 2rem 0;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 footer .cell h4 {
   font-family: 'Shin-Go-Pro-B';
@@ -351,6 +339,7 @@ footer .cell a {
   box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
   -webkit-box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
   -moz-box-shadow: 1px -2px 7px 0 rgba(0, 0, 0, 0.41);
+  background-color: #ED2939;
 }
 
 .footer-bottom .container {
@@ -388,6 +377,14 @@ footer .cell a {
 }
 @media screen and (max-width: 768px) {
   .credit::before {
+    display: none;
+  }
+}
+@media screen and (max-width: 480px) {
+  footer .container {
+    flex-direction: column;
+  }
+  .credit, .footer-bottom .footer-socials {
     display: none;
   }
 }

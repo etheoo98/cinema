@@ -3,16 +3,13 @@ main {
 }
 .page-info {
   width: 100%;
-  padding-bottom: 2rem;
+  padding: 20px;
   text-align: center;
 }
 
 .page-title {
   font-size: 1.5rem;
-}
-
-.page-desc {
-  margin-top: 8px;
+  margin-bottom: 8px;
 }
 .remove {
   padding: .4em 1em;
