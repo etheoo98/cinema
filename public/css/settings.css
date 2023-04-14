@@ -74,10 +74,10 @@ form {
     display: flex;
     justify-content: flex-end;
 }
-form button {
+.button {
     width: 50%;
     height: 2.5rem;
-    border-radius: 0;
+    border-radius: 6px;
     border: none;
     color: white;
     background-color: var(--primary-red);
@@ -89,19 +89,26 @@ form button:hover {
 .section input[type="password"]:first-of-type {
     margin-bottom: 4em;
 }
-.settings-form input {
-    width: auto;
+
+/* {{{ SESSIONS */
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 64px auto auto auto auto;
+    align-items: center;
+    row-gap: 1em;
+    margin-bottom: 32px;
 }
-.sessions li {
-    display: flex;
+.grid-item {
+    font-size: 12px;
+    text-align: center;
 }
-.list-row {
-    margin-bottom: 2em;
-}
-.list-item {
-    padding-right: 2em;
+.grid-item:not(:last-child) {
+    padding-right: 40px;
 }
 input[type=checkbox] {
     width: 20px;
     height: 20px;
 }
+
+/* }}} */
