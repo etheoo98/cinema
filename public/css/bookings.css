@@ -26,3 +26,26 @@ main {
 .button:focus {
   outline: 2px solid #29EDDD;
 }
+.date-booked {
+  font-size: 0.8em;
+}
+.fa-star {
+  font-size: 1em;
+}
+.rating-container {
+  display: flex;
+  flex-direction: row;
+}
+.svg-container:not(:last-of-type) {
+  padding-right: 6px;
+}
+svg {
+  width: 20px;
+  height: 20px;
+}
+svg:hover {
+  cursor: pointer;
+}
+svg path {
+  fill: #FFFFFF;
+}

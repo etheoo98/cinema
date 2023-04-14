@@ -73,6 +73,12 @@ class BookingsController
             case 'remove-booking':
                 $response = $this->removeBooking();
                 break;
+            case 'get-rating':
+                $response = $this->ratingData();
+                break;
+            case 'rate':
+                $response = $this->rateMovie();
+                break;
             default:
                 $response = [
                     'status' => 'error',
@@ -93,6 +99,61 @@ class BookingsController
                 'status' => 'Success',
                 'message' => 'Booking Successfully Removed.'
             ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $response;
+    }
+
+    public function ratingData(): array
+    {
+        $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
+        $user_id = $_SESSION["user_id"];
+
+        $userRating = $this->bookingsModel->getRatingData($user_id, $movie_id);
+
+        // Return rating value as array
+        if ($userRating) {
+            return array(
+                'success' => true,
+                'data' => array(
+                    'rating_value' => $userRating
+                )
+            );
+        } else {
+            return array(
+                'success' => false
+            );
+        }
+    }
+
+    public function rateMovie(): array
+    {
+        try {
+            $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
+            $rating = mysqli_real_escape_string($this->conn, $_POST['rating']);
+            $user_id = $_SESSION["user_id"];
+
+            $this->bookingsModel->validateRatingValue($rating);
+            $this->bookingsModel->movieLookup($movie_id);
+
+            $newRating = $this->bookingsModel->ratingLookup($user_id, $movie_id);
+            if (!$newRating) {
+                $this->bookingsModel->updateRating($user_id, $movie_id, $rating);
+                $response = [
+                    'status' => 'Success',
+                    'message' => 'Rating successfully updated'
+                ];
+            } else {
+                $this->bookingsModel->insertRating($user_id, $movie_id, $rating);
+                $response = [
+                    'status' => 'Success',
+                    'message' => 'Rating successfully inserted'
+                ];
+            }
         } catch (Exception $e) {
             $response = [
                 'status' => 'Failed',
