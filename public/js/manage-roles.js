@@ -9,7 +9,6 @@ $(function() {
             formData.append('action', action);
 
             $.ajax({
-                url: 'ajax',
                 type: 'POST',
                 data: formData,
                 contentType: false,

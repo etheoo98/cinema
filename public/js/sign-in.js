@@ -30,7 +30,6 @@ $(function() {
             formData.append('action', action);
 
             $.ajax({
-                url: '',
                 type: 'POST',
                 data: formData,
                 contentType: false,

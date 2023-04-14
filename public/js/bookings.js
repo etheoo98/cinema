@@ -4,7 +4,6 @@ $(document).ready(function () {
         var ratingContainer = $(this);
 
         $.ajax({
-            url: 'ajax',
             type: 'POST',
             data: {
                 action: 'get-rating',
@@ -87,7 +86,6 @@ $(document).ready(function () {
 
     function saveRating() {
         $.ajax({
-            url: 'ajax',
             method: 'POST',
             data: {
                 action: 'rate',

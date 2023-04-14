@@ -3,7 +3,6 @@ var ctx = document.getElementById('totalUsersChart').getContext('2d');
 
 // use AJAX or fetch to get the data from your server
 $.ajax({
-    url: 'ajax',
     type: 'GET',
     dataType: 'json',
     success: function(data) {
