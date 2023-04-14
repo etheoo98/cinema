@@ -65,6 +65,13 @@ class BookingsController
         require_once(BASE_PATH . '/views/shared/footer.php');
     }
 
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
+     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
     public function ajaxHandler(): void
     {
         $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
@@ -89,12 +96,19 @@ class BookingsController
         echo json_encode($response);
     }
 
+    /**
+     * @return array|string[]
+     *
+     * This function is called from ajaxHandler() and will attempt to remove the selected movie.
+     *
+     */
     public function removeBooking(): array
     {
         try {
             $movie_id = mysqli_real_escape_string($this->conn, $_POST['remove']);
 
             $this->bookingsModel->deleteBooking($movie_id);
+
             $response = [
                 'status' => 'Success',
                 'message' => 'Booking Successfully Removed.'
@@ -108,6 +122,12 @@ class BookingsController
         return $response;
     }
 
+    /**
+     * @return array|false[]
+     * @throws Exception
+     *
+     * This function is called from ajaxHandler() and will attempt to return the requested rating data.
+     */
     public function ratingData(): array
     {
         $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
@@ -130,6 +150,12 @@ class BookingsController
         }
     }
 
+    /**
+     * @return array|string[]
+     *
+     * This function is called from ajaxHandler() and will attempt to rate movie_id included in the request.
+     *
+     */
     public function rateMovie(): array
     {
         try {

@@ -9,6 +9,14 @@ class AddTitle
         $this->conn = $conn;
     }
 
+    /**
+     * @param $str
+     * @return string
+     *
+     * This method takes a string as input, removes any leading/trailing white space, removes any HTML tags, removes
+     * any slashes, and returns the resulting string with any special characters encoded.
+     *
+     */
     function sanitize_text_field( $str ): string
     {
         $filtered = trim( $str );
@@ -20,6 +28,9 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function checks if all the required fields for a form have been filled out, and throws an
+     * exception with a message listing the missing fields if any are found.
      */
     public function sanitizeInput(): array
     {
@@ -64,6 +75,12 @@ class AddTitle
         return $sanitizedInput;
     }
 
+    /**
+     * @return array
+     *
+     * This function sanitizes the input values that start with the prefix "actor-" and returns
+     * an array of sanitized actors.
+     */
     public function sanitizeActors(): array
     {
         $sanitizedActors = array();
@@ -78,6 +95,12 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This is a function for validating image files. It checks whether the uploaded image files
+     * are of the allowed file types (JPEG, PNG, WEBP) for each image input (poster, hero, logo).
+     * If the uploaded file type is not allowed or the file upload fails, it throws an exception
+     * with an appropriate error message.
+     *
      */
     public function validateImage(): void
     {
@@ -107,6 +130,11 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function searches the movie database to check if a movie with the same title as
+     * the sanitized input already exists. If it exists, it throws an exception with a message
+     * stating that a movie with that title already exists.
+     *
      */
     public function titleLookup($sanitizedInput) {
         $sql = "SELECT * FROM movie WHERE title=?";
@@ -121,6 +149,16 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function performs an actor lookup by querying the database to check if the specified actors exist.
+     *
+     * It takes an array of sanitized actor names as input, and uses a prepared statement to execute a SELECT query
+     * on a database table called actor. For each actor name in the input array, the function checks if the query
+     * executed successfully and if the result set contains any rows. If an actor is not found in the database, their
+     * name is added to an array called actorsNotFound. Finally, the function returns an array containing two elements:
+     * actorsNotFound, which is an array of actors not found in the database, and actorsFound, which is an array of actors
+     * that were found in the database.
+     *
      */
     public function actorLookup($sanitizedActors): array
     {
@@ -147,6 +185,17 @@ class AddTitle
         ];
     }
 
+    /**
+     * @param $sanitizedInput
+     * @return int
+     *
+     * This function is a method that adds a new movie title to the database. It starts by beginning a database
+     * transaction, and then executes multiple SQL queries using prepared statements to insert data into the 'movie'
+     * and 'poster' tables. The function also moves uploaded image files to a specified directory on the server. If any
+     * part of the process fails, a rollback is initiated and an error message is displayed. The function returns the ID
+     * of the newly inserted movie or 0 if an error occurs.
+     *
+     */
     public function addTitle($sanitizedInput): int
     {
 
@@ -191,6 +240,9 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function adds new actors to the database if they are not already present.
+     *
      */
     public function addNewActors(array $actorsObject): void
     {
@@ -207,6 +259,10 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function takes an array of actors, queries the database for their corresponding actor IDs, and returns an
+     * associative array of the actors' names and IDs.
+     *
      */
     public function getActorID($actorsObject): array
     {
@@ -234,6 +290,9 @@ class AddTitle
 
     /**
      * @throws Exception
+     *
+     * This function inserts the IDs of actors associated with a given movie ID into a junction table called movie_actor.
+     *
      */
     public function addActorsToTitle($movie_id, $actorIDs): void
     {

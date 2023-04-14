@@ -16,9 +16,23 @@ class BrowseTitlesController
         $this->browseTitlesModel = new BrowseTitles($this->conn);
     }
 
+    /**
+     * This function handles the front controller request.
+     *
+     * Before allowing the rendition of the view, the session model's requireAdminRole()
+     * function is called, which will return either 'true' or 'false'. This will depend on
+     * what 'role' the 'user_id' has in the database. If true, the rendition of the
+     * page will commence. Otherwise, a redirect occurs.
+     *
+     * A call to the model BrowseTitles' getTitleData function is made in order to fetch all
+     * movie data. This function differs from the one used in the Catalog model, as this includes
+     * all movies, even those that are not currently screening.
+     *
+     */
     public function index(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+
         if ($sessionIsAdmin) {
             $this->titleData = $this->browseTitlesModel->getTitleData();
             $this->renderIndexView();
@@ -27,6 +41,14 @@ class BrowseTitlesController
         }
 
     }
+
+    /**
+     * This function handles the rendition of the view.
+     *
+     * If the request has been determined to by an 'admin', the view will render.
+     * The contents of title tag for this specific view is set here the controller, along with
+     * what stylesheets apply to this view in particular.
+     */
     public function renderIndexView(): void
     {
 

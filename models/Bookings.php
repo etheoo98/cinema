@@ -9,6 +9,13 @@ class Bookings
         $this->conn = $conn;
     }
 
+    /**
+     * @return false|mysqli_result
+     *
+     * This function retrieves all booking data associated with the currently logged-in user, including movie details
+     * and poster images.
+     *
+     */
     public function getBookingsData(): false|mysqli_result
     {
         $user_id = $_SESSION['user_id'];
@@ -22,6 +29,9 @@ class Bookings
 
     /**
      * @throws Exception
+     *
+     * This function deletes a booking made by the currently logged-in user for a specific movie.
+     *
      */
     public function deleteBooking($movie_id): void
     {
@@ -38,6 +48,10 @@ class Bookings
 
     /**
      * @throws Exception
+     *
+     * This function takes a user ID and a movie ID as arguments and returns the rating given by the user for
+     * the given movie if it exists, otherwise it returns null.
+     *
      */
     public function getRatingData($user_id, $movie_id) {
         $sql = 'SELECT `rating`.`rating` FROM `rating`, `user_rating` WHERE `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ? AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
@@ -61,6 +75,10 @@ class Bookings
 
     /**
      * @throws Exception
+     *
+     * This function checks the value of $rating and makes sure it's between 1 and 5, as a way to counter potential
+     * value manipulation.
+     *
      */
     public function validateRatingValue($rating): void
     {
@@ -71,6 +89,9 @@ class Bookings
 
     /**
      * @throws Exception
+     *
+     * This function looks up the requested movie_id in the database.
+     *
      */
     public function movieLookup($movie_id): void
     {
@@ -80,7 +101,7 @@ class Bookings
         $stmt->bind_param('i', $movie_id);
 
         if (!$stmt->execute()) {
-            throw new Exception('Unable look up existing rating.');
+            throw new Exception('Unable look up existing movie.');
         }
 
         $result = $stmt->get_result();
@@ -91,7 +112,14 @@ class Bookings
     }
 
     /**
+     * @param $user_id
+     * @param $movie_id
+     * @return bool
      * @throws Exception
+     *
+     * This function performs a lookup to check whether the user has already submitted a rating for a specific movie,
+     * and returns a boolean indicating whether they have or not.
+     *
      */
     public function ratingLookup($user_id, $movie_id): bool
     {
@@ -116,13 +144,24 @@ class Bookings
 
     }
 
+    /**
+     * @param $user_id
+     * @param $movie_id
+     * @param $rating
+     * @return void
+     * @throws Exception
+     *
+     * This function inserts a rating for a specific movie and user into two tables "rating" and "user_rating" using a
+     * transaction, and rolls back the transaction in case of any query failure.
+     *
+     */
     public function insertRating($user_id, $movie_id, $rating): void
     {
-        // Start transaction
+        # Start transaction
         $this->conn->begin_transaction();
 
         try {
-            // Insert into "rating" table
+            # Insert into "rating" table
             $sql = 'INSERT INTO `rating` (`rating_id`, `movie_id`, `rating`) VALUES (NULL, ?, ?)';
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ii', $movie_id, $rating);
@@ -131,10 +170,10 @@ class Bookings
                 throw new Exception('Unable to insert into rating table');
             }
 
-            // Retrieve last insert ID
+            # Retrieve last insert ID
             $rating_id = $this->conn->insert_id;
 
-            // Insert into "user_rating" table
+            # Insert into "user_rating" table
             $sql = 'INSERT INTO `user_rating` (`id`, `user_id`, `rating_id`) VALUES (NULL, ?, ?)';
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ii', $user_id, $rating_id);
@@ -143,10 +182,10 @@ class Bookings
                 throw new Exception('Unable to insert into user_rating table');
             }
 
-            // Commit transaction if both queries are successful
+            # Commit transaction if both queries are successful
             $this->conn->commit();
         } catch (Exception $e) {
-            // Roll back transaction if any query fails
+            # Roll back transaction if any query fails
             $this->conn->rollback();
             throw $e;
         }
@@ -154,8 +193,12 @@ class Bookings
 
     /**
      * @throws Exception
+     *
+     * This function updates the rating of an already existing database entry.
+     *
      */
-    public function updateRating($user_id, $movie_id, $rating) {
+    public function updateRating($user_id, $movie_id, $rating): void
+    {
         $sql = 'UPDATE `rating`, `user_rating` SET `rating`.`rating` = ? WHERE `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ? AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
 
         $stmt = $this->conn->prepare($sql);

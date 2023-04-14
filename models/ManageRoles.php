@@ -7,12 +7,24 @@
         $this->conn = $conn;
     }
 
+    /**
+     * The function queries the database to retrieve the user IDs and usernames of
+     * all users with the 'admin' role, and returns the result set.
+     *
+     */
     public function getCurrentAdmins() {
         $sql = "SELECT `user_id`, `username` FROM `user` WHERE `role` = 'admin';";
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->get_result();
     }
+
+    /**
+     * @return array
+     *
+     * This function sanitizes all the input received from a POST request and returns it
+     * in an array format.
+     */
     public function sanitizeInput(): array
     {
         $sanitizedInput = array();
@@ -24,18 +36,30 @@
 
     /**
      * @throws Exception
+     *
+     * This function is used for when both 'promoting' and 'demoting' usernames.
+     *
+     * Separating this function into two different functions would result in a lot
+     * of duplicate code, as the way promotions and demotions are handled are nearly
+     * identical.
+     *
+     * This function performs a username lookup based on the sanitized input and
+     * returns the input or throws an exception if the username doesn't exist or if
+     * the user is already an administrator or a normal user depending on the 'action'
+     * parameter.
+     *
      */
     public function usernameLookup($sanitizedInput)
     {
         $sql = 'SELECT user_id, username, role FROM `user` WHERE username = ?';
 
         $stmt = $this->conn->prepare($sql);
+
         if ($_POST['action'] == 'promote-user') {
             $stmt->bind_param('s', $sanitizedInput['promote_username']);
         } elseif ($_POST['action'] == 'demote-user') {
             $stmt->bind_param('s', $sanitizedInput['demote_username']);
         }
-
 
         if (!$stmt->execute()) {
             throw new Exception('Unable to lookup username at this moment.');
@@ -55,11 +79,15 @@
         } else {
             $sanitizedInput['user_id'] = $row['user_id'];
         }
+
         return $sanitizedInput;
     }
 
     /**
      * @throws Exception
+     *
+     * This function promotes a user to an admin by updating the database, and throws
+     * an exception if it is unsuccessful.
      */
     public function promoteUserToAdmin($sanitizedInput): void
     {
@@ -75,6 +103,9 @@
 
     /**
      * @throws Exception
+     *
+     * This function demotes an admin to a user by updating the database, and throws
+     * an exception if it is unsuccessful.
      */
     public function demoteAdminToUser($sanitizedInput): void
     {

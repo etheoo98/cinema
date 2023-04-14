@@ -16,10 +16,22 @@ class ManageRolesController
         $this->sessionModel = new Session($this->conn);
         $this->manageRolesModel = new ManageRoles($this->conn);
     }
-    
+
+    /**
+     * This function handles the front controller request.
+     *
+     * Before allowing the rendition of the view, the session model's requireAdminRole()
+     * function is called, which will return either 'true' or 'false'. This will depend on
+     * what 'role' the 'user_id' has in the database. If true, the rendition of the
+     * page will commence. Otherwise, a redirect occurs.
+     *
+     * Before rendering the view, a call to the model ManageRoles' getCurrentAdmins function
+     * is made in order to fetch usernames with the role of 'admin'.
+     */
     public function index(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+
         if ($sessionIsAdmin) {
             $this->currentAdmins = $this->manageRolesModel->getCurrentAdmins();
             $this->renderIndexView();
@@ -28,6 +40,14 @@ class ManageRolesController
         }
 
     }
+
+    /**
+     * This function handles the rendition of the view.
+     *
+     * If the request has been determined to by an 'admin', the view will render.
+     * The contents of title tag for this specific view is set here the controller, along with
+     * what stylesheets apply to this view in particular.
+     */
     public function renderIndexView(): void
     {
 
@@ -41,9 +61,17 @@ class ManageRolesController
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
+     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
     public function ajaxHandler(): void
     {
         $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+
         switch ($action) {
             case 'promote-user':
                 $response = $this->promoteUser();
@@ -58,8 +86,22 @@ class ManageRolesController
                 ];
                 break;
         }
+
         echo json_encode($response);
     }
+
+    /**
+     * This function is called from ajaxHandler() and will attempt to 'promote' the
+     * inputted username to 'admin'.
+     *
+     * First, the submitted values have to be sanitized before a safe SQL-query can be made.
+     * The username is then fetched from the database using the sanitized value and a series
+     * of validation is performed such as checking if the username exists and if the username
+     * is already of the 'admin' role or not.
+     *
+     * If the username exists and is determined to not already be of the 'admin' role, they will
+     * be promoted.
+     */
     public function promoteUser(): array
     {
         {
@@ -83,6 +125,18 @@ class ManageRolesController
         }
     }
 
+    /**
+     * This function is called from ajaxHandler() and will attempt to 'demote' the
+     * inputted username to 'user'.
+     *
+     * First, the submitted values have to be sanitized before a safe SQL-query can be made.
+     * The username is then fetched from the database using the sanitized value and a series
+     * of validation is performed such as checking if the username exists and if the username
+     * is already of the 'user' role or not.
+     *
+     * If the username exists and is determined to not already be of the 'user' role, they will
+     * be demoted.
+     */
     public function demoteUser(): array
     {
         {
@@ -101,6 +155,7 @@ class ManageRolesController
                     'message' => $e->getMessage()
                 ];
             }
+
             return $response;
         }
     }

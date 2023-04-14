@@ -5,6 +5,13 @@ require_once (BASE_PATH . '/public/scripts/ViewStatisticsControllerMiddleware.ph
 
 class ViewStatisticsController
 {
+    /**
+     * This class is not finished.
+     *
+     * It is only possible to see a graph showing the amount of registered users over
+     * each passing month. Work in progress, this class is far from being finalized.
+     *
+     */
     private mysqli $conn;
     private Session $sessionModel;
     private ViewStatistics $viewStatisticsModel;
@@ -15,7 +22,15 @@ class ViewStatisticsController
         $this->sessionModel = new Session($this->conn);
         $this->viewStatisticsModel = new ViewStatistics($this->conn);
     }
-    
+
+    /**
+     * This function handles the front controller request.
+     *
+     * Before allowing the rendition of the view, the session model's requireAdminRole()
+     * function is called, which will return either 'true' or 'false'. This will depend on
+     * what 'role' the 'user_id' has in the database. If true, the rendition of the
+     * page will commence. Otherwise, a redirect occurs.
+     */
     public function index(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
@@ -26,6 +41,14 @@ class ViewStatisticsController
         }
 
     }
+
+    /**
+     * This function handles the rendition of the view.
+     *
+     * If the request has been determined to by an 'admin', the view will render.
+     * The contents of title tag for this specific view is set here the controller, along with
+     * what stylesheets apply to this view in particular.
+     */
     public function renderIndexView(): void
     {
 
@@ -38,6 +61,14 @@ class ViewStatisticsController
         echo '<script src="/cinema/public/js/admin.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
+
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
+     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
     public function ajaxHandler(): void
     {
         header('Content-Type: application/json');

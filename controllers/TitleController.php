@@ -19,6 +19,14 @@ class TitleController
         $this->sessionModel = new Session($this->conn);
     }
 
+    /**
+     * @return void
+     *
+     * This function handles the front controller request.
+     *
+     * This function fetches data related to a specific movie with the given ID and renders a php template view.
+     *
+     */
     public function index(): void
     {
         $title_id = mysqli_real_escape_string($this->conn, $_GET['id']);
@@ -34,6 +42,13 @@ class TitleController
         }
     }
 
+    /**
+     * This function handles the rendition of the view.
+     *
+     * If the request has been determined to by an 'admin', the view will render.
+     * The contents of title tag for this specific view is set here the controller, along with
+     * what stylesheets apply to this view in particular.
+     */
     private function renderIndexView(): void
     {
         $title = $this->titleData['title'];
@@ -52,6 +67,13 @@ class TitleController
 
     }
 
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
+     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
     public function ajaxHandler(): void
     {
         $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
@@ -70,6 +92,15 @@ class TitleController
         echo json_encode($response);
     }
 
+    /**
+     * @return array|string[]
+     *
+     * This function adds a booking for a movie by a user and returns a success message if the booking was added
+     * successfully, and a failed message if not.
+     *
+     * Before a new database entry is created, a duplicate check is performed.
+     *
+     */
     public function addBooking(): array
     {
         try {

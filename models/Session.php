@@ -7,6 +7,13 @@ class Session {
     {
         $this->conn = $conn;
     }
+
+    /**
+     * @return array
+     *
+     * This function retrieves the IP address and country code of the client accessing the
+     * website by making requests to ipify and geoplugin APIs, and returns them as an array.
+     */
     public function getSessionData(): array
     {
         # TODO: Remove ipify if "$_SERVER['REMOTE_ADDR']" works for clients except server
@@ -177,6 +184,12 @@ class Session {
         return true;
     }
 
+    /**
+     * @return void
+     *
+     * This function updates the "last seen" field of the user in the database to the current date and time.
+     *
+     */
     public function updateLastSeen(): void
     {
         $stmt = $this->conn->prepare("UPDATE user SET last_seen = NOW() WHERE user_id = ?");
@@ -184,20 +197,32 @@ class Session {
         $stmt->execute();
     }
 
-    # Function for checking if current session id valid and is admin
+    /**
+     * @return bool
+     *
+     * This function checks if the user has the role of an admin and a valid session by querying
+     * the database for user, user_session and session tables and returns a boolean value based
+     * on the results.
+     *
+     */
     public function requireAdminRole(): bool
     {
         $currentPhpsessid = session_id();
         $user_id = $_SESSION['user_id'];
+
         $sql = "SELECT user.user_id, user.role, session.valid, session.phpsessid FROM `user`, `user_session`, `session` WHERE `user`.`user_id` = ? AND `session`.`phpsessid` = ? AND `user`.`user_id` = `user_session`.`user_id` AND `session`.`session_id` = `user_session`.`session_id`";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ss', $user_id, $currentPhpsessid);
+
         $stmt->execute();
+
         $result = $stmt->get_result();
+
         if ($result->num_rows == 1) {
             $row = $result->fetch_assoc();
             if ($row['role'] == 'admin' && $row['valid'] == 1) {
-                # Admin role is verified, proceed with further processing
+                # Admin role is verified
                 return true;
             } else {
                 # Admin role is not verified

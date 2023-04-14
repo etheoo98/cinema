@@ -9,6 +9,13 @@ class EditTitle
         $this->conn = $conn;
     }
 
+    /**
+     * @return array|null
+     *
+     * This function retrieves data for a specific movie based on its ID from the database, and returns an array of the
+     * movie's information if it is found, or null if it is not found.
+     *
+     */
     public function getTitleData(): ?array
     {
         $title_id = $_GET['id'];
@@ -27,6 +34,13 @@ class EditTitle
         return $result->fetch_assoc();
     }
 
+    /**
+     * @return array
+     *
+     * This function sanitizes user input by escaping special characters, and if certain files are uploaded, it
+     * generates sanitized filenames with unique IDs for those files. It then returns the sanitized input in an array.
+     *
+     */
     public function sanitizeInput(): array
     {
         $sanitizedInput = [];
@@ -55,6 +69,10 @@ class EditTitle
 
     /**
      * @throws Exception
+     *
+     * This function validates whether the uploaded images (poster, hero, logo) meet the allowed file types, and throws
+     * an exception if the file type is not allowed or the file upload failed.
+     *
      */
     public function validateImages(): void
     {
@@ -92,6 +110,17 @@ class EditTitle
     }
 
 
+    /**
+     * @param $sanitizedInput
+     * @return void
+     *
+     * This function updates the database record for a movie title with the provided sanitized input, but it checks
+     * whether there are new images to upload or not. If there are no new images, it prepares and executes an SQL query
+     * with the sanitized input to update the movie information. If there are new images, it needs to handle the upload
+     * of the new images and update the image file paths in the database accordingly, but that functionality is not yet
+     * implemented.
+     *
+     */
     public function updateTitle($sanitizedInput) {
         if (!isset($sanitizedInput['poster']) || !isset($sanitizedInput['hero']) || !isset($sanitizedInput['logo'])) {
             # SQL Query that excludes image upload
@@ -101,6 +130,7 @@ class EditTitle
             $stmt->execute();
         }
         else {
+            #TODO: Handle new image uploads
             $sql = '';
             echo 'yes image';
         }
