@@ -1,5 +1,5 @@
 <?php
-require_once(BASE_PATH . '/models/ViewStatistics.php');
+require_once(BASE_PATH . '/models/admin/ViewStatistics.php');
 require_once(BASE_PATH . '/models/Session.php');
 require_once (BASE_PATH . '/public/scripts/ViewStatisticsControllerMiddleware.php');
 
@@ -30,14 +30,15 @@ class ViewStatisticsController
      * function is called, which will return either 'true' or 'false'. This will depend on
      * what 'role' the 'user_id' has in the database. If true, the rendition of the
      * page will commence. Otherwise, a redirect occurs.
+     *
      */
-    public function index(): void
+    public function initializeView(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
         if ($sessionIsAdmin) {
-            $this->renderIndexView();
+            $this->renderView();
         } else {
-            header("LOCATION: http://localhost/cinema/sign-in");
+            header("LOCATION: /cinema/sign-in");
         }
 
     }
@@ -46,10 +47,10 @@ class ViewStatisticsController
      * This function handles the rendition of the view.
      *
      * If the request has been determined to by an 'admin', the view will render.
-     * The contents of title tag for this specific view is set here the controller, along with
+     * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
      */
-    public function renderIndexView(): void
+    public function renderView(): void
     {
 
         $title = "View Statistics";

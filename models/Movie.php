@@ -1,6 +1,6 @@
 <?php
 
-class Title
+class Movie
 {
     private mysqli $conn;
 
@@ -8,30 +8,30 @@ class Title
         $this->conn = $conn;
     }
 
-    public function getTitleData($title_id): false|array|null
+    public function getMovieData($movie_id): false|array|null
     {
 
         $stmt = $this->conn->prepare("SELECT * FROM poster, movie WHERE movie.movie_id = ? AND movie.movie_id = poster.movie_id AND showing=1");
-        $stmt->bind_param('i', $title_id);
+        $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
 
-    public function getRatingData($title_id): false|array|null
+    public function getRatingData($movie_id): false|array|null
     {
 
         $stmt = $this->conn->prepare("SELECT ROUND(AVG(rating), 1) AS avg_rating, COUNT(rating) AS count_rating FROM rating WHERE movie_id = ?");
-        $stmt->bind_param('i', $title_id);
+        $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
         return $result->fetch_assoc();
     }
-    public function getActorData($title_id): array
+    public function getActorData($movie_id): array
     {
 
         $stmt = $this->conn->prepare("SELECT full_name FROM actor, movie_actor WHERE movie_actor.movie_id = ? AND movie_actor.actor_id = actor.actor_id");
-        $stmt->bind_param('i', $title_id);
+        $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
         $actors = array(); // initialize empty array for results

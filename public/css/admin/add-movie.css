@@ -1,11 +1,4 @@
-/* {{{ index.php */
-main .container {
-    justify-content: flex-start;
-    flex-direction: column;
-    padding: 2em 1em;
-    max-width: 1060px;
-    margin: 0 auto;
-}
+/* {{{ ADD/EDIT-MOVIE */
 .admin-form {
     display: flex;
 }
@@ -14,107 +7,25 @@ main .container {
     flex-direction: column;
     max-width: 696px;
 }
-.error-message {
-    display: flex;
-    align-items: center;
-    margin-bottom: 16px;
-    visibility: hidden;
-}
-.error-icon {
-    width: 26px;
-    height: 26px;
-}
-.error-icon path {
-    fill: orange;
-}
-.error-message span {
-    margin-left: 8px;
-}
-.input-row {
-    display: flex;
-    margin-bottom: 16px;
-}
-.input-column {
-    width: 100%;
-}
 #title-column  {
     flex: 4;
 }
 #premiere-column {
     flex: 1;
 }
-.input-row > div:not(:first-child) {
+.input-row > .input-column:not(:first-child) {
     margin-left: 16px;
 }
 .add-movie-container input[type=text],
 .add-movie-container input[type=number]{
     width: 100%;
 }
-.add-movie-container .icon {
-    fill: var(--primary-white);
-    color: #ffffff;
-    height: 1em;
-    width: 1em;
-    border-radius: 50%;
-    vertical-align: -0.125em;
-    border: 1px solid;
-}
 #description {
     height: 200px;
     width: 100%;
 }
-/* Tooltip container */
-.tooltip {
-    position: relative;
-    display: inline-block;
-    border-bottom: 1px dotted black;
-}
-
-.tooltip .tooltiptext {
-    margin-top: 8px;
-    visibility: hidden;
-    width: 120px;
-    background-color: var(--primary-red);
-    font-size: 0.8em;
-    color: #fff;
-    text-align: center;
-    border-radius: 6px;
-    padding: 2px;
-
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-    top: 100%;
-    left: 50%;
-    margin-left: -60px;
-}
-.tooltip .tooltiptext::after {
-    content: "";
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    margin-left: -5px;
-    border-width: 5px;
-    border-style: solid;
-    border-color: transparent transparent var(--primary-red) transparent;
-}
-
-.tooltip:hover .tooltiptext {
-    visibility: visible;
-}
 .input-row:last-of-type {
     justify-content: flex-end;
-}
-.btn {
-    cursor: pointer;
-    height: 2.5rem;
-    border: none;
-    outline: none;
-    min-width: 200px;
-    border-radius: 6px;
-    color: #ffffff;
-    background-color: var(--primary-red);
-    font-family: "Shin-Go-Pro-B", sans-serif;
 }
 .admin-form-right {
     margin-left: 64px;
@@ -132,6 +43,9 @@ main .container {
     width: auto;
     height: auto;
     border-radius: 6px;
+}
+#subtitles, #screening {
+    flex-direction: column;
 }
 @media only screen and (max-width: 768px) {
     .btn {
@@ -151,58 +65,6 @@ main .container {
     #metadata-row .input-column {
         margin-left: 0;
     }
-}
-
-.movie-list-item {
-    font-size: 0.8em;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100px 300px 600px;
-    padding: 12px 0;
-    border-bottom: 2px solid var(--primary-gray);
-}
-.movie-list-item .poster {
-    width: 64px;
-}
-.movie-list-item .movie-list-title .icon {
-    height: 1em;
-}
-.movie-list-metadata {
-    display: grid;
-    grid-template-columns: repeat(3, 200px);
-}
-
-.movie-list-header {
-    width: 100%;
-    display: grid;
-    grid-template-columns: 100px 300px 200px 200px 200px;
-}
-.movie-list-item .icon {
-    height: 1.6em;
-    vertical-align: -0.125em;
-    margin-right: 10px;
-}
-.movie-list-item .icon path {
-    fill: var(--primary-white);
-    opacity: 0.75;
-}
-.movie-list-item a:hover .icon path {
-    fill: var(--primary-red);
-    opacity: 1;
-}
-.action-section {
-    visibility: hidden;
-    margin-top: auto;
-}
-.movie-list-title-container {
-    display: flex;
-    flex-direction: column;
-}
-.movie-list-title a {
-    color: var(--primary-white);
-}
-.movie-list-item:hover .action-section {
-    visibility: unset;
 }
 
 /* {{{ ADD ACTOR */
@@ -240,64 +102,4 @@ main .container {
 .plus-icon path {
     fill: var(--primary-white);
 }
-/* }}} */
-
-/* {{{ MANAGE ROLES */
-.page-info {
-    width: 100%;
-    padding-bottom: 2em;
-    text-align: center;
-}
-
-.page-title {
-    font-size: 1.5rem;
-}
-
-.page-desc {
-    margin-top: 8px;
-}
-.section-header {
-    border-bottom: #303030 2px solid;
-    padding-bottom: .5em;
-    margin-bottom: 2em;
-}
-
-#promote-form, #demote-form {
-    flex-direction: column;
-    margin-bottom: 2em;
-    max-width: 500px;
-}
-.input-label {
-    display: flex;
-    align-items: center;
-}
-.input-row input {
-    width: 100%;
-    border-radius: 6px;
-    border: 0 solid;
-}
-.input-row input:focus {
-    outline: 2px solid var(--secondary-red);
-}
-.form-button {
-    display: flex;
-    justify-content: flex-end;
-}
-.tooltip {
-    margin-left: 6px;
-    display: inline;
-    height: auto;
-    border-radius: 50%;
-    border: 2px solid;
-}
-.tooltip svg {
-    width: 16px;
-    height: 16px;
-    display: block;
-    margin: 2px;
-}
-.tooltip path {
-    fill: white;
-}
-
 /* }}} */

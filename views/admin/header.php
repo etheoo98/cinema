@@ -35,8 +35,8 @@ function filter_var1($str, $filter) {
     <input type="checkbox" id="nav-toggle" checked>
     <nav>
         <ul>
-            <li><a href="/cinema/admin/add-title">Add New Title</a></li>
-            <li><a href="/cinema/admin/browse-titles">Browse Titles</a></li>
+            <li><a href="/cinema/admin/add-movie">Add New Movie</a></li>
+            <li><a href="/cinema/admin/browse-movies">Browse Movies</a></li>
             <li><a href="/cinema/admin/manage-roles">Manage Roles</a></li>
             <li><a href="/cinema/admin/view-statistics">View Statistics</a></li>
             <li><a href="http://localhost/cinema">Leave This Plain</a></li>

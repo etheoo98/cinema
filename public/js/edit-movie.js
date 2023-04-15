@@ -1,5 +1,5 @@
 $(function() {
-    $('#page-content').on('submit', '#edit-title-form', function(e) {
+    $('#page-content').on('submit', '#edit-movie-form', function(e) {
         e.preventDefault();
         if ($(this).valid()) {
 

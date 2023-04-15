@@ -8,7 +8,7 @@ class Catalog
         $this->conn = $conn;
     }
 
-    public function getTitleData(): false|mysqli_result
+    public function getMovieData(): false|mysqli_result
     {
         $sql = "SELECT `poster`, `title`, `genre`, `age_limit`, `length`, `movie`.`movie_id` FROM `poster`, `movie` WHERE `showing`=1 AND `poster`.`movie_id` = `movie`.`movie_id` ORDER BY `movie`.`movie_id` DESC;";
         $stmt = $this->conn->prepare($sql);

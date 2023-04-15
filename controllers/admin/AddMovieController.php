@@ -1,20 +1,19 @@
 <?php
-require_once(BASE_PATH . '/models/EditTitle.php');
+require_once(BASE_PATH . '/models/admin/AddMovie.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/EditTitleControllerMiddleware.php');
+require_once(BASE_PATH . '/public/scripts/AddMovieControllerMiddleware.php');
 
-class EditTitleController
+class AddMovieController
 {
     private mysqli $conn;
     private Session $sessionModel;
-    private EditTitle $editTitleModel;
-    private ?array $titleData = null;
+    private AddMovie $addMovieModel;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
         $this->sessionModel = new Session($this->conn);
-        $this->editTitleModel = new EditTitle($this->conn);
+        $this->addMovieModel = new AddMovie($this->conn);
     }
 
     /**
@@ -25,39 +24,35 @@ class EditTitleController
      * what 'role' the 'user_id' has in the database. If true, the rendition of the
      * page will commence. Otherwise, a redirect occurs.
      *
-     * Before rendering the view, a call to the model EditTitle's getTitleData function is
-     * made in order to fetch all data associated with the ID in the URL.
      */
-    public function index(): void
+    public function initializeView(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
 
         if ($sessionIsAdmin) {
-            $this->titleData = $this->editTitleModel->getTitleData();
-            $this->renderIndexView();
+            $this->renderView();
         } else {
-            header("LOCATION: http://localhost/cinema/sign-in");
+            header("LOCATION: /cinema/sign-in");
         }
-
     }
 
     /**
      * This function handles the rendition of the view.
      *
      * If the request has been determined to by an 'admin', the view will render.
-     * The contents of title tag for this specific view is set here the controller, along with
+     * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
      */
-    public function renderIndexView(): void
+    public function renderView(): void
     {
 
-        $title = 'Edit Title - ' . $this->titleData['title'];
-        $css = ["admin/main.css", "admin/add-title.css"];
+        $title = "Add Movie";
+        $css = ["admin/main.css", "admin/add-movie.css"];
 
         require_once(BASE_PATH . '/views/admin/header.php');
-        require_once(BASE_PATH . '/views/admin/edit-title/index.php');
-        echo '<script src="/cinema/public/js/edit-title.js"></script>';
+        require_once(BASE_PATH . '/views/admin/add-movie/index.php');
         echo '<script src="/cinema/public/js/admin.js"></script>';
+        echo '<script src="/cinema/public/js/add-movie.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 
@@ -73,8 +68,8 @@ class EditTitleController
         $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
 
         switch ($action) {
-            case 'edit-title':
-                $response = $this->updateTitle();
+            case 'add-movie':
+                $response = $this->addMovie();
                 break;
             default:
                 $response = [
@@ -92,16 +87,35 @@ class EditTitleController
      * In order to determine whether the submitted form is valid, a series of validation
      * occurs in regard to the user input. First, the values entered by the user have to
      * be sanitized before a safe SQL-query can be made. Afterward, the uploaded images are
-     * looked over in order to verify that they are of an acceptable file type.
+     * looked over, to control that they are of an acceptable file type.
      *
-     * If no exception was thrown, an SQL-query will be performed that updates the movie data.
+     * If the input validation is passed, both the movie and its actors are fetched in order
+     * to determine duplicate entries. The actor names that are determined to not be stored
+     * in the database, are seperated from the actor names that were found, in order to create new
+     * entries of those interpreted as 'not found' actors.
+     *
+     * Finally, the new movie entry is created, and the actor ids are to be associated with the movie
+     * through a link-table. If no error occurred within any of the methods, a successful response
+     * will be sent back to the AJAX request.
      */
-    public function updateTitle(): array
+    public function addMovie(): array
     {
         try {
-            $sanitizedInput = $this->editTitleModel->sanitizeInput();
-            $this->editTitleModel->validateImages();
-            $this->editTitleModel->updateTitle($sanitizedInput);
+            $sanitizedInput = $this->addMovieModel->sanitizeInput();
+            $sanitizedActors = $this->addMovieModel->sanitizeActors();
+            $this->addMovieModel->validateImage();
+
+            $this->addMovieModel->movieLookup($sanitizedInput);
+            $actorsObject = $this->addMovieModel->actorLookup($sanitizedActors);
+
+            if (!empty($actorsObject['actorsNotFound'])) {
+                $this->addMovieModel->addNewActors($actorsObject);
+            }
+
+            $movie_id = $this->addMovieModel->addMovie($sanitizedInput);
+            $actorIDs = $this->addMovieModel->getActorID($actorsObject);
+            $this->addMovieModel->addActorsToMovie($movie_id, $actorIDs);
+
             $response = [
                 'status' => 'Success',
                 'message' => 'Movie Added Successfully.'
@@ -112,7 +126,6 @@ class EditTitleController
                 'message' => $e->getMessage()
             ];
         }
-
         return $response;
     }
 }

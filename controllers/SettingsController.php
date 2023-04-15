@@ -28,11 +28,11 @@ class SettingsController {
      *
      * @throws Exception
      */
-    public function index(): void
+    public function initializeView(): void
     {
         $this->sessionIsValid = $this->sessionModel->validateSession();
         $this->sessions = $this->settingsModel->getSessions();
-        $this->renderIndexView();
+        $this->renderView();
     }
     /**
      * Renders the settings index view.
@@ -41,7 +41,7 @@ class SettingsController {
      * If $this->sessionIsValid is true and $this->sessions is not NULL,
      * the catalog index view is rendered. Otherwise, an error page is rendered.
      */
-    private function renderIndexView(): void
+    private function renderView(): void
     {
         $title = "Settings";
         $css = ["main.css", 'settings.css'];

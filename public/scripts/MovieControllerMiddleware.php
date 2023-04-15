@@ -1,5 +1,4 @@
 <?php
-
 /**
  * This file acts as a middleware between the view and controller.
  *
@@ -8,9 +7,8 @@
  * method is made.
  *
  */
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) === 'xmlhttprequest') {
-    $controller = new AddTitleController($conn);
+    $controller = new MovieController($conn);
     $controller->ajaxHandler();
     die();
 }

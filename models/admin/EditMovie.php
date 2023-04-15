@@ -1,6 +1,6 @@
 <?php
 
-class EditTitle
+class EditMovie
 {
     private mysqli $conn;
 
@@ -16,13 +16,13 @@ class EditTitle
      * movie's information if it is found, or null if it is not found.
      *
      */
-    public function getTitleData(): ?array
+    public function getMovieData(): ?array
     {
-        $title_id = $_GET['id'];
+        $movie_id = $_GET['id'];
 
         $sql = "SELECT * FROM poster, movie WHERE movie.movie_id = ? AND poster.movie_id = movie.movie_id;";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param("i", $title_id);
+        $stmt->bind_param("i", $movie_id);
         $stmt->execute();
 
         $result = $stmt->get_result();
@@ -45,7 +45,7 @@ class EditTitle
     {
         $sanitizedInput = [];
         foreach ($_POST as $key => $value) {
-            $sanitizedInput[$key] = mysqli_real_escape_string($this->conn, $value);
+            $sanitizedInput[$key] = stripslashes(mysqli_real_escape_string($this->conn, $value));
         }
 
         if (isset($_FILES['poster']) && $_FILES['poster']['error'] === UPLOAD_ERR_OK
@@ -114,14 +114,15 @@ class EditTitle
      * @param $sanitizedInput
      * @return void
      *
-     * This function updates the database record for a movie title with the provided sanitized input, but it checks
+     * This function updates the database record for a movie with the provided sanitized input, but it checks
      * whether there are new images to upload or not. If there are no new images, it prepares and executes an SQL query
      * with the sanitized input to update the movie information. If there are new images, it needs to handle the upload
      * of the new images and update the image file paths in the database accordingly, but that functionality is not yet
      * implemented.
      *
      */
-    public function updateTitle($sanitizedInput) {
+    public function updateMovie($sanitizedInput): void
+    {
         if (!isset($sanitizedInput['poster']) || !isset($sanitizedInput['hero']) || !isset($sanitizedInput['logo'])) {
             # SQL Query that excludes image upload
             $sql = 'UPDATE `movie` SET `title` = ?, `description` = ?, `genre` = ?, `premiere` = ?, `age_limit` = ?, `language` = ?, `subtitles` = ?, `length` = ?, `showing` = ? WHERE `movie`.`movie_id` = ?;';

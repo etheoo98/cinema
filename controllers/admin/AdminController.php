@@ -1,5 +1,5 @@
 <?php
-require_once(BASE_PATH . '/models/Admin.php');
+require_once(BASE_PATH . '/models/admin/Admin.php');
 require_once(BASE_PATH . '/models/Session.php');
 require_once(BASE_PATH . '/public/scripts/AdminControllerMiddleware.php');
 
@@ -23,13 +23,14 @@ class AdminController
      * This method calls the requireAdminRole method of the Session model to verify that
      * the current user's role is Admin. It then calls the renderIndexView method to
      * render the index view.
+     *
      */
-    public function index(): void
+    public function initializeView(): void
     {
         # IMPORTANT: Admin role check
         $this->sessionIsAdmin = $this->sessionModel->requireAdminRole();
         if ($this->sessionIsAdmin) {
-            $this->renderIndexView();
+            $this->renderView();
         } else {
             header("LOCATION: /cinema/sign-in");
         }
@@ -42,7 +43,7 @@ class AdminController
      * If $isAdmin is true, the catalog index view is rendered. Otherwise,
      * the user is redirected.
      */
-    private function renderIndexView(): void
+    private function renderView(): void
     {
         $title = "Admin";
         $css = ["admin/main.css"];
@@ -50,7 +51,7 @@ class AdminController
         require_once(BASE_PATH . '/views/admin/header.php');
 
         echo '<script src="/cinema/public/js/admin.js"></script>';
-        echo '<script src="/cinema/public/js/add-title.js"></script>';
+        echo '<script src="/cinema/public/js/add-movie.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 }

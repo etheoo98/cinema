@@ -19,15 +19,15 @@ class SignInController {
         $this->signUpModel = new SignUp($this->conn);
     }
 
-    public function index(): void
+    public function initializeView(): void
     {
         if (isset($_SESSION['user_id'])) {
             header("LOCATION: /cinema/");
         }
-        $this->renderIndexView();
+        $this->renderView();
     }
 
-    private function renderIndexView(): void
+    private function renderView(): void
     {
         $title = "Sign In";
         $css = ["main.css", "sign-in.css"];

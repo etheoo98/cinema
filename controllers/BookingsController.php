@@ -30,12 +30,12 @@ class BookingsController
      *
      * @throws Exception
      */
-    public function index(): void
+    public function initializeView(): void
     {
         $this->sessionIsValid = $this->sessionModel->validateSession();
         $this->bookingsData = $this->bookingsModel->getBookingsData();
         $this->sessionModel->updateLastSeen();
-        $this->renderIndexView();
+        $this->renderView();
     }
 
     /**
@@ -49,7 +49,7 @@ class BookingsController
      * the sign-in page if their session is invalid, through session model's
      * validateSession method.
      */
-    private function renderIndexView(): void
+    private function renderView(): void
     {
         $title = "Bookings";
         $css = ["main.css", "catalog.css", "bookings.css"];

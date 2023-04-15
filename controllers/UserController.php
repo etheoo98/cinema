@@ -16,16 +16,16 @@ class UserController
         $this->userModel = new User($this->conn);
     }
 
-    public function index(): void
+    public function initializeView(): void
     {
         $this->sessionModel->updateLastSeen();
         $this->profile = $this->userModel->ProfileLookup();
         $this->userModel->GetUserData($this->profile);
         $this->profile['gravatar'] = $this->userModel->GetGravatar($this->profile);
 
-        $this->renderIndexView();
+        $this->renderView();
     }
-    private function renderIndexView(): void
+    private function renderView(): void
     {
         $title = $this->profile['username'];
         $css = ["main.css", "users.css"];

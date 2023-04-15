@@ -1,5 +1,5 @@
 <?php
-require_once(BASE_PATH . '/models/ManageRoles.php');
+require_once(BASE_PATH . '/models/admin/ManageRoles.php');
 require_once(BASE_PATH . '/models/Session.php');
 require_once (BASE_PATH . '/public/scripts/ManageRolesControllerMiddleware.php');
 
@@ -27,16 +27,17 @@ class ManageRolesController
      *
      * Before rendering the view, a call to the model ManageRoles' getCurrentAdmins function
      * is made in order to fetch usernames with the role of 'admin'.
+     *
      */
-    public function index(): void
+    public function initializeView(): void
     {
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
 
         if ($sessionIsAdmin) {
             $this->currentAdmins = $this->manageRolesModel->getCurrentAdmins();
-            $this->renderIndexView();
+            $this->renderView();
         } else {
-            header("LOCATION: http://localhost/cinema/sign-in");
+            header("LOCATION: /cinema/sign-in");
         }
 
     }
@@ -45,13 +46,13 @@ class ManageRolesController
      * This function handles the rendition of the view.
      *
      * If the request has been determined to by an 'admin', the view will render.
-     * The contents of title tag for this specific view is set here the controller, along with
+     * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
      */
-    public function renderIndexView(): void
+    public function renderView(): void
     {
 
-        $title = "Add Title";
+        $title = "Add Movie";
         $css = ["admin/main.css", "admin/manage-roles.css"];
 
         require_once(BASE_PATH . '/views/admin/header.php');

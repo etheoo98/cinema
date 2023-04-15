@@ -1,14 +1,18 @@
 RewriteEngine On
 
-# Rewrite title URLs with IDs to the appropriate controller
-RewriteRule ^title/(\d+)/?$ index.php?url=title&id=$1 [L,QSA]
+# Rewrite movie URLs with ID
+RewriteRule ^movie/(\d+)/?$ index.php?url=movie&id=$1 [L,QSA]
 
-# Rewrite admin/edit-title URLs with IDs to the appropriate controller
-RewriteRule ^admin/edit-title/(\d+)/?$ index.php?url=admin/edit-title&id=$1 [L,QSA]
+# Rewrite admin/edit-movie URLs with ID
+RewriteRule ^admin/edit-movie/(\d+)/?$ index.php?url=admin/edit-movie&id=$1 [L,QSA]
 
 RewriteRule ^admin/([\w-]+)/?$ index.php?url=admin/$1 [L,QSA]
 
-# Rewrite admin/edit-title URLs with IDs to the appropriate controller
+# Rewrite admin/edit-movie URLs with ID
 RewriteRule ^users/([\w-]+)/?$ index.php?url=users&id=$1 [L,QSA]
 
+# Rewrite for normal URLs
 RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?url=$1 [L,QSA]
+
+# Rewrite calls to /cinema as /cinema/home
+RewriteRule ^$ /cinema/home [L,R=301]

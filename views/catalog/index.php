@@ -5,12 +5,12 @@
     </div>
     <div class="container">
         <?php
-        while ($row = mysqli_fetch_array($this->titleData)) {
+        while ($row = mysqli_fetch_array($this->movieData)) {
             ?>
             <div class="movie-list-content">
-                <img class="poster" src="/cinema/public/img/title/poster/<?php echo $row["poster"] ?>" alt="Poster of <?php echo $row['title']?>"    >
+                <img class="poster" src="/cinema/public/img/movie/poster/<?php echo $row["poster"] ?>" alt="Poster of <?php echo $row['title']?>"    >
                 <div class="movie-list-desc">
-                    <a href="/cinema/title/<?php echo $row["movie_id"] ?>">
+                    <a href="/cinema/movie/<?php echo $row["movie_id"] ?>">
                         <h3 class="movie-list-title"><?php echo $row["title"] ?></h3>
                     </a>
                     <div class="movie-list-metadata">

@@ -1,6 +1,6 @@
 <?php
 
-class AddTitle
+class AddMovie
 {
     private mysqli $conn;
 
@@ -131,12 +131,13 @@ class AddTitle
     /**
      * @throws Exception
      *
-     * This function searches the movie database to check if a movie with the same title as
+     * This function searches the movie database to check if a movie with the same movie as
      * the sanitized input already exists. If it exists, it throws an exception with a message
-     * stating that a movie with that title already exists.
+     * stating that a movie with that movie already exists.
      *
      */
-    public function titleLookup($sanitizedInput) {
+    public function movieLookup($sanitizedInput): void
+    {
         $sql = "SELECT * FROM movie WHERE title=?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $sanitizedInput['title']);
@@ -189,14 +190,14 @@ class AddTitle
      * @param $sanitizedInput
      * @return int
      *
-     * This function is a method that adds a new movie title to the database. It starts by beginning a database
+     * This function is a method that adds a new movie to the database. It starts by beginning a database
      * transaction, and then executes multiple SQL queries using prepared statements to insert data into the 'movie'
      * and 'poster' tables. The function also moves uploaded image files to a specified directory on the server. If any
      * part of the process fails, a rollback is initiated and an error message is displayed. The function returns the ID
      * of the newly inserted movie or 0 if an error occurs.
      *
      */
-    public function addTitle($sanitizedInput): int
+    public function addMovie($sanitizedInput): int
     {
 
         $this->conn->begin_transaction();
@@ -205,7 +206,10 @@ class AddTitle
             $sql = "INSERT INTO `movie` (`movie_id`, `title`, `description`, `genre`, `premiere`, `age_limit`, `language`, `subtitles`, `length`, `showing`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('sssiisiii', $sanitizedInput['title'], $sanitizedInput['description'], $sanitizedInput['genre'], $sanitizedInput['premiere'], $sanitizedInput['age_limit'], $sanitizedInput['language'], $sanitizedInput['subtitles'], $sanitizedInput['length'], $sanitizedInput['screening']);
-            $stmt->execute();
+            if(!$stmt->execute()) {
+                throw new Exception("Failed to execute query insert into movie: " . $stmt->error);
+            }
+
             $movie_id = $this->conn->insert_id;
             $stmt->close();
 
@@ -213,10 +217,12 @@ class AddTitle
             $sql = "INSERT INTO `poster` (`poster_id`, `movie_id`, `poster`, `hero`, `logo`) VALUES (NULL, ?, ?, ?, ?);";
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('isss', $movie_id, $sanitizedInput['poster'], $sanitizedInput['hero'], $sanitizedInput['logo']);
-            $stmt->execute();
+            if(!$stmt->execute()) {
+                throw new Exception("Failed to execute query insert into poster: " . $stmt->error);
+            }
             $stmt->close();
 
-            $uploadDir = dirname(__DIR__) . '/public/img/title/';
+            $uploadDir = BASE_PATH . '/public/img/movie/';
 
             # Loop through each image input
             foreach (['poster', 'hero', 'logo'] as $name) {
@@ -233,7 +239,7 @@ class AddTitle
         } catch (Exception $e) {
             $this->conn->rollback();
             header("HTTP/1.0 400 Bad Request");
-            echo "Unable to add title to database: " . $e->getMessage();
+            echo "Unable to add movie to database: " . $e->getMessage();
             return 0;
         }
     }
@@ -294,7 +300,7 @@ class AddTitle
      * This function inserts the IDs of actors associated with a given movie ID into a junction table called movie_actor.
      *
      */
-    public function addActorsToTitle($movie_id, $actorIDs): void
+    public function addActorsToMovie($movie_id, $actorIDs): void
     {
         $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`) VALUES (NULL, ?, ?);';
         $stmt = $this->conn->prepare($sql);

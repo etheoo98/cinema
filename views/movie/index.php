@@ -1,24 +1,24 @@
 <main class="main">
     <header class="movie-header">
         <div class="hero-container">
-            <img class="movie-hero-image" src="../public/img/title/hero/<?php echo $this->titleData["hero"] ?>">
+            <img class="movie-hero-image" src="../public/img/movie/hero/<?php echo $this->movieData["hero"] ?>">
         </div>
         <div class="movie-main">
             <div class="container">
                 <div class="poster-container">
-                    <img class="poster" src="../public/img/title/poster/<?php echo $this->titleData["poster"] ?>" alt="Poster of <?php echo $this->titleData['title'] ?>">
+                    <img class="poster" src="../public/img/movie/poster/<?php echo $this->movieData["poster"] ?>" alt="Poster of <?php echo $this->movieData['title'] ?>">
                 </div>
                 <div class="movie-info">
-                    <h1 class="title"><?php echo $this->titleData["title"]; ?></h1>
+                    <h1 class="title"><?php echo $this->movieData["title"]; ?></h1>
                     <ul>
-                        <li><?php echo $this->titleData["genre"] ?></li>
-                        <li><?php echo (floor($this->titleData["length"] / 60)) ?>h <?php echo $this->titleData["length"] % 60 ?>min</li>
-                        <li>From <?php echo $this->titleData["age_limit"] ?> years</li>
+                        <li><?php echo $this->movieData["genre"] ?></li>
+                        <li><?php echo (floor($this->movieData["length"] / 60)) ?>h <?php echo $this->movieData["length"] % 60 ?>min</li>
+                        <li>From <?php echo $this->movieData["age_limit"] ?> years</li>
                     </ul>
                 </div>
                 <div class="book-container">
                     <form id="add-booking-form" data-action="add-booking">
-                        <input type="hidden" name="movie_id" value="<?php echo $this->titleData["movie_id"]; ?>">
+                        <input type="hidden" name="movie_id" value="<?php echo $this->movieData["movie_id"]; ?>">
                         <button type="submit" class="button">Book Ticket</button>
                     </form>
                 </div>
@@ -29,7 +29,7 @@
         <div class="container">
 
             <div class="movie-metadata">
-                <p class="movie-description"><?php echo $this->titleData["description"]; ?></p>
+                <p class="movie-description"><?php echo $this->movieData["description"]; ?></p>
             </div>
 
             <div class="movie-metadata">
@@ -57,7 +57,7 @@
 
             <div class="movie-metadata">
                 <h3>Language:</h3>
-                <p class="movie-description"><?php echo $this->titleData["language"]; ?></p>
+                <p class="movie-description"><?php echo $this->movieData["language"]; ?></p>
             </div>
 
             <div class="movie-metadata">
@@ -67,7 +67,7 @@
 
             <div class="movie-metadata">
                 <h3>Premiere:</h3>
-                <p class="movie-description"><?php echo $this->titleData["premiere"]; ?></p>
+                <p class="movie-description"><?php echo $this->movieData["premiere"]; ?></p>
             </div>
 
         </div>

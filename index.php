@@ -19,71 +19,71 @@ switch ($url_parts[0]) {
     case 'home':
         require_once('./controllers/HomeController.php');
         $controller = new HomeController();
-        $controller->index();
+        $controller->renderView();
         break;
     case 'sign-in':
         require_once('./controllers/SignInController.php');
         $controller = new SignInController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
     case 'sign-out':
         require_once('./controllers/SignOutController.php');
         $controller = new SignOutController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
     case 'catalog':
         require_once('./controllers/CatalogController.php');
         $controller = new CatalogController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
-    case 'title':
-        require_once('./controllers/TitleController.php');
-        $controller = new TitleController($conn);
-        $controller->index();
+    case 'movie':
+        require_once('./controllers/MovieController.php');
+        $controller = new MovieController($conn);
+        $controller->initializeView();
         break;
     case 'bookings':
         require_once('./controllers/BookingsController.php');
         $controller = new BookingsController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
     case 'users':
         require_once('./controllers/UserController.php');
         $controller = new UserController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
     case 'settings':
         require_once('./controllers/SettingsController.php');
         $controller = new SettingsController($conn);
-        $controller->index();
+        $controller->initializeView();
         break;
     case 'admin':
-        if (isset($url_parts[1]) && $url_parts[1] == 'edit-title') {
-            require_once('./controllers/admin/EditTitleController.php');
-            $controller = new EditTitleController($conn);
-            $controller->index();
-        } elseif (isset($url_parts[1]) && $url_parts[1] == 'add-title') {
-            require_once('./controllers/admin/AddTitleController.php');
-            $controller = new AddTitleController($conn);
-            $controller->index();
-        } elseif (isset($url_parts[1]) && $url_parts[1] == 'browse-titles') {
-            require_once('./controllers/admin/BrowseTitlesController.php');
-            $controller = new BrowseTitlesController($conn);
-            $controller->index();
+        if (isset($url_parts[1]) && $url_parts[1] == 'edit-movie') {
+            require_once('./controllers/admin/EditMovieController.php');
+            $controller = new EditMovieController($conn);
+            $controller->initializeView();
+        } elseif (isset($url_parts[1]) && $url_parts[1] == 'add-movie') {
+            require_once('./controllers/admin/AddMovieController.php');
+            $controller = new AddMovieController($conn);
+            $controller->initializeView();
+        } elseif (isset($url_parts[1]) && $url_parts[1] == 'browse-movies') {
+            require_once('./controllers/admin/BrowseMoviesController.php');
+            $controller = new BrowseMoviesController($conn);
+            $controller->initializeView();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'manage-roles') {
             require_once('./controllers/admin/ManageRolesController.php');
             $controller = new ManageRolesController($conn);
-            $controller->index();
+            $controller->initializeView();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'view-statistics') {
             require_once('./controllers/admin/ViewStatisticsController.php');
             $controller = new ViewStatisticsController($conn);
-            $controller->index();
+            $controller->initializeView();
         }
         else {
             require_once('./controllers/admin/AdminController.php');
             $controller = new AdminController($conn);
-            $controller->index();
+            $controller->initializeView();
         }
         break;
     default:

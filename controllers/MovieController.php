@@ -1,21 +1,21 @@
 <?php
-require_once (BASE_PATH . '/models/Title.php');
+require_once(BASE_PATH . '/models/Movie.php');
 require_once (BASE_PATH . '/models/Session.php');
-require_once (BASE_PATH . '/public/scripts/TitleControllerMiddleware.php');
+require_once(BASE_PATH . '/public/scripts/MovieControllerMiddleware.php');
 
-class TitleController
+class MovieController
 {
     private mysqli $conn;
-    private Title $titleModel;
+    private Movie $movieModel;
     private Session $sessionModel;
-    private ?array $titleData = null;
+    private ?array $movieData = null;
     private ?array $ratingData = null;
     private ?array $actorData = null;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
-        $this->titleModel = new Title($this->conn);
+        $this->movieModel = new Movie($this->conn);
         $this->sessionModel = new Session($this->conn);
     }
 
@@ -27,18 +27,18 @@ class TitleController
      * This function fetches data related to a specific movie with the given ID and renders a php template view.
      *
      */
-    public function index(): void
+    public function initializeView(): void
     {
-        $title_id = mysqli_real_escape_string($this->conn, $_GET['id']);
+        $movie_id = mysqli_real_escape_string($this->conn, $_GET['id']);
 
-        if ($title_id) {
+        if ($movie_id) {
             $this->sessionModel->updateLastSeen();
 
-            $this->titleData = $this->titleModel->getTitleData($title_id);
-            $this->ratingData = $this->titleModel->getRatingData($title_id);
-            $this->actorData = $this->titleModel->getActorData($title_id);
+            $this->movieData = $this->movieModel->getMovieData($movie_id);
+            $this->ratingData = $this->movieModel->getRatingData($movie_id);
+            $this->actorData = $this->movieModel->getActorData($movie_id);
 
-            $this->renderIndexView();
+            $this->renderView();
         }
     }
 
@@ -46,18 +46,18 @@ class TitleController
      * This function handles the rendition of the view.
      *
      * If the request has been determined to by an 'admin', the view will render.
-     * The contents of title tag for this specific view is set here the controller, along with
+     * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
      */
-    private function renderIndexView(): void
+    private function renderView(): void
     {
-        $title = $this->titleData['title'];
-        $css = ["main.css", "title.css"];
+        $title = $this->movieData['title'];
+        $css = ["main.css", "movie.css"];
 
         require_once(BASE_PATH . '/views/shared/header.php');
 
-        if(isset($this->titleData) && isset($this->ratingData) && isset($this->actorData)) {
-            require_once(BASE_PATH . '/views/title/index.php');
+        if(isset($this->movieData) && isset($this->ratingData) && isset($this->actorData)) {
+            require_once(BASE_PATH . '/views/movie/index.php');
         }
         else {
             require_once(BASE_PATH . '/views/shared/error.php');
@@ -106,8 +106,8 @@ class TitleController
         try {
             $user_id = $_SESSION["user_id"];
             $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
-            $this->titleModel->duplicateCheck($user_id, $movie_id);
-            $this->titleModel->addBooking($user_id, $movie_id);
+            $this->movieModel->duplicateCheck($user_id, $movie_id);
+            $this->movieModel->addBooking($user_id, $movie_id);
             $response = [
                 'status' => 'Success',
                 'message' => 'Booking Successfully Added.'

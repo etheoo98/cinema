@@ -1,6 +1,6 @@
 <?php
 
-class BrowseTitles {
+class BrowseMovies {
     private mysqli $conn;
 
     public function __construct($conn)
@@ -15,7 +15,7 @@ class BrowseTitles {
      * the movie ID in descending order, and returns a false value or a mysqli_result object representing the result set.
      *
      */
-    public function getTitleData(): false|mysqli_result
+    public function getMovieData(): false|mysqli_result
     {
         $sql = "SELECT `movie`.`movie_id`, `poster`, `title`, `genre`, `age_limit`, `length`, `showing` FROM `poster`, `movie` WHERE `poster`.`movie_id` = `movie`.`movie_id` ORDER BY `movie`.`movie_id` DESC;";
         $stmt = $this->conn->prepare($sql);
