@@ -174,7 +174,7 @@ input:focus, textarea:focus {
     fill: var(--primary-white);
 }
 
-.tooltip .tooltiptext {
+.tooltip .tooltip-text {
     margin-top: 8px;
     visibility: hidden;
     width: 120px;
@@ -192,7 +192,7 @@ input:focus, textarea:focus {
     left: 50%;
     margin-left: -60px;
 }
-.tooltip .tooltiptext::after {
+.tooltip .tooltip-text::after {
     content: "";
     position: absolute;
     bottom: 100%;
@@ -203,7 +203,7 @@ input:focus, textarea:focus {
     border-color: transparent transparent var(--primary-red) transparent;
 }
 
-.tooltip:hover .tooltiptext {
+.tooltip:hover .tooltip-text {
     visibility: visible;
 }
 

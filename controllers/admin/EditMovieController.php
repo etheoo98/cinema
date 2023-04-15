@@ -65,25 +65,21 @@ class EditMovieController
     /**
      * This function handles incoming AJAX requests.
      *
-     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
-     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * The AJAX request must include a 'action' to be taken. The action is handled through a match
+     * expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
      */
     public function ajaxHandler(): void
     {
-        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+        $action = $_POST['action'] ?? null;
 
-        switch ($action) {
-            case 'edit-movie':
-                $response = $this->updateMovie();
-                break;
-            default:
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Invalid action'
-                ];
-                break;
-        }
+        $response = match ($action) {
+            'edit-movie' => $this->updateMovie(),
+            default => [
+                'status' => 'error',
+                'message' => 'Invalid action'
+            ],
+        };
         echo json_encode($response);
     }
 

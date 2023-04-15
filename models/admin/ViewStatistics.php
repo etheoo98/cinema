@@ -12,7 +12,8 @@
      *
      * This function selects the registration date of all users and returns the mysqli_result object.
      */
-    public function getTotalUsers() {
+    public function getTotalUsers(): mixed
+    {
         $sql = 'SELECT DATE(`date_of_registration`) as `registration_date` FROM `user`;';
 
         $stmt = $this->conn->prepare($sql);

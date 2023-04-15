@@ -8,7 +8,6 @@ class AdminController
     private mysqli $conn;
     private Session $sessionModel;
     private Admin $adminModel;
-    private bool $sessionIsAdmin;
 
     public function __construct($conn)
     {
@@ -28,8 +27,8 @@ class AdminController
     public function initializeView(): void
     {
         # IMPORTANT: Admin role check
-        $this->sessionIsAdmin = $this->sessionModel->requireAdminRole();
-        if ($this->sessionIsAdmin) {
+        $sessionIsAdmin = $this->sessionModel->requireAdminRole();
+        if ($sessionIsAdmin) {
             $this->renderView();
         } else {
             header("LOCATION: /cinema/sign-in");

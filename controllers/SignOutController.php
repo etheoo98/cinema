@@ -9,7 +9,7 @@ class SignOutController {
         $this->conn = $conn;
     }
 
-    #[NoReturn] public function index(): void
+    #[NoReturn] public function initializeView(): void
     {
         # TODO: Include view, maybe.
         echo "Please wait...";

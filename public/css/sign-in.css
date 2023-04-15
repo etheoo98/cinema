@@ -1,6 +1,6 @@
 main {
-    background-image: url('/cinema/public/img/cinema.jpg');
-    background-repeat: no-repeat;
+    background-image: url('/cinema/public/img/background.webp');
+
     background-size: cover;
 }
 main .container {

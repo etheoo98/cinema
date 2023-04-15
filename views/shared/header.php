@@ -49,7 +49,7 @@ if (isset($_SESSION['user_id'])) {
                             <a href="/cinema/sign-in">Sign in/up</a>
                         </div>
                 <?php } else { ?>
-                <!-- Inloggad html -->
+
                     <div class="signed-in">
                         <div class="dropdown">
                             <label for="dropdown-toggle">

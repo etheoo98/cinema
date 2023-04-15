@@ -42,6 +42,7 @@ class AddMovieController
      * If the request has been determined to by an 'admin', the view will render.
      * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
+     *
      */
     public function renderView(): void
     {
@@ -59,25 +60,21 @@ class AddMovieController
     /**
      * This function handles incoming AJAX requests.
      *
-     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
-     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * The AJAX request must include a 'action' to be taken. The action is handled through a match
+     * expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
      */
     public function ajaxHandler(): void
     {
         $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
 
-        switch ($action) {
-            case 'add-movie':
-                $response = $this->addMovie();
-                break;
-            default:
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Invalid action'
-                ];
-                break;
-        }
+        $response = match ($action) {
+            'add-movie' => $this->addMovie(),
+            default => [
+                'status' => 'error',
+                'message' => 'Invalid action'
+            ],
+        };
         echo json_encode($response);
     }
 

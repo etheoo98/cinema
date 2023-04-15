@@ -1,4 +1,5 @@
 <?php
+global $conn;
 
 /**
  * This file acts as a middleware between the view and controller.

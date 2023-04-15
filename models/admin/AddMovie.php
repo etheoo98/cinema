@@ -118,11 +118,11 @@ class AddMovie
 
                 if (!in_array($file_type, $types)) {
                     # File type is not allowed
-                    throw new Exception("File type for '{$name}' is not allowed.");
+                    throw new Exception("File type for '$name' is not allowed.");
                 }
             } else {
                 # File upload failed
-                throw new Exception("Failed to upload '{$name}'");
+                throw new Exception("Failed to upload '$name'");
             }
         }
     }

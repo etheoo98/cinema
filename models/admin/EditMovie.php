@@ -94,11 +94,11 @@ class EditMovie
 
                     if (!in_array($file_type, $types)) {
                         # File type is not allowed
-                        throw new Exception("The file type for '{$name}' is not allowed. See tooltip for more information.");
+                        throw new Exception("The file type for '$name' is not allowed. See tooltip for more information.");
                     }
                 } else {
                     # File upload failed
-                    throw new Exception("Failed to upload '{$name}'");
+                    throw new Exception("Failed to upload '$name'");
                 }
             }
 

@@ -19,6 +19,14 @@ class SignInController {
         $this->signUpModel = new SignUp($this->conn);
     }
 
+    /**
+     * This function handles the front controller request.
+     *
+     * Before allowing the rendition of the view, a check is made to determine whether the user is already signed-in.
+     * If a 'user_id' is set in the $_SESSION super global variable, they will be redirected to the landing page.
+     * If it is determined that the user is not signed in, the view will render.
+     *
+     */
     public function initializeView(): void
     {
         if (isset($_SESSION['user_id'])) {
@@ -27,22 +35,36 @@ class SignInController {
         $this->renderView();
     }
 
+    /**
+     * This function handles the rendition of the view.
+     *
+     * If the request has been determined to have been made by a not already signed-in user, the view will render.
+     * The contents of the title tag for this specific view is set here the controller, along with
+     * what stylesheets apply to this view in particular.
+     *
+     */
     private function renderView(): void
     {
-        $title = "Sign In";
+        $title = "Sign-In/Up";
         $css = ["main.css", "sign-in.css"];
 
         require_once (BASE_PATH . '/views/shared/header.php');
-
         require_once (BASE_PATH . '/views/sign-in/index.php');
-
         echo '<script src="/cinema/public/js/sign-in.js"></script>';
-
         require_once (BASE_PATH . '/views/shared/small-footer.php');
     }
+
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
+     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     *
+     */
     public function ajaxHandler(): void
     {
-        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+        $action = $_POST['action'] ?? null;
 
         switch ($action) {
             case 'sign-in':

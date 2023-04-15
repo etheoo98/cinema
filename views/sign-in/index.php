@@ -9,12 +9,12 @@
                  <h2>Sign in to existing account</h2>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                     <input type="text" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                     <input type="text" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
                      <label for="email">Email</label>
                  </div>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                     <input type="password" name="password">
+                     <input type="password" required name="password">
                      <label for="password">Password</label>
                  </div>
                  <div class="error-message"><i class="fa-solid fa-triangle-exclamation"></i><span>Error Message</span></div>
@@ -29,21 +29,21 @@
                  <h2>Become our latest member</h2>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                     <input type="text" name="email" required title="Your email address.">
+                     <input id="email" type="text" name="email" required title="Your email address.">
                      <label for="email">Email</label>
                  </div>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-user"></i></span>
-                     <input type="text" name="username" required pattern="[a-zA-Z0-9]+" title="Desired username. Only uppercase, lowercase and numbers allowed.">
+                     <input id="username" type="text" name="username" required pattern="[a-zA-Z0-9]+" title="Desired username. Only uppercase, lowercase and numbers allowed.">
                      <label for="username">Username</label>
                  </div>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                     <input type="password" name="password" required title="Please enter a unique password.">
+                     <input id="password" type="password" name="password" required title="Please enter a unique password.">
                      <label for="password">Password</label>
                  </div>
                  <div class="input-box">
-                     <input type="password" name="_password" required title="Enter your password again. Be sure to remember it.">
+                     <input id="retype-password" type="password" name="_password" required title="Enter your password again. Make sure you remember it.">
                      <label for="retype-password">Retype Password</label>
                  </div>
                  <div class="error-message"><i class="fa-solid fa-triangle-exclamation"></i><span>Error Message</span></div>

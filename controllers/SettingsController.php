@@ -58,34 +58,34 @@ class SettingsController {
         require_once (BASE_PATH . '/views/shared/footer.php');
     }
 
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a match
+     * expression. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     *
+     */
     public function ajaxHandler(): void
     {
-        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+        $action = $_POST['action'] ?? null;
 
-        switch ($action) {
-            case 'update-email':
-                $response = $this->updateEmail();
-                break;
-            case 'update-password':
-                $response = $this->updatePassword();
-                break;
-            case 'terminate-session':
-                $response = $this->terminateSession();
-                break;
-            default:
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Invalid action'
-                ];
-                break;
-        }
+        $response = match ($action) {
+            'change-email' => $this->changeEmail(),
+            'change-password' => $this->changePassword(),
+            'terminate-session' => $this->terminateSession(),
+            default => [
+                'status' => 'error',
+                'message' => 'Invalid action'
+            ],
+        };
         echo json_encode($response);
     }
 
     /**
      * @throws Exception
      */
-    public function updateEmail(): array
+    public function changeEmail(): array
     {
         try {
             $email = $this->settingsModel->emailLookup();
@@ -104,8 +104,22 @@ class SettingsController {
         return $response;
     }
 
-    public function updatePassword() {
+    public function changePassword(): array
+    {
+        try {
+            $this->settingsModel->verifyOldPassword();
 
+            $response = [
+                'status' => 'Success',
+                'message' => 'Password successfully changed.'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $response;
     }
 
     /**

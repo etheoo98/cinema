@@ -65,28 +65,22 @@ class ManageRolesController
     /**
      * This function handles incoming AJAX requests.
      *
-     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
-     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * The AJAX request must include a 'action' to be taken. The action is handled through a match
+     * expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
      */
     public function ajaxHandler(): void
     {
-        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+        $action = $_POST['action'] ?? null;
 
-        switch ($action) {
-            case 'promote-user':
-                $response = $this->promoteUser();
-                break;
-            case 'demote-user':
-                $response = $this->demoteUser();
-                break;
-            default:
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Invalid action'
-                ];
-                break;
-        }
+        $response = match ($action) {
+            'promote-user' => $this->promoteUser(),
+            'demote-user' => $this->demoteUser(),
+            default => [
+                'status' => 'error',
+                'message' => 'Invalid action'
+            ],
+        };
 
         echo json_encode($response);
     }

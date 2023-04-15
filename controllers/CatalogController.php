@@ -23,6 +23,7 @@ class CatalogController
      * current user's last seen time. It then retrieves the movie data using the
      * catalogModel's getMovieData method and assigns it to $this->movieData. Finally,
      * the renderIndexView method is called to render the index view.
+     *
      */
     public function initializeView(): void
     {

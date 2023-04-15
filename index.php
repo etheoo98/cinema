@@ -19,7 +19,7 @@ switch ($url_parts[0]) {
     case 'home':
         require_once('./controllers/HomeController.php');
         $controller = new HomeController();
-        $controller->renderView();
+        $controller->initializeView();
         break;
     case 'sign-in':
         require_once('./controllers/SignInController.php');
@@ -30,7 +30,6 @@ switch ($url_parts[0]) {
         require_once('./controllers/SignOutController.php');
         $controller = new SignOutController($conn);
         $controller->initializeView();
-        break;
     case 'catalog':
         require_once('./controllers/CatalogController.php');
         $controller = new CatalogController($conn);
@@ -60,31 +59,26 @@ switch ($url_parts[0]) {
         if (isset($url_parts[1]) && $url_parts[1] == 'edit-movie') {
             require_once('./controllers/admin/EditMovieController.php');
             $controller = new EditMovieController($conn);
-            $controller->initializeView();
         } elseif (isset($url_parts[1]) && $url_parts[1] == 'add-movie') {
             require_once('./controllers/admin/AddMovieController.php');
             $controller = new AddMovieController($conn);
-            $controller->initializeView();
         } elseif (isset($url_parts[1]) && $url_parts[1] == 'browse-movies') {
             require_once('./controllers/admin/BrowseMoviesController.php');
             $controller = new BrowseMoviesController($conn);
-            $controller->initializeView();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'manage-roles') {
             require_once('./controllers/admin/ManageRolesController.php');
             $controller = new ManageRolesController($conn);
-            $controller->initializeView();
         }
         elseif (isset($url_parts[1]) && $url_parts[1] == 'view-statistics') {
             require_once('./controllers/admin/ViewStatisticsController.php');
             $controller = new ViewStatisticsController($conn);
-            $controller->initializeView();
         }
         else {
             require_once('./controllers/admin/AdminController.php');
             $controller = new AdminController($conn);
-            $controller->initializeView();
         }
+        $controller->initializeView();
         break;
     default:
         header('HTTP/1.1 404 Not Found');

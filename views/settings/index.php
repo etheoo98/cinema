@@ -26,7 +26,7 @@
         <div class="settings">
             <div class="section">
                 <h2 class="section-header">Change Email</h2>
-                <form class="account-details" id="update-email-form" method="POST" data-action="update-email">
+                <form class="account-details" id="update-email-form" method="POST" data-action="change-email">
                     <label for="new-email">Enter New Email</label>
                     <input id="new-email" name="new-email" placeholder="<?php echo $_SESSION['email'] ?>" title="Email address that will be used to log in" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required>
                     <div class="form-button">
@@ -36,7 +36,7 @@
             </div>
             <div class="section">
                 <h2 class="section-header">Change Password</h2>
-                <form class="account-details" data-action="update-password">
+                <form class="account-details" data-action="change-password">
                     <label for="current-password">Enter Old Password:</label>
                     <input id="current-password" name="current-password" type="password">
                     <label for="new-password">Enter New Password:</label>

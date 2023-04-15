@@ -68,31 +68,23 @@ class BookingsController
     /**
      * This function handles incoming AJAX requests.
      *
-     * The AJAX request must include a 'action' to be taken. The action is handled through a Switch
-     * Statement. On valid action, an appropriate method call is made. The response is finally encoded as
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Match
+     * Expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
      */
     public function ajaxHandler(): void
     {
-        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
+        $action = $_POST['action'] ?? null;
 
-        switch ($action) {
-            case 'remove-booking':
-                $response = $this->removeBooking();
-                break;
-            case 'get-rating':
-                $response = $this->ratingData();
-                break;
-            case 'rate':
-                $response = $this->rateMovie();
-                break;
-            default:
-                $response = [
-                    'status' => 'error',
-                    'message' => 'Invalid action'
-                ];
-                break;
-        }
+        $response = match ($action) {
+            'remove-booking' => $this->removeBooking(),
+            'get-rating' => $this->ratingData(),
+            'rate' => $this->rateMovie(),
+            default => [
+                'status' => 'error',
+                'message' => 'Invalid action'
+            ],
+        };
         echo json_encode($response);
     }
 
@@ -127,6 +119,7 @@ class BookingsController
      * @throws Exception
      *
      * This function is called from ajaxHandler() and will attempt to return the requested rating data.
+     *
      */
     public function ratingData(): array
     {

@@ -10,21 +10,32 @@ class SignIn
         $this->conn = $conn;
     }
 
-    public function sanitizeInput()
+    /**
+     * @throws Exception
+     */
+    public function sanitizeInput(): array
     {
-        if (!empty($_POST['email']) && !empty($_POST['password'])) {
-            $email = mysqli_real_escape_string($this->conn, $_POST['email']);
-            $password = mysqli_real_escape_string($this->conn, $_POST['password']);
+        # Look for missing input fields
+        $requiredFields = array('email', 'password');
+        $missingFields = array();
 
-            return array(
-                'email' => $email,
-                'password' => $password
-            );
-        } elseif (empty($_POST['email']) || empty($_POST['password'])) {
-            echo '<script type="text/javascript">EmptyFields();</script>';
-            exit();
+        foreach ($requiredFields as $field) {
+            if (empty($_POST[$field])) {
+                $missingFields[] = $field;
+            }
         }
-        return null;
+
+        if (count($missingFields) > 0) {
+            $missingFieldsStr = implode(', ', $missingFields);
+            throw new Exception("Missing fields: $missingFieldsStr");
+        }
+
+        # Sanitize user input
+        $sanitizedInput = array();
+        foreach ($_POST as $key => $value) {
+            $sanitizedInput[$key] = mysqli_real_escape_string($this->conn, $value);
+        }
+        return $sanitizedInput;
     }
 
     /**
@@ -32,31 +43,31 @@ class SignIn
      */
     public function signIn($sanitizedInput): void
     {
-        $sql = "SELECT user_id, email, username, salt, password FROM user WHERE email=?";
+        $sql = "SELECT user_id, email, username, password FROM user WHERE email=?";
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $sanitizedInput['email']);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        if ($result->num_rows === 1) {
-            $user = $result->fetch_assoc();
-
-            # Concatenate the salt with the entered password
-            $entered_password_with_salt = $user['salt'] . $sanitizedInput['password'];
-
-            # Verify the password hash
-            # TODO: $sanitizedInput['password'] and $user['password'] naming may be confusing.
-            # Alter user table to password->password_hash & salt->password_salt
-            if (password_verify($entered_password_with_salt, $user['password'])) {
-                $_SESSION['user_id'] = $user['user_id'];
-                $_SESSION['email'] = $user['email'];
-                $_SESSION['username'] = $user['username'];
-            }
-            else {
-                # TODO: Error handling
-                throw new Exception('Invalid credentials.');
-            }
-        } else {
-            throw new Exception('Invalid credentials.');
+        if (!$stmt->execute()) {
+            throw new Exception("Server failed");
         }
+
+        $result = $stmt->get_result();
+        $user = $result->fetch_assoc();
+
+        # Verify the password hash
+        if (!$user || !password_verify($sanitizedInput['password'] . "nuv`nHhPj7Cx&@Z#&@Jxi5xZnHRTkVL%", $user['password'])) {
+            # Invalid credentials
+            throw new Exception("Invalid credentials!");
+        }
+
+        # Password is valid, set session variables
+        $_SESSION['user_id'] = $user['user_id'];
+        $_SESSION['email'] = $user['email'];
+        $_SESSION['username'] = $user['username'];
+
+        # Update the user's last seen timestamp
+        $sql = "UPDATE user SET last_seen = now() WHERE user_id = ?";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $user['id']);
+        $stmt->execute();
     }
 }

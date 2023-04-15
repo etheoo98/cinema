@@ -90,28 +90,27 @@ class SignUp
 
     public function passwordEncryption($sanitizedInput)
     {
-        # Generate a random salt
-        $salt = bin2hex(random_bytes(16)); # 16 bytes = 128 bits
+        $password = $sanitizedInput['password'];
+        $pepper = "nuv`nHhPj7Cx&@Z#&@Jxi5xZnHRTkVL%";
 
-        # Concatenate the salt with the password and hash it
-        $hashed_password = password_hash($salt . $sanitizedInput['password'], PASSWORD_DEFAULT);
+        $password .= $pepper;
 
-        # Remove the original password from the input array
+        # Hash the password with a random salt
+        $sanitizedInput['password_hash'] = password_hash($password, PASSWORD_BCRYPT, ['cost' => 12]);
+
+        # Remove the original password
         unset($sanitizedInput['password']);
         unset($sanitizedInput['_password']);
-
-        # Store the salt and hashed password in the input array
-        $sanitizedInput['password_salt'] = $salt;
-        $sanitizedInput['password_hash'] = $hashed_password;
+        unset ($password);
 
         return $sanitizedInput;
     }
 
     public function addUser($sanitizedInput): void
     {
-        $sql = "INSERT INTO user (role, email, username, salt, password, date_of_registration, last_seen) VALUES ('user', ?, ?, ?, ?, now(), now())";
+        $sql = "INSERT INTO user (role, email, username, password, date_of_registration, last_seen) VALUES ('user', ?, ?, ?, now(), now())";
         $stmt = $this->conn->prepare($sql);
-        $stmt->bind_param('ssss', $sanitizedInput['email'], $sanitizedInput['username'], $sanitizedInput['password_salt'], $sanitizedInput['password_hash']);
+        $stmt->bind_param('sss', $sanitizedInput['email'], $sanitizedInput['username'], $sanitizedInput['password_hash']);
 
         if ($stmt->execute()) {
             $user_id = mysqli_insert_id($this->conn);

@@ -48,6 +48,18 @@ class Settings {
             throw new Exception('Invalid email format.');
         }
     }
+
+    public function verifyOldPassword() {
+
+    }
+
+    public function setNewPassword() {
+
+    }
+
+    /**
+     * @throws Exception
+     */
     public function getSessions(): array
     {
         $user_id = $_SESSION['user_id'];
