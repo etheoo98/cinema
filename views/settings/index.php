@@ -26,17 +26,17 @@
         <div class="settings">
             <div class="section">
                 <h2 class="section-header">Change Email</h2>
-                <form class="account-details" method="POST">
+                <form class="account-details" id="update-email-form" method="POST" data-action="update-email">
                     <label for="new-email">Enter New Email</label>
                     <input id="new-email" name="new-email" placeholder="<?php echo $_SESSION['email'] ?>" title="Email address that will be used to log in" pattern="[a-zA-Z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}" required>
                     <div class="form-button">
-                        <button class="button" name="change-email">Change Email</button>
+                        <button type="submit" class="button" name="change-email">Change Email</button>
                     </div>
                 </form>
             </div>
             <div class="section">
                 <h2 class="section-header">Change Password</h2>
-                <form class="account-details">
+                <form class="account-details" data-action="update-password">
                     <label for="current-password">Enter Old Password:</label>
                     <input id="current-password" name="current-password" type="password">
                     <label for="new-password">Enter New Password:</label>
@@ -46,7 +46,7 @@
                         <input id="retype-new-password" name="retype-new-password" type="password">
                     </div>
                     <div class="form-button">
-                        <button>Change Password</button>
+                        <button class="button">Change Password</button>
                     </div>
                 </form>
             </div>
@@ -55,7 +55,7 @@
         <button type="button" class="collapsible">Sessions</button>
         <div class="settings">
             <div class="section">
-                <form class="sessions" method="POST">
+                <form class="sessions" id="terminate-session-form" method="POST" data-action="terminate-session">
                     <div class="grid-container">
                         <div class="grid-item"><input type="checkbox" onClick="toggle(this)"></div>
                         <div class="grid-item">Signed In</div>
@@ -79,9 +79,6 @@
                 </form>
             </div>
         </div>
-
     </div>
 </main>
 <script src="./public/js/settings.js"></script>
-<script src="./public/js/check-all.js"></script>
-<script src="./public/js/redirect.js"></script>

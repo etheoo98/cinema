@@ -10,7 +10,7 @@ class Settings {
     /**
      * @throws Exception
      */
-    public function emailLookup(): void
+    public function emailLookup(): string
     {
         $email = mysqli_real_escape_string($this->conn, $_POST['new-email']);
 
@@ -24,15 +24,15 @@ class Settings {
         if ($result->num_rows > 0) {
             throw new Exception('Email is already in use.');
         }
+        return $email;
     }
 
     /**
      * @throws Exception
      */
-    public function changeEmail(): void
+    public function changeEmail($email): void
     {
         $user_id = $_SESSION['user_id'];
-        $email = mysqli_real_escape_string($this->conn, $_POST['new-email']);
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $sql = "UPDATE `user` SET `email` = ? WHERE `user`.`user_id` = ?;";

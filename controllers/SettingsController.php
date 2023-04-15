@@ -1,6 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Settings.php');
 require_once (BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/public/scripts/SettingsControllerMiddleware.php');
 
 class SettingsController {
     private mysqli $conn;
@@ -55,43 +56,83 @@ class SettingsController {
         }
 
         require_once (BASE_PATH . '/views/shared/footer.php');
+    }
 
-        # TODO: ajaxHandler for forms
-        if(isset($_POST['change-email']) && isset($_POST['new-email']) && !empty($_POST['new-email'])) {
-            try {
-                $model = new Settings($this->conn);
-                $model->emailLookup();
-                $model->changeEmail();
-                echo '<script>alert("Your email was successfully changed.")</script>';
-            } catch (Exception $e) {
-                error_log($e->getMessage());
-                echo '<script>alert("'.$e->getMessage().'")</script>';
-            }
-        }
+    public function ajaxHandler(): void
+    {
+        $action = isset($_POST['action']) ? mysqli_real_escape_string($this->conn, $_POST['action']) : null;
 
-        if (isset($_POST['terminate']) && isset($_POST['checkBoxes'])) {
-            try {
-                $this->terminateSession();
-            } catch (Exception $e) {
-                error_log($e->getMessage());
-                echo '<script>alert("We were unable to terminate your session(s).")</script>';
-            }
+        switch ($action) {
+            case 'update-email':
+                $response = $this->updateEmail();
+                break;
+            case 'update-password':
+                $response = $this->updatePassword();
+                break;
+            case 'terminate-session':
+                $response = $this->terminateSession();
+                break;
+            default:
+                $response = [
+                    'status' => 'error',
+                    'message' => 'Invalid action'
+                ];
+                break;
         }
+        echo json_encode($response);
     }
 
     /**
      * @throws Exception
      */
-    private function terminateSession(): void
+    public function updateEmail(): array
     {
-        $checkedBoxes = $_POST['checkBoxes'];
-        # Sanitize values, as they may have been altered
-        foreach ($checkedBoxes as &$value) {
-            $value = mysqli_real_escape_string($this->conn, $value);
+        try {
+            $email = $this->settingsModel->emailLookup();
+            $this->settingsModel->changeEmail($email);
+            $response = [
+                'status' => 'Success',
+                'message' => 'Email Successfully Updated.',
+                'email' => $email
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
         }
+        return $response;
+    }
 
-        $model = new Session($this->conn);
-        $model->terminateSession($checkedBoxes);
-        $model->validateSession();
+    public function updatePassword() {
+
+    }
+
+    /**
+     * @throws Exception
+     */
+    private function terminateSession(): array
+    {
+        try {
+            $checkedBoxes = $_POST['checkBoxes'];
+
+            foreach ($checkedBoxes as &$value) {
+                $value = mysqli_real_escape_string($this->conn, $value);
+            }
+
+            $this->sessionModel->terminateSession($checkedBoxes);
+            $this->sessionModel->validateSession();
+
+            $response = [
+                'status' => 'Success',
+                'message' => 'Successfully removed session(s)'
+            ];
+        } catch (Exception $e) {
+            $response = [
+                'status' => 'Failed',
+                'message' => $e->getMessage()
+            ];
+        }
+        return $response;
     }
 }

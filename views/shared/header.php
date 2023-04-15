@@ -46,7 +46,7 @@ if (isset($_SESSION['user_id'])) {
                 <li>
                 <?php if (!isset($_SESSION['user_id'])) { ?>
                    <div class="sign-in">
-                            <a href="sign-in">Sign in/up</a>
+                            <a href="/cinema/sign-in">Sign in/up</a>
                         </div>
                 <?php } else { ?>
                 <!-- Inloggad html -->
