@@ -123,7 +123,7 @@ class Bookings
      */
     public function ratingLookup($user_id, $movie_id): bool
     {
-        $sql = 'SELECT `rating`.`rating_id`, `user_id`, `movie_id` FROM `rating`, `user_rating` WHERE `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ?';
+        $sql = 'SELECT `rating`.`rating_id`, `user_rating`.`user_id`, `rating`.`movie_id` FROM `rating`, `user_rating` WHERE `rating`.`rating_id` = `user_rating`.`rating_id` AND `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ?;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
