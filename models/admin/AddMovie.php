@@ -53,10 +53,12 @@ class AddMovie
         # Sanitize user input
         $sanitizedInput = array();
         foreach ($_POST as $key => $value) {
-            if ($key === 'subtitles' || $key === 'screening') {
-                $sanitizedInput[$key] = mysqli_real_escape_string($this->conn, intval($value));
+            if ($value === 'false') {
+                $sanitizedInput[$key] = 0;
+            } else if ($value === 'true') {
+                $sanitizedInput[$key] = 1;
             } else {
-                $sanitizedInput[$key] = mysqli_real_escape_string($this->conn, $value);
+                $sanitizedInput[$key] = stripslashes(mysqli_real_escape_string($this->conn, $value));
             }
         }
 
@@ -80,12 +82,13 @@ class AddMovie
      *
      * This function sanitizes the input values that start with the prefix "actor-" and returns
      * an array of sanitized actors.
+     *
      */
     public function sanitizeActors(): array
     {
         $sanitizedActors = array();
         foreach ($_POST as $key => $value) {
-            if (str_starts_with($key, 'actor-')) {
+            if (str_starts_with($key, 'actor-') && !empty($value)) {
                 $sanitizedActor = $this->sanitize_text_field($value);
                 $sanitizedActors[] = $sanitizedActor;
             }

@@ -1,4 +1,4 @@
-// Display selected images in add-movie
+// Display selected images in add-movie and edit-movie
 function onFileSelected(event, imgId) {
     const file = event.target.files[0];
     const reader = new FileReader();

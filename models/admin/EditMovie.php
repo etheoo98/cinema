@@ -18,6 +18,7 @@ class EditMovie
      */
     public function getMovieData(): ?array
     {
+        #TODO: Sanitize
         $movie_id = $_GET['id'];
 
         $sql = "SELECT * FROM poster, movie WHERE movie.movie_id = ? AND poster.movie_id = movie.movie_id;";
@@ -34,6 +35,20 @@ class EditMovie
         return $result->fetch_assoc();
     }
 
+    public function getActorData(): ?array {
+        $movie_id = mysqli_real_escape_string($this->conn, $_GET['id']);
+
+        $stmt = $this->conn->prepare("SELECT full_name FROM actor, movie_actor WHERE movie_actor.movie_id = ? AND movie_actor.actor_id = actor.actor_id");
+        $stmt->bind_param('i', $movie_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $actors = array(); // initialize empty array for results
+        while ($row = $result->fetch_assoc()) {
+            $actors[] = $row; // append each row to result array
+        }
+        return $actors;
+    }
+
     /**
      * @return array
      *
@@ -43,10 +58,32 @@ class EditMovie
      */
     public function sanitizeInput(): array
     {
+        # Look for missing input fields
+        $requiredFields = array('title', 'premiere', 'description', 'genre', 'language', 'age_limit', 'length', 'subtitles', 'screening', 'actor-1');
+        $missingFields = array();
+
+        foreach ($requiredFields as $field) {
+            if (empty($_POST[$field])) {
+                $missingFields[] = $field;
+            }
+        }
+
+        if (count($missingFields) > 0) {
+            $missingFieldsStr = implode(', ', $missingFields);
+            throw new Exception("Missing fields: $missingFieldsStr");
+        }
+
         $sanitizedInput = [];
         foreach ($_POST as $key => $value) {
-            $sanitizedInput[$key] = stripslashes(mysqli_real_escape_string($this->conn, $value));
+            if ($value === 'false') {
+                $sanitizedInput[$key] = 0;
+            } else if ($value === 'true') {
+                $sanitizedInput[$key] = 1;
+            } else {
+                $sanitizedInput[$key] = stripslashes(mysqli_real_escape_string($this->conn, $value));
+            }
         }
+
 
         if (isset($_FILES['poster']) && $_FILES['poster']['error'] === UPLOAD_ERR_OK
             && isset($_FILES['hero']) && $_FILES['hero']['error'] === UPLOAD_ERR_OK
@@ -102,10 +139,10 @@ class EditMovie
                 }
             }
 
-            echo 'Validated Images';
+            # echo 'Validated Images';
 
         } else {
-            echo 'No Images Selected';
+            # echo 'No Images Selected';
         }
     }
 
@@ -133,7 +170,32 @@ class EditMovie
         else {
             #TODO: Handle new image uploads
             $sql = '';
-            echo 'yes image';
+            # echo 'yes image';
         }
     }
+
+    public function addActorsToMovie($actorIDs): void
+    {
+        $movie_id = $_GET['id'];
+
+        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`) VALUES (NULL, ?, ?);';
+        $checkSql = 'SELECT COUNT(*) FROM `movie_actor` WHERE `movie_id` = ? AND `actor_id` = ?;';
+        $stmt = $this->conn->prepare($sql);
+        $checkStmt = $this->conn->prepare($checkSql);
+        foreach ($actorIDs as $actorID) {
+            $checkStmt->bind_param('ii', $movie_id, $actorID);
+            $checkStmt->execute();
+            $checkResult = $checkStmt->get_result();
+            $count = $checkResult->fetch_array()[0];
+            if ($count == 0) {
+                $stmt->bind_param('ii', $movie_id, $actorID);
+                if (!$stmt->execute()) {
+                    throw new Exception('Failed to associate actor(s) with movie.');
+                }
+            }
+        }
+        $stmt->close();
+        $checkStmt->close();
+    }
+
 }

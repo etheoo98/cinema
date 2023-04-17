@@ -1,5 +1,6 @@
 <?php
 require_once(BASE_PATH . '/models/admin/EditMovie.php');
+require_once(BASE_PATH . '/models/admin/AddMovie.php');
 require_once(BASE_PATH . '/models/Session.php');
 require_once(BASE_PATH . '/public/scripts/EditMovieControllerMiddleware.php');
 
@@ -8,13 +9,16 @@ class EditMovieController
     private mysqli $conn;
     private Session $sessionModel;
     private EditMovie $editMovieModel;
+    private AddMovie $addMovieModel;
     private ?array $movieData = null;
+    private ?array $actorData = null;
 
     public function __construct($conn)
     {
         $this->conn = $conn;
         $this->sessionModel = new Session($this->conn);
         $this->editMovieModel = new EditMovie($this->conn);
+        $this->addMovieModel = new AddMovie($this->conn);
     }
 
     /**
@@ -34,7 +38,9 @@ class EditMovieController
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
 
         if ($sessionIsAdmin) {
+
             $this->movieData = $this->editMovieModel->getMovieData();
+            $this->actorData = $this->editMovieModel->getActorData();
             $this->renderView();
         } else {
             header("LOCATION: /cinema/sign-in");
@@ -76,7 +82,7 @@ class EditMovieController
         $response = match ($action) {
             'edit-movie' => $this->updateMovie(),
             default => [
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid action'
             ],
         };
@@ -97,15 +103,26 @@ class EditMovieController
     {
         try {
             $sanitizedInput = $this->editMovieModel->sanitizeInput();
+            $sanitizedActors = $this->addMovieModel->sanitizeActors();
+
+            $actorsObject = $this->addMovieModel->actorLookup($sanitizedActors);
+
+            if (!empty($actorsObject['actorsNotFound'])) {
+                $this->addMovieModel->addNewActors($actorsObject);
+            }
+
             $this->editMovieModel->validateImages();
             $this->editMovieModel->updateMovie($sanitizedInput);
+            $actorIDs = $this->addMovieModel->getActorID($actorsObject);
+            $this->editMovieModel->addActorsToMovie($actorIDs);
+
             $response = [
-                'status' => 'Success',
-                'message' => 'Movie Added Successfully.'
+                'status' => true,
+                'message' => 'Movie Successfully Updated'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }

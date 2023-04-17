@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 $(function() {
     $('#page-content').on('submit', '#add-movie-form', function(e) {
         e.preventDefault();
@@ -16,13 +18,19 @@ $(function() {
                 processData:false,
                 success: function(response) {
                     console.log('Server Response:', response);
-                    if (response.trim() !== '') {
-                        let responseObject = JSON.parse(response);
 
-                        if (responseObject.status === 'Failed') {
-                            $('.error-message').find('span').html(responseObject.message);
-                            $('.error-message').css('visibility', 'unset');
+                    let responseObject = JSON.parse(response);
+
+                    if (responseObject.status === true) {
+                        const errorMessage = document.querySelector('.error-message');
+                        if (errorMessage.style.visibility === 'unset') {
+                            errorMessage.style.visibility = 'hidden';
                         }
+                    }
+
+                    if (responseObject.status === false) {
+                        $('.error-message').find('span').html(responseObject.message);
+                        $('.error-message').css('visibility', 'unset');
                     }
                 },
                 error: function(xhr, status, error) {
@@ -67,3 +75,4 @@ $(document).ready(function() {
     });
 });
 
+});

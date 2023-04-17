@@ -90,12 +90,13 @@
                 </div>
             </div>
             <div>
-                <input type="radio" id="subtitles-yes" name="subtitles" value="1">
+                <input type="radio" id="subtitles-yes" name="subtitles" value="true">
                 <label for="subtitles-yes">Yes</label>
-                <input type="radio" id="subtitles-no" name="subtitles" value="0">
+                <input type="radio" id="subtitles-no" name="subtitles" value="false">
                 <label for="subtitles-no">No</label>
             </div>
         </div>
+
         <div class="input-column" id="subtitles">
             <div class="input-label">
                 <label for="screening">Screening</label>
@@ -104,13 +105,15 @@
                     <span class="tooltip-text">Is this movie ready for screening? This will affect the visibility of the movie.</span>
                 </div>
             </div>
+
             <div>
-                <input type="radio" id="screening-yes" name="screening" value="1">
+                <input type="radio" id="screening-yes" name="screening" value="true">
                 <label for="screening-yes">Yes</label>
-                <input type="radio" id="screening-no" name="screening" value="0">
+                <input type="radio" id="screening-no" name="screening" value="false">
                 <label for="screening-no">No</label>
             </div>
         </div>
+
         <div class="actor-section">
             <div class="input-row">
                 <div class="input-column" id="title-column">

@@ -71,7 +71,7 @@ class AddMovieController
         $response = match ($action) {
             'add-movie' => $this->addMovie(),
             default => [
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid action'
             ],
         };
@@ -114,12 +114,12 @@ class AddMovieController
             $this->addMovieModel->addActorsToMovie($movie_id, $actorIDs);
 
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Movie Added Successfully.'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }
