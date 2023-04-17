@@ -12,6 +12,10 @@ class SignIn
 
     /**
      * @throws Exception
+     *
+     * This function checks if required input fields are missing and removes any harmful characters from user input
+     * before returning it. An Exception is thrown if a required input field does not contain a value.
+     *
      */
     public function sanitizeInput(): array
     {
@@ -40,6 +44,11 @@ class SignIn
 
     /**
      * @throws Exception
+     *
+     * This function checks if the sanitized email exists in the database, and if it does, verifies that the input
+     * password matches the stored hash. If the credentials are valid, it sets session variables for the logged-in user
+     * and updates their "last seen" timestamp in the database. If the credentials are invalid, an exception is thrown.
+     *
      */
     public function signIn($sanitizedInput): void
     {

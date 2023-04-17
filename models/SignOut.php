@@ -9,6 +9,14 @@ class SignOut {
     {
         $this->conn = $conn;
     }
+
+    /**
+     * @return void
+     *
+     * This function removes the user's session by deleting the corresponding rows from the session table and the
+     * user_session table in the database. It also redirects the user to the landing page.
+     *
+     */
     public function removeSession(): void
     {
         # Delete row from session table
@@ -29,12 +37,21 @@ class SignOut {
             header("LOCATION: /cinema/");
         }
     }
+
+    /**
+     * @return void
+     *
+     * This function logs the user out of the system by removing all session variables and invalidating the session ID.
+     * It then redirects the user to the landing page.
+     *
+     */
     #[NoReturn] public function signOut(): void
     {
         # Remove all session variables.
         session_unset();
         # Invalidate session ID
         session_destroy();
+        # Redirect to landing page
         header("Location: /cinema/");
         exit();
     }

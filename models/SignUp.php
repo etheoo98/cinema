@@ -12,6 +12,10 @@ class SignUp
 
     /**
      * @throws Exception
+     *
+     * This function checks if all required form fields are filled, and if they are, it sanitizes and returns the user
+     * input as an array. If any field is missing, it throws an exception asking the user to fill in all the fields.
+     *
      */
     public function sanitizeInput(): array
     {
@@ -36,6 +40,9 @@ class SignUp
 
     /**
      * @throws Exception
+     *
+     * This function checks if the email input matches a valid email format or not.
+     *
      */
     public function validateEmail($sanitizedInput): void
     {
@@ -47,6 +54,9 @@ class SignUp
 
     /**
      * @throws Exception
+     *
+     * This function compares the two entered passwords, and throws an exception if they are not the same.
+     *
      */
     public function validatePassword($sanitizedInput): void
     {
@@ -58,6 +68,10 @@ class SignUp
 
     /**
      * @throws Exception
+     *
+     * This function looks up the inputted email, in order to make sure that the email is unique. If the inputted email
+     * is already in use, an exception will be thrown, informing the user that it's not available.
+     *
      */
     public function emailLookup($sanitizedInput): void
     {
@@ -74,6 +88,10 @@ class SignUp
 
     /**
      * @throws Exception
+     *
+     * This function looks up the inputted username, in order to make sure that the username is unique. If the inputted
+     * username is already in use, an exception will be thrown, informing the user that it's not available.
+     *
      */
     public function usernameLookup($sanitizedInput): void
     {
@@ -88,7 +106,16 @@ class SignUp
         }
     }
 
-    public function passwordEncryption($sanitizedInput)
+    /**
+     * @param $sanitizedInput
+     * @return mixed
+     *
+     * This function takes the inputted password and adds a "pepper" string to it. The password and pepper is then
+     * hashed using the bcrypt algorithm with a cost factor of 12, which includes salt. Before returning the hashed
+     * password, the previously used variables and keys storing the password are removed.
+     *
+     */
+    public function passwordEncryption($sanitizedInput): mixed
     {
         $password = $sanitizedInput['password'];
         $pepper = "nuv`nHhPj7Cx&@Z#&@Jxi5xZnHRTkVL%";
@@ -106,6 +133,14 @@ class SignUp
         return $sanitizedInput;
     }
 
+    /**
+     * @param $sanitizedInput
+     * @return void
+     *
+     * If no exception has been thrown up until this point, the input is deemed as valid, and the account details will
+     * be stored in the database. If the query is successful, the session variables will be set.
+     *
+     */
     public function addUser($sanitizedInput): void
     {
         $sql = "INSERT INTO user (role, email, username, password, date_of_registration, last_seen) VALUES ('user', ?, ?, ?, now(), now())";
