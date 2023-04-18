@@ -82,7 +82,7 @@ class MovieController
         $response = match ($action) {
             'add-booking' => $this->addBooking(),
             default => [
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid action'
             ],
         };
@@ -106,12 +106,12 @@ class MovieController
             $this->movieModel->duplicateCheck($user_id, $movie_id);
             $this->movieModel->addBooking($user_id, $movie_id);
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Booking Successfully Added.'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }

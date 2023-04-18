@@ -1,5 +1,5 @@
 // get the canvas element
-var ctx = document.getElementById('totalUsersChart').getContext('2d');
+const ctx = document.getElementById('totalUsersChart').getContext('2d');
 
 // use AJAX or fetch to get the data from your server
 $.ajax({
@@ -7,11 +7,12 @@ $.ajax({
     dataType: 'json',
     success: function(data) {
 
-        // count the number of registration dates
-        var count = data.length;
+        let month;
+// count the number of registration dates
+        const count = data.length;
 
         // create an object to keep track of the count for each month
-        var countsByMonth = {
+        const countsByMonth = {
             'March': 0,
             'April': 0,
             'May': 0,
@@ -29,16 +30,16 @@ $.ajax({
         // loop through the registration dates and count the number of users for each month
         for (var i = 0; i < data.length; i++) {
             var date = new Date(data[i]);
-            var month = date.toLocaleString('en-US', { month: 'long' });
+            month = date.toLocaleString('en-US', {month: 'long'});
             if (month in countsByMonth) {
                 countsByMonth[month]++;
             }
         }
 
         // create arrays for the labels and data based on the countsByMonth object
-        var labels = [];
+        const labels = [];
         var data = [];
-        for (var month in countsByMonth) {
+        for (month in countsByMonth) {
             if (month === 'March' || labels.length > 0) {
                 labels.push(month);
                 data.push(countsByMonth[month]);
@@ -46,7 +47,7 @@ $.ajax({
         }
 
         // format the data into an object that Chart.js can use
-        var chartData = {
+        const chartData = {
             labels: labels,
             datasets: [{
                 label: 'Registered Users',

@@ -12,7 +12,7 @@ if (isset($_SESSION['user_id'])) {
 <html lang="en">
 
 <head>
-    <title><?php if (isset($title)) echo $title; ?> - Cinema</title>
+    <title><?php if (isset($title)) echo $title . ' - '; ?>Cinema</title>
     <meta charset="UTF-8">
     <?php if (isset($css)):
         foreach ($css as $file): ?>
@@ -21,10 +21,8 @@ if (isset($_SESSION['user_id'])) {
     endif; ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/2354648d6d.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-            integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8="
-            crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.js"></script>
+    <script src="/cinema/lib/jquery-3.6.4.min.js"></script>
+    <script src="/cinema/lib/jquery.validate.min.js"></script>
 </head>
 
 <body>

@@ -1,8 +1,8 @@
 function toggleForms() {
     // Get references to the two divs
-    var Sign_In = document.getElementById("sign-in");
-    var Sign_Up = document.getElementById("sign-up");
-    var Error_Messages = document.getElementsByClassName("error-message");
+    const Sign_In = document.getElementById("sign-in");
+    const Sign_Up = document.getElementById("sign-up");
+    const Error_Messages = document.getElementsByClassName("error-message");
 
     // Hide div1 and show div2
     if (Sign_In.style.display === "none") {

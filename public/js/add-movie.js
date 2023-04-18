@@ -1,78 +1,76 @@
 $(document).ready(function() {
 
-$(function() {
-    $('#page-content').on('submit', '#add-movie-form', function(e) {
-        e.preventDefault();
-        if ($(this).valid()) {
+    $(function() {
+        $('#page-content').on('submit', '#add-movie-form', function(e) {
+            e.preventDefault();
 
-            let formData = new FormData(this);
-            let action = $(this).data('action');
-            console.log('Action:', action);
-            formData.append('action', action);
+                let formData = new FormData(this);
+                let action = 'add-movie';
 
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(response) {
-                    console.log('Server Response:', response);
+                formData.append('action', action);
 
-                    let responseObject = JSON.parse(response);
+                $.ajax({
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    cache: false,
+                    processData:false,
+                    success: function(response) {
+                        let responseObject = JSON.parse(response);
 
-                    if (responseObject.status === true) {
-                        const errorMessage = document.querySelector('.error-message');
-                        if (errorMessage.style.visibility === 'unset') {
-                            errorMessage.style.visibility = 'hidden';
+                        if (responseObject.status === true) {
+                            const errorMessage = document.querySelector('.error-message');
+                            if (errorMessage.style.visibility === 'unset') {
+                                errorMessage.style.visibility = 'hidden';
+                            }
                         }
-                    }
 
-                    if (responseObject.status === false) {
-                        $('.error-message').find('span').html(responseObject.message);
-                        $('.error-message').css('visibility', 'unset');
+                        if (responseObject.status === false) {
+                            $('.error-message').find('span').html(responseObject.message);
+                            $('.error-message').css('visibility', 'unset');
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('AJAX Error:', status, error);
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                }
-            });
+                });
+        });
+    });
+
+    // Find the maximum index of existing actor input elements
+    let maxIndex = 1;
+    $(".actor-section input[name^='actor-']").each(function() {
+        const index = parseInt($(this).attr('name').replace(/^actor-(\d+)$/, '$1'));
+        if (index > maxIndex) {
+            maxIndex = index;
         }
     });
 
-
-    $('#page-content').on('focusout', 'form input', function() {
-        $(this).valid();
-    });
-
-    $('#page-content').validate();
-});
-
-// Clone row and increment value of label 'for' and input 'name' in add-actor
-$(document).ready(function() {
-    var newRowNum = 1;
+// Increment the index to get the new index for the new element
+    let newRowNum = maxIndex + 1;
 
     $(".new-actor").click(function() {
-        newRowNum++;
+        if (newRowNum <= 3) {
+            const newActor = $(".actor-section .input-row").first().clone();
 
-        var newActor = $(".actor-section .input-row").first().clone();
+            newActor.find('input[type="text"], input[type="number"]').val('');
 
-        newActor.find('input[type="text"], input[type="number"]').val('');
+            newActor.find('label').each(function() {
+                const labelFor = $(this).attr('for');
+                $(this).attr('for', labelFor.replace(/\d+/, newRowNum));
+            });
 
-        newActor.find('label').each(function() {
-            var labelFor = $(this).attr('for');
-            $(this).attr('for', labelFor.replace(/\d+/, newRowNum));
-        });
+            newActor.find('input[type="text"], input[type="number"]').each(function() {
+                const inputName = $(this).attr('name');
+                const inputId = $(this).attr('id');
+                $(this).attr('name', inputName.replace(/\d+/, newRowNum));
+                $(this).attr('id', inputId.replace(/\d+/, newRowNum));
+            });
 
-        newActor.find('input[type="text"], input[type="number"]').each(function() {
-            var inputName = $(this).attr('name');
-            var inputId = $(this).attr('id');
-            $(this).attr('name', inputName.replace(/\d+/, newRowNum));
-            $(this).attr('id', inputId.replace(/\d+/, newRowNum));
-        });
+            $(".admin-form .new-actor").before(newActor);
 
-        $("#add-movie-form .new-actor").before(newActor);
+            newRowNum++;
+        }
     });
-});
 
 });

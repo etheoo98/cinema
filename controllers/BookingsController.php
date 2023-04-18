@@ -81,7 +81,7 @@ class BookingsController
             'get-rating' => $this->ratingData(),
             'rate' => $this->rateMovie(),
             default => [
-                'status' => 'error',
+                'status' => false,
                 'message' => 'Invalid action'
             ],
         };
@@ -102,12 +102,12 @@ class BookingsController
             $this->bookingsModel->deleteBooking($movie_id);
 
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Booking Successfully Removed.'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }

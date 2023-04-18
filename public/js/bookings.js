@@ -1,7 +1,12 @@
 $(document).ready(function () {
+
+    /*
+    This function requests the user rating for each movie that exists on the page and sets the colors of the stars
+    according to the server response.
+    */
     $('.rating-container').each(function() {
-        var movieID = $(this).data('movie-id');
-        var ratingContainer = $(this);
+        const movieID = $(this).data('movie-id');
+        const ratingContainer = $(this);
 
         $.ajax({
             type: 'POST',
@@ -12,11 +17,11 @@ $(document).ready(function () {
             dataType: 'json',
             success: function(response) {
                 console.log('Server Response:', response);
+
                 if (response.success) {
-                    var ratingValue = response.data.rating_value;
+                    const ratingValue = response.data.rating_value;
                     ratingContainer.attr('data-rating-value', ratingValue);
                     setStarsColor(ratingContainer, ratingValue);
-
                     ratingContainer.data('prev-rated-index', ratingValue - 1);
                 }
             },
@@ -29,20 +34,20 @@ $(document).ready(function () {
     function setStarsColor(ratingContainer, ratingValue) {
         ratingContainer.find('.star-icon').each(function(index) {
             if (index < ratingValue) {
-                $(this).find('path').css('fill', 'yellow');
+                $(this).find('path').css('fill', '#FFD700');
             } else {
-                $(this).find('path').css('fill', 'white');
+                $(this).find('path').css('fill', '#FFFFFF');
             }
         });
     }
 
-    var dataValue = -1;
-    var movieID = -1;
+    let dataValue = -1;
+    let movieID = -1;
 
     $('.rating-container').each(function() {
-        var container = $(this);
-        var ratedIndex = -1;
-        var prevRatedIndex = -1;
+        const container = $(this);
+        let ratedIndex = -1;
+        let prevRatedIndex = -1;
 
         container.find('.star-icon').on('click', function () {
             ratedIndex = parseInt($(this).data('index'));
@@ -56,11 +61,11 @@ $(document).ready(function () {
             resetStarColors(container);
 
             // Get the previously rated index
-            var prevRatedIndex = container.data('prev-rated-index');
+            const prevRatedIndex = container.data('prev-rated-index');
 
-            if (prevRatedIndex != undefined && prevRatedIndex != -1) {
-                for (var i= 0; i <= prevRatedIndex; i++) {
-                    container.find('.star-icon:eq('+i+') path').css('fill', 'yellow');
+            if (prevRatedIndex !== undefined && prevRatedIndex !== -1) {
+                for (let i= 0; i <= prevRatedIndex; i++) {
+                    container.find('.star-icon:eq('+i+') path').css('fill', '#FFD700');
                 }
             }
         });
@@ -69,17 +74,17 @@ $(document).ready(function () {
         container.find('.star-icon').mouseover(function () {
             resetStarColors(container);
 
-            var currentIndex = parseInt($(this).data('index'));
+            const currentIndex = parseInt($(this).data('index'));
 
-            for (var i = 0; i <= currentIndex; i++) {
-                container.find('.star-icon:eq(' + i + ') path').css('fill', 'yellow');
+            for (let i = 0; i <= currentIndex; i++) {
+                container.find('.star-icon:eq(' + i + ') path').css('fill', '#FFD700');
             }
 
             prevRatedIndex = ratedIndex;
         });
 
         function resetStarColors(container) {
-            container.find('.star-icon path').css('fill', 'white');
+            container.find('.star-icon path').css('fill', '#FFFFFF');
         }
     });
 
@@ -95,8 +100,8 @@ $(document).ready(function () {
             success: function(response) {
                 console.log('Server Response:', response);
             },
-            error: function(jqXHR, textStatus, errorThrown) {
-                // Handle any errors that occurred during the AJAX request
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
             }
         });
     }
@@ -105,34 +110,32 @@ $(document).ready(function () {
 $(function() {
     $('main').on('submit', '.remove-booking-form', function(e) {
         e.preventDefault();
-        if ($(this).valid()) {
-            let movieID = $(this).find('input[name="remove"]').val(); // get the value of the remove input field
-            let formData = new FormData(this);
-            let action = $(this).data('action');
-            console.log('Action:', action);
-            formData.append('action', action);
 
-            let $booking = $('#booking-' + movieID); // select the booking element to remove
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                cache: false,
-                processData:false,
-                success: function(response) {
-                    console.log('Server Response:', response);
-                    if (response.trim() !== '') {
-                        let responseObject = JSON.parse(response);
+        let movieID = $(this).find('input[name="remove"]').val(); // get the value of the remove input field
+        let formData = new FormData(this);
+        let action = 'remove-booking'
+        let $booking = $('#booking-' + movieID); // select the booking element to remove
 
-                        if (responseObject.status === 'Success') {
-                            $booking.remove(); // remove the parent div
-                        }
-                    }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
+        formData.append('action', action);
+
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData:false,
+            success: function(response) {
+                console.log('Server Response:', response);
+
+                let responseObject = JSON.parse(response);
+
+                if (responseObject.status === true) {
+                    $booking.remove(); // remove the parent div
                 }
-            });
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
     });
+
 });

@@ -49,31 +49,31 @@ $(document).ready(function() {
     });
 
     // Find the maximum index of existing actor input elements
-    var maxIndex = 1;
+    let maxIndex = 1;
     $(".actor-section input[name^='actor-']").each(function() {
-        var index = parseInt($(this).attr('name').replace(/^actor-(\d+)$/, '$1'));
+        const index = parseInt($(this).attr('name').replace(/^actor-(\d+)$/, '$1'));
         if (index > maxIndex) {
             maxIndex = index;
         }
     });
 
 // Increment the index to get the new index for the new element
-    var newRowNum = maxIndex + 1;
+    let newRowNum = maxIndex + 1;
 
     $(".new-actor").click(function() {
         if (newRowNum <= 3) {
-            var newActor = $(".actor-section .input-row").first().clone();
+            const newActor = $(".actor-section .input-row").first().clone();
 
             newActor.find('input[type="text"], input[type="number"]').val('');
 
             newActor.find('label').each(function() {
-                var labelFor = $(this).attr('for');
+                const labelFor = $(this).attr('for');
                 $(this).attr('for', labelFor.replace(/\d+/, newRowNum));
             });
 
             newActor.find('input[type="text"], input[type="number"]').each(function() {
-                var inputName = $(this).attr('name');
-                var inputId = $(this).attr('id');
+                const inputName = $(this).attr('name');
+                const inputId = $(this).attr('id');
                 $(this).attr('name', inputName.replace(/\d+/, newRowNum));
                 $(this).attr('id', inputId.replace(/\d+/, newRowNum));
             });
