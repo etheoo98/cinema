@@ -100,19 +100,26 @@ class MovieController
      */
     public function addBooking(): array
     {
-        try {
-            $user_id = $_SESSION["user_id"];
-            $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
-            $this->movieModel->duplicateCheck($user_id, $movie_id);
-            $this->movieModel->addBooking($user_id, $movie_id);
-            $response = [
-                'status' => true,
-                'message' => 'Booking Successfully Added.'
-            ];
-        } catch (Exception $e) {
+        if (isset($_SESSION['user_id'])) {
+            try {
+                $user_id = $_SESSION["user_id"];
+                $movie_id = mysqli_real_escape_string($this->conn, $_POST['movie_id']);
+                $this->movieModel->duplicateCheck($user_id, $movie_id);
+                $this->movieModel->addBooking($user_id, $movie_id);
+                $response = [
+                    'status' => true,
+                    'message' => 'Booking Successfully Added.'
+                ];
+            } catch (Exception $e) {
+                $response = [
+                    'status' => false,
+                    'message' => $e->getMessage()
+                ];
+            }
+        } else {
             $response = [
                 'status' => false,
-                'message' => $e->getMessage()
+                'message' => 'Attempted to add booking while not signed-in.'
             ];
         }
         return $response;

@@ -21,6 +21,10 @@ $(document).ready(function () {
                     if (responseObject.status === true || responseObject.message === 'You already have a ticket for this movie.') {
                         window.location.replace('/cinema/bookings');
                     }
+
+                    if (responseObject.status === false || responseObject.message === 'Attempted to add booking while not signed-in.') {
+                        window.location.replace('/cinema/sign-in');
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.error('AJAX Error:', status, error);
