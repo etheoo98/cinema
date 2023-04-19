@@ -10,17 +10,21 @@ class Movie
 
     public function getMovieData($movie_id): false|array|null
     {
-
         $stmt = $this->conn->prepare("SELECT * FROM poster, movie WHERE movie.movie_id = ? AND movie.movie_id = poster.movie_id AND showing=1");
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        return $result->fetch_assoc();
+        $data = $result->fetch_assoc();
+
+        if ($data && isset($data['subtitles'])) {
+            $data['subtitles'] = $data['subtitles'] == 1 ? 'English' : 'None';
+        }
+
+        return $data;
     }
 
     public function getRatingData($movie_id): false|array|null
     {
-
         $stmt = $this->conn->prepare("SELECT ROUND(AVG(rating), 1) AS avg_rating, COUNT(rating) AS count_rating FROM rating WHERE movie_id = ?");
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();

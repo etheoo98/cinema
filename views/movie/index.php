@@ -62,7 +62,7 @@
 
             <div class="movie-metadata">
                 <h3>Subtitles:</h3>
-                <p class="movie-description">Yes/No</p>
+                <p class="movie-description"><?php echo $this->movieData["subtitles"]; ?></p>
             </div>
 
             <div class="movie-metadata">
