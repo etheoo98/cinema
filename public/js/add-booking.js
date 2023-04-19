@@ -22,7 +22,7 @@ $(document).ready(function () {
                         window.location.replace('/cinema/bookings');
                     }
 
-                    if (responseObject.status === false || responseObject.message === 'Attempted to add booking while not signed-in.') {
+                    if (responseObject.status === false && responseObject.message === 'Attempted to add booking while not signed-in.') {
                         window.location.replace('/cinema/sign-in');
                     }
                 },
