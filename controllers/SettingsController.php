@@ -1,9 +1,10 @@
 <?php
 require_once (BASE_PATH . '/models/Settings.php');
 require_once (BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/models/SignUp.php');
 require_once (BASE_PATH . '/public/scripts/SettingsControllerMiddleware.php');
 
-class SettingsController {
+#[AllowDynamicProperties] class SettingsController {
     private mysqli $conn;
     private Session $sessionModel;
     private Settings $settingsModel;
@@ -14,6 +15,7 @@ class SettingsController {
         $this->conn = $conn;
         $this->sessionModel = new Session($this->conn);
         $this->settingsModel = new Settings($this->conn);
+        $this->signUpModel = new SignUp($this->conn);
     }
 
     /**
@@ -91,13 +93,13 @@ class SettingsController {
             $email = $this->settingsModel->emailLookup();
             $this->settingsModel->changeEmail($email);
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Email Successfully Updated.',
                 'email' => $email
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }
@@ -108,14 +110,17 @@ class SettingsController {
     {
         try {
             $this->settingsModel->verifyOldPassword();
+            $sanitizedInput = $this->settingsModel->checkPasswordMatch();
+            $sanitizedInput = $this->signUpModel->passwordEncryption($sanitizedInput);
+            $this->settingsModel->changePassword($sanitizedInput);
 
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Password successfully changed.'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }
@@ -138,12 +143,12 @@ class SettingsController {
             $this->sessionModel->validateSession();
 
             $response = [
-                'status' => 'Success',
+                'status' => true,
                 'message' => 'Successfully removed session(s)'
             ];
         } catch (Exception $e) {
             $response = [
-                'status' => 'Failed',
+                'status' => false,
                 'message' => $e->getMessage()
             ];
         }

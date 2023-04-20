@@ -112,3 +112,20 @@ input[type=checkbox] {
 }
 
 /* }}} */
+
+.error-message {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16px;
+    visibility: hidden;
+}
+.error-icon {
+    width: 26px;
+    height: 26px;
+}
+.error-icon path {
+    fill: orange;
+}
+.error-message span {
+    margin-left: 8px;
+}

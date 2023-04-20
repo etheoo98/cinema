@@ -49,12 +49,45 @@ class Settings {
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function verifyOldPassword() {
+        $user_id = $_SESSION['user_id'];
+        $currentPassword = $_POST['current-password'];
+        $sql = 'SELECT `password` FROM `user` WHERE `user_id` = ?';
 
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('i', $user_id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $oldPassword = $result->fetch_assoc();
+
+        if (!password_verify($currentPassword . "nuv`nHhPj7Cx&@Z#&@Jxi5xZnHRTkVL%", $oldPassword['password'])) {
+            # Invalid credentials
+            throw new Exception("Current password is wrong.");
+        }
     }
 
-    public function setNewPassword() {
+    /**
+     * @throws Exception
+     */
+    public function checkPasswordMatch(): array
+    {
+        if ($_POST['new-password'] != $_POST['retype-new-password']) {
+            throw new Exception("Passwords don't match.");
+        }
+        $sanitizedInput['password'] = mysqli_real_escape_string($this->conn, $_POST['new-password']);
+        return $sanitizedInput;
+    }
 
+    public function changePassword($sanitizedInput) {
+        $user_id = $_SESSION['user_id'];
+        $sql = 'UPDATE `user` SET `password` = ? WHERE `user`.`user_id` = ?;';
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bind_param('si', $sanitizedInput['password_hash'], $user_id);
+        $stmt->execute();
     }
 
     /**
