@@ -1,6 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Catalog.php');
 require_once (BASE_PATH . '/models/Session.php');
+require_once (BASE_PATH . '/public/scripts/CatalogControllerMiddleware.php');
 
 class CatalogController
 {
@@ -53,6 +54,50 @@ class CatalogController
             require_once(BASE_PATH . '/views/shared/error.php');
         }
 
+        echo '<script src="/cinema/public/js/catalog.js"></script>';
+
         require_once(BASE_PATH . '/views/shared/footer.php');
+    }
+
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Match
+     * Expression. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
+    public function ajaxHandler(): void
+    {
+        $action = $_POST['action'] ?? null;
+        $response = match ($action) {
+            'search' => $this->getMovieData(),
+            default => [
+                'status' => false,
+                'message' => 'Invalid action'
+            ],
+        };
+        header("Content-Type: application/json");
+        echo json_encode($response);
+    }
+
+    public function getMovieData(): array
+    {
+        $movieData = $this->catalogModel->searchMovies(); // replace this with your actual code to fetch movie data
+        $movies = [];
+        foreach ($movieData as $movie) {
+            $movies[] = [
+                'poster' => $movie['poster'],
+                'title' => $movie['title'],
+                'genre' => $movie['genre'],
+                'age_limit' => $movie['age_limit'],
+                'length' => $movie['length'],
+                'movie_id' => $movie['movie_id']
+            ];
+        }
+        $response = [
+            'status' => true,
+            'data' => $movies
+        ];
+        return $response;
     }
 }

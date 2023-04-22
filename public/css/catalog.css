@@ -16,6 +16,71 @@ main .container {
   margin-bottom: 8px;
 }
 
+.search-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.search-order {
+  display: flex;
+  background-color: var(--primary-gray);
+  border: 2px solid var(--secondary-gray);
+  border-radius: 6px;
+  padding: 8px;
+}
+
+.list-icon, .column-icon {
+  width: 26px;
+  height: 26px;
+}
+.list-icon:hover, .column-icon:hover {
+  cursor: pointer;
+}
+.column-icon {
+  margin-left: 12px;
+}
+.list-icon path, .column-icon path {
+  fill: var(--primary-white);
+}
+
+#search-form {
+  border-radius: 6px;
+  border: 2px var(--secondary-gray) solid;
+  background-color: var(--primary-gray);
+  padding: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+#search-input {
+  color: var(--primary-white);
+  border: 0px solid;
+  background-color: transparent;
+  outline: none;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+}
+.svg-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.search-icon {
+  width: 26px;
+  height: 26px;
+}
+.search-icon path {
+  fill: var(--primary-white);
+}
+
+#movie-list-container {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .movie-list-content {
   padding: 1.5rem 0;
   width: 50%;
@@ -24,7 +89,7 @@ main .container {
 }
 
 .movie-list-content .poster {
-  height: 184px;
+  max-height: 184px;
   max-width: 132px;
   border-radius: 6px;
 }
