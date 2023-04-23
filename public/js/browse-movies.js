@@ -17,7 +17,7 @@ $(document).ready(function() {
                     $('#movie-list-container').empty();
 
                     $.each(data.data, function(index, movie) {
-                        var html = '<div class="movie-list-item">' +
+                        let html = '<div class="movie-list-item">' +
                             '<img class="poster" src="/cinema/public/img/movie/poster/' + movie.poster + '" alt="Poster of ' + movie.title + '">' +
                             '<div class="movie-list-title-container">' +
                             '<h3 class="movie-list-title">' +
