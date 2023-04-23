@@ -14,7 +14,9 @@ class Settings {
     {
         $email = mysqli_real_escape_string($this->conn, $_POST['new-email']);
 
-        $sql = 'SELECT * FROM `user` WHERE user.email = ?';
+        $sql = 'SELECT * FROM `user`
+                WHERE user.email = ?';
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $email);
         $stmt->execute();
@@ -35,7 +37,10 @@ class Settings {
         $user_id = $_SESSION['user_id'];
 
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $sql = "UPDATE `user` SET `email` = ? WHERE `user`.`user_id` = ?;";
+            $sql = "UPDATE `user`
+                    SET `email` = ?
+                    WHERE `user`.`user_id` = ?;";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ss', $email, $user_id);
             $stmt->execute();
@@ -55,7 +60,9 @@ class Settings {
     public function verifyOldPassword() {
         $user_id = $_SESSION['user_id'];
         $currentPassword = $_POST['current-password'];
-        $sql = 'SELECT `password` FROM `user` WHERE `user_id` = ?';
+        $sql = 'SELECT `password`
+                FROM `user`
+                WHERE `user_id` = ?';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $user_id);
@@ -83,7 +90,9 @@ class Settings {
 
     public function changePassword($sanitizedInput) {
         $user_id = $_SESSION['user_id'];
-        $sql = 'UPDATE `user` SET `password` = ? WHERE `user`.`user_id` = ?;';
+        $sql = 'UPDATE `user`
+                SET `password` = ?
+                WHERE `user`.`user_id` = ?;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('si', $sanitizedInput['password_hash'], $user_id);
@@ -96,7 +105,12 @@ class Settings {
     public function getSessions(): array
     {
         $user_id = $_SESSION['user_id'];
-        $sql = "SELECT * FROM user_session, session WHERE user_session.session_id = session.session_id AND user_id = ? AND valid=1 ORDER BY date DESC;";
+        $sql = "SELECT * FROM user_session, session
+                WHERE user_session.session_id = session.session_id
+                AND user_id = ?
+                AND valid = 1
+                ORDER BY date DESC;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $user_id);
         $stmt->execute();

@@ -20,7 +20,13 @@ class Bookings
     {
         $user_id = $_SESSION['user_id'];
 
-        $sql = "SELECT * FROM user, booking, movie, poster WHERE user.user_id= ? AND booking.movie_id = movie.movie_id AND user.user_id = booking.user_id AND poster.movie_id = movie.movie_id AND showing=1;";
+        $sql = "SELECT * FROM `user`, `booking`, `movie`, `image`
+                WHERE `user`.`user_id` = ?
+                AND `booking`.`movie_id` = `movie`.`movie_id`
+                AND `user`.`user_id` = `booking`.`user_id`
+                AND `image`.`movie_id` = `movie`.`movie_id`
+                AND `screening`=1;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $user_id);
         $stmt->execute();
@@ -37,7 +43,10 @@ class Bookings
     {
         $user_id = $_SESSION["user_id"];
 
-        $sql = "DELETE FROM booking WHERE user_id = ? AND movie_id = ?";
+        $sql = "DELETE FROM booking
+                WHERE user_id = ?
+                AND movie_id = ?;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
 
@@ -54,7 +63,11 @@ class Bookings
      *
      */
     public function getRatingData($user_id, $movie_id) {
-        $sql = 'SELECT `rating`.`rating` FROM `rating`, `user_rating` WHERE `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ? AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
+        $sql = 'SELECT `rating`.`rating`
+                FROM `rating`, `user_rating`
+                WHERE `user_rating`.`user_id` = ?
+                AND `rating`.`movie_id` = ?
+                AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
@@ -95,7 +108,9 @@ class Bookings
      */
     public function movieLookup($movie_id): void
     {
-        $sql = 'SELECT `movie_id` FROM `movie` WHERE `movie_id` = ?;';
+        $sql = 'SELECT `movie_id`
+                FROM `movie`
+                WHERE `movie_id` = ?;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $movie_id);
@@ -123,7 +138,11 @@ class Bookings
      */
     public function ratingLookup($user_id, $movie_id): bool
     {
-        $sql = 'SELECT `rating`.`rating_id`, `user_rating`.`user_id`, `rating`.`movie_id` FROM `rating`, `user_rating` WHERE `rating`.`rating_id` = `user_rating`.`rating_id` AND `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ?;';
+        $sql = 'SELECT `rating`.`rating_id`, `user_rating`.`user_id`, `rating`.`movie_id`
+                FROM `rating`, `user_rating`
+                WHERE `rating`.`rating_id` = `user_rating`.`rating_id`
+                AND `user_rating`.`user_id` = ?
+                AND `rating`.`movie_id` = ?;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
@@ -162,7 +181,9 @@ class Bookings
 
         try {
             # Insert into "rating" table
-            $sql = 'INSERT INTO `rating` (`rating_id`, `movie_id`, `rating`) VALUES (NULL, ?, ?)';
+            $sql = 'INSERT INTO `rating` (`rating_id`, `movie_id`, `rating`)
+                    VALUES (NULL, ?, ?)';
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ii', $movie_id, $rating);
 
@@ -174,7 +195,9 @@ class Bookings
             $rating_id = $this->conn->insert_id;
 
             # Insert into "user_rating" table
-            $sql = 'INSERT INTO `user_rating` (`id`, `user_id`, `rating_id`) VALUES (NULL, ?, ?)';
+            $sql = 'INSERT INTO `user_rating` (`id`, `user_id`, `rating_id`)
+                    VALUES (NULL, ?, ?)';
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ii', $user_id, $rating_id);
 
@@ -199,7 +222,11 @@ class Bookings
      */
     public function updateRating($user_id, $movie_id, $rating): void
     {
-        $sql = 'UPDATE `rating`, `user_rating` SET `rating`.`rating` = ? WHERE `user_rating`.`user_id` = ? AND `rating`.`movie_id` = ? AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
+        $sql = 'UPDATE `rating`, `user_rating`
+                SET `rating`.`rating` = ?
+                WHERE `user_rating`.`user_id` = ?
+                AND `rating`.`movie_id` = ?
+                AND `rating`.`rating_id` = `user_rating`.`rating_id`;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('iii', $rating, $user_id, $movie_id);

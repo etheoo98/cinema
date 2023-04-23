@@ -17,7 +17,11 @@ class BrowseMovies {
      */
     public function getMovieData(): false|mysqli_result
     {
-        $sql = "SELECT `movie`.`movie_id`, `poster`, `title`, `genre`, `age_limit`, `length`, `showing` FROM `poster`, `movie` WHERE `poster`.`movie_id` = `movie`.`movie_id` ORDER BY `movie`.`movie_id` DESC;";
+        $sql = "SELECT `movie`.`movie_id`, `poster`, `title`, `genre`, `age_limit`, `length`, `screening`
+                FROM `image`, `movie`
+                WHERE `image`.`movie_id` = `movie`.`movie_id`
+                ORDER BY `movie`.`movie_id` DESC;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->get_result();
@@ -26,9 +30,9 @@ class BrowseMovies {
     public function searchMovies(): false|mysqli_result
     {
         $query = $_POST['query'];
-        $sql = "SELECT `poster`, `title`, `genre`, `age_limit`, `length`, `showing`, `movie`.`movie_id` 
-            FROM `poster`, `movie` 
-            WHERE `poster`.`movie_id` = `movie`.`movie_id`
+        $sql = "SELECT `poster`, `title`, `genre`, `age_limit`, `length`, `screening`, `movie`.`movie_id` 
+            FROM `image`, `movie` 
+            WHERE `image`.`movie_id` = `movie`.`movie_id`
             AND (`title` LIKE ? OR `genre` LIKE ?)
             ORDER BY `movie`.`movie_id` DESC;";
 

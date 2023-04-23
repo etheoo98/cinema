@@ -66,7 +66,9 @@ class Session {
 
         try {
             # Insert into session table
-            $sql = "INSERT INTO session (valid, date, ip_address, country_code, user_agent, phpsessid) VALUES (1, now(), ?, ?, ?, ?)";
+            $sql = "INSERT INTO session (valid, date, ip_address, country_code, user_agent, phpsessid)
+                    VALUES (1, now(), ?, ?, ?, ?)";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('ssss', $ip_address, $country_code, $user_agent, $phpsessid);
             $stmt->execute();
@@ -97,7 +99,9 @@ class Session {
             $this->conn->begin_transaction();
 
             # Lookup selected session(s) in database
-            $sql = "SELECT * FROM session WHERE phpsessid = ?";
+            $sql = "SELECT * FROM session
+                    WHERE phpsessid = ?";
+
             $stmt = $this->conn->prepare($sql);
 
             $selectedSessions = array(); # Create an array to store the selected sessions
@@ -137,7 +141,9 @@ class Session {
     {
         # Check if the current session is valid
         $currentPhpsessid = session_id();
-        $sql = "SELECT * FROM session WHERE phpsessid = ?";
+        $sql = "SELECT * FROM session
+                WHERE phpsessid = ?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $currentPhpsessid);
         $stmt->execute();
@@ -192,7 +198,11 @@ class Session {
      */
     public function updateLastSeen(): void
     {
-        $stmt = $this->conn->prepare("UPDATE user SET last_seen = NOW() WHERE user_id = ?");
+        $sql = 'UPDATE user
+                SET last_seen = NOW()
+                WHERE user_id = ?;';
+
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $_SESSION['user_id']);
         $stmt->execute();
     }
@@ -210,7 +220,12 @@ class Session {
         $currentPhpsessid = session_id();
         $user_id = $_SESSION['user_id'];
 
-        $sql = "SELECT user.user_id, user.role, session.valid, session.phpsessid FROM `user`, `user_session`, `session` WHERE `user`.`user_id` = ? AND `session`.`phpsessid` = ? AND `user`.`user_id` = `user_session`.`user_id` AND `session`.`session_id` = `user_session`.`session_id`";
+        $sql = "SELECT user.user_id, user.role, session.valid, session.phpsessid
+                FROM `user`, `user_session`, `session`
+                WHERE `user`.`user_id` = ?
+                AND `session`.`phpsessid` = ?
+                AND `user`.`user_id` = `user_session`.`user_id`
+                AND `session`.`session_id` = `user_session`.`session_id`";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ss', $user_id, $currentPhpsessid);

@@ -10,7 +10,12 @@ class Movie
 
     public function getMovieData($movie_id): false|array|null
     {
-        $stmt = $this->conn->prepare("SELECT * FROM poster, movie WHERE movie.movie_id = ? AND movie.movie_id = poster.movie_id AND showing=1");
+        $sql = 'SELECT * FROM `image`, `movie`
+                WHERE `movie`.`movie_id` = ?
+                AND `movie`.`movie_id` = `image`.`movie_id`
+                AND `screening` = 1;';
+
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -25,7 +30,12 @@ class Movie
 
     public function getRatingData($movie_id): false|array|null
     {
-        $stmt = $this->conn->prepare("SELECT ROUND(AVG(rating), 1) AS avg_rating, COUNT(rating) AS count_rating FROM rating WHERE movie_id = ?");
+        $sql = 'SELECT ROUND(AVG(rating), 1) AS avg_rating,
+                COUNT(rating) AS count_rating
+                FROM rating
+                WHERE movie_id = ?;';
+
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -33,8 +43,12 @@ class Movie
     }
     public function getActorData($movie_id): array
     {
+        $sql = 'SELECT full_name
+                FROM actor, movie_actor
+                WHERE movie_actor.movie_id = ?
+                AND movie_actor.actor_id = actor.actor_id;';
 
-        $stmt = $this->conn->prepare("SELECT full_name FROM actor, movie_actor WHERE movie_actor.movie_id = ? AND movie_actor.actor_id = actor.actor_id");
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -50,7 +64,10 @@ class Movie
      */
     public function duplicateCheck($user_id, $movie_id): void
     {
-        $sql = 'SELECT * FROM `booking` WHERE user_id = ? AND movie_id = ?';
+        $sql = 'SELECT * FROM `booking`
+                WHERE user_id = ?
+                AND movie_id = ?;';
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
 
@@ -71,7 +88,9 @@ class Movie
      */
     public function addBooking($user_id, $movie_id): void
     {
-        $sql = 'INSERT INTO booking (booking_id, user_id, movie_id, `date`) VALUES (NULL, ?, ?, NOW());';
+        $sql = 'INSERT INTO booking (booking_id, user_id, movie_id, `date`)
+                VALUES (NULL, ?, ?, NOW());';
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('ii', $user_id, $movie_id);
 

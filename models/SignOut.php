@@ -22,7 +22,11 @@ class SignOut {
         # Delete row from session table
         $phpsessid = filter_var(session_id(), FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
-        $sql = "DELETE user_session, session FROM user_session INNER JOIN session ON user_session.session_id = session.session_id WHERE phpsessid=?";
+        $sql = "DELETE user_session, session
+                FROM user_session
+                INNER JOIN session ON user_session.session_id = session.session_id
+                WHERE phpsessid=?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $phpsessid);
         $stmt->execute();

@@ -96,7 +96,7 @@ class BrowseMoviesController
                 'age_limit' => $movie['age_limit'],
                 'length' => $movie['length'],
                 'movie_id' => $movie['movie_id'],
-                'showing' => $movie['showing']
+                'screening' => $movie['screening']
             ];
         }
         $response = [

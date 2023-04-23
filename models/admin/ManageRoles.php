@@ -13,7 +13,10 @@
      *
      */
     public function getCurrentAdmins() {
-        $sql = "SELECT `user_id`, `username` FROM `user` WHERE `role` = 'admin';";
+        $sql = "SELECT `user_id`, `username`
+                FROM `user`
+                WHERE `role` = 'admin';";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->get_result();
@@ -51,7 +54,9 @@
      */
     public function usernameLookup($sanitizedInput)
     {
-        $sql = 'SELECT user_id, username, role FROM `user` WHERE username = ?';
+        $sql = 'SELECT user_id, username, role
+                FROM `user`
+                WHERE username = ?';
 
         $stmt = $this->conn->prepare($sql);
 
@@ -91,7 +96,10 @@
      */
     public function promoteUserToAdmin($sanitizedInput): void
     {
-        $sql = "UPDATE `user` SET `role` = 'admin' WHERE `user`.`user_id` = ? AND `user`.`username` = ?;";
+        $sql = "UPDATE `user`
+                SET `role` = 'admin'
+                WHERE `user`.`user_id` = ?
+                AND `user`.`username` = ?;";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('is', $sanitizedInput['user_id'], $sanitizedInput['promote_username']);
@@ -109,7 +117,10 @@
      */
     public function demoteAdminToUser($sanitizedInput): void
     {
-        $sql = "UPDATE `user` SET `role` = 'user' WHERE `user`.`user_id` = ? AND `user`.`username` = ?;";
+        $sql = "UPDATE `user`
+                SET `role` = 'user'
+                WHERE `user`.`user_id` = ?
+                AND `user`.`username` = ?;";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('is', $sanitizedInput['user_id'], $sanitizedInput['demote_username']);

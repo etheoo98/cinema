@@ -106,9 +106,9 @@
                     </div>
                 </div>
                 <div>
-                    <input type="radio" id="screening-yes" name="screening" value="true" <?php if ($this->movieData['showing'] === 1) echo 'checked'; ?>>
+                    <input type="radio" id="screening-yes" name="screening" value="true" <?php if ($this->movieData['screening'] === 1) echo 'checked'; ?>>
                     <label for="screening-yes">Yes</label>
-                    <input type="radio" id="screening-no" name="screening" value="false" <?php if ($this->movieData['showing'] === 0) echo 'checked'; ?>>
+                    <input type="radio" id="screening-no" name="screening" value="false" <?php if ($this->movieData['screening'] === 0) echo 'checked'; ?>>
                     <label for="screening-no">No</label>
                 </div>
         </div>

@@ -141,7 +141,9 @@ class AddMovie
      */
     public function movieLookup($sanitizedInput): void
     {
-        $sql = "SELECT * FROM movie WHERE title=?";
+        $sql = "SELECT * FROM movie
+                WHERE title = ?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $sanitizedInput['title']);
         $stmt->execute();
@@ -166,7 +168,10 @@ class AddMovie
      */
     public function actorLookup($sanitizedActors): array
     {
-        $sql = 'SELECT `full_name` FROM `actor` WHERE `full_name` = ?;';
+        $sql = 'SELECT `full_name`
+                FROM `actor`
+                WHERE `full_name` = ?;';
+
         $stmt = $this->conn->prepare($sql);
         $actorsNotFound = [];
 
@@ -206,7 +211,9 @@ class AddMovie
         $this->conn->begin_transaction();
         try {
             # Insert into table 'movie'
-            $sql = "INSERT INTO `movie` (`movie_id`, `title`, `description`, `genre`, `premiere`, `age_limit`, `language`, `subtitles`, `length`, `showing`) VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+            $sql = "INSERT INTO `movie` (`movie_id`, `title`, `description`, `genre`, `premiere`, `age_limit`, `language`, `subtitles`, `length`, `screening`)
+                    VALUES (NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('sssiisiii', $sanitizedInput['title'], $sanitizedInput['description'], $sanitizedInput['genre'], $sanitizedInput['premiere'], $sanitizedInput['age_limit'], $sanitizedInput['language'], $sanitizedInput['subtitles'], $sanitizedInput['length'], $sanitizedInput['screening']);
             if(!$stmt->execute()) {
@@ -216,8 +223,10 @@ class AddMovie
             $movie_id = $this->conn->insert_id;
             $stmt->close();
 
-            # Insert into table 'poster'
-            $sql = "INSERT INTO `poster` (`poster_id`, `movie_id`, `poster`, `hero`, `logo`) VALUES (NULL, ?, ?, ?, ?);";
+            # Insert into table 'image'
+            $sql = "INSERT INTO `image` (`poster_id`, `movie_id`, `poster`, `hero`, `logo`)
+                    VALUES (NULL, ?, ?, ?, ?);";
+
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('isss', $movie_id, $sanitizedInput['poster'], $sanitizedInput['hero'], $sanitizedInput['logo']);
             if(!$stmt->execute()) {
@@ -255,7 +264,9 @@ class AddMovie
      */
     public function addNewActors(array $actorsObject): void
     {
-        $sql = 'INSERT INTO `actor` (`actor_id`, `full_name`) VALUES (NULL, ?);';
+        $sql = 'INSERT INTO `actor` (`actor_id`, `full_name`)
+                VALUES (NULL, ?);';
+
         $stmt = $this->conn->prepare($sql);
         foreach ($actorsObject['actorsNotFound'] as $actor) {
             $stmt->bind_param('s', $actor);
@@ -277,7 +288,10 @@ class AddMovie
     {
         $actors = array_merge($actorsObject['actorsFound'], $actorsObject['actorsNotFound']);
         $placeholders = implode(',', array_fill(0, count($actors), '?'));
-        $sql = "SELECT `actor_id`, `full_name` FROM `actor` WHERE `full_name` IN ($placeholders)";
+        $sql = "SELECT `actor_id`, `full_name`
+                FROM `actor`
+                WHERE `full_name`
+                IN ($placeholders)";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param(str_repeat('s', count($actors)), ...$actors);
@@ -305,7 +319,9 @@ class AddMovie
      */
     public function addActorsToMovie($movie_id, $actorIDs): void
     {
-        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`) VALUES (NULL, ?, ?);';
+        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`)
+                VALUES (NULL, ?, ?);';
+
         $stmt = $this->conn->prepare($sql);
         foreach ($actorIDs as $actorID) {
             $stmt->bind_param('ii', $movie_id, $actorID);

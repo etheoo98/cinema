@@ -52,7 +52,10 @@ class SignIn
      */
     public function signIn($sanitizedInput): void
     {
-        $sql = "SELECT user_id, email, username, password FROM user WHERE email=?";
+        $sql = "SELECT user_id, email, username, password
+                FROM user
+                WHERE email=?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $sanitizedInput['email']);
         if (!$stmt->execute()) {
@@ -74,7 +77,10 @@ class SignIn
         $_SESSION['username'] = $user['username'];
 
         # Update the user's last seen timestamp
-        $sql = "UPDATE user SET last_seen = now() WHERE user_id = ?";
+        $sql = "UPDATE user
+                SET last_seen = now()
+                WHERE user_id = ?";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $user['id']);
         $stmt->execute();

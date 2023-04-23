@@ -14,7 +14,9 @@
      */
     public function getTotalUsers(): mixed
     {
-        $sql = 'SELECT DATE(`date_of_registration`) as `registration_date` FROM `user`;';
+        $sql = 'SELECT DATE(`date_of_registration`)
+                AS `registration_date`
+                FROM `user`;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
@@ -22,7 +24,8 @@
     }
 
     public function getTotalTickets() {
-        $sql = 'SELECT `movie_id`, DATE(`date`) FROM `booking`;';
+        $sql = 'SELECT `movie_id`, DATE(`date`)
+                FROM `booking`;';
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();

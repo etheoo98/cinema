@@ -75,8 +75,13 @@ class SignUp
      */
     public function emailLookup($sanitizedInput): void
     {
+        $sql = 'SELECT email
+                FROM user
+                WHERE email=?';
+
         # Check if email is available
-        $stmt = $this->conn->prepare("SELECT email FROM user WHERE email=?");
+        $stmt = $this->conn->prepare($sql);
+
         $stmt->bind_param('s', $sanitizedInput['email']);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -95,8 +100,12 @@ class SignUp
      */
     public function usernameLookup($sanitizedInput): void
     {
+        $sql = 'SELECT username
+                FROM user
+                WHERE username = ?';
+
         # Check if username is available
-        $stmt = $this->conn->prepare("SELECT username FROM user WHERE username=?");
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('s', $sanitizedInput['username']);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -143,7 +152,9 @@ class SignUp
      */
     public function addUser($sanitizedInput): void
     {
-        $sql = "INSERT INTO user (role, email, username, password, date_of_registration, last_seen) VALUES ('user', ?, ?, ?, now(), now())";
+        $sql = "INSERT INTO user (role, email, username, password, date_of_registration, last_seen)
+                VALUES ('user', ?, ?, ?, now(), now())";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('sss', $sanitizedInput['email'], $sanitizedInput['username'], $sanitizedInput['password_hash']);
 

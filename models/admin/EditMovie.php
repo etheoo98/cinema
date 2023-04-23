@@ -21,7 +21,10 @@ class EditMovie
         #TODO: Sanitize
         $movie_id = $_GET['id'];
 
-        $sql = "SELECT * FROM poster, movie WHERE movie.movie_id = ? AND poster.movie_id = movie.movie_id;";
+        $sql = "SELECT * FROM `image`, `movie`
+                WHERE `movie`.`movie_id` = ?
+                AND `image`.`movie_id` = `movie`.`movie_id`;";
+
         $stmt = $this->conn->prepare($sql);
         $stmt->bind_param("i", $movie_id);
         $stmt->execute();
@@ -37,8 +40,12 @@ class EditMovie
 
     public function getActorData(): ?array {
         $movie_id = mysqli_real_escape_string($this->conn, $_GET['id']);
+        $sql = 'SELECT `full_name`
+                FROM `actor`, `movie_actor`
+                WHERE `movie_actor`.`movie_id` = ?
+                AND `movie_actor`.`actor_id` = `actor`.`actor_id`';
 
-        $stmt = $this->conn->prepare("SELECT full_name FROM actor, movie_actor WHERE movie_actor.movie_id = ? AND movie_actor.actor_id = actor.actor_id");
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('i', $movie_id);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -139,8 +146,6 @@ class EditMovie
                 }
             }
 
-            # echo 'Validated Images';
-
         } else {
             # echo 'No Images Selected';
         }
@@ -162,7 +167,9 @@ class EditMovie
     {
         if (!isset($sanitizedInput['poster']) || !isset($sanitizedInput['hero']) || !isset($sanitizedInput['logo'])) {
             # SQL Query that excludes image upload
-            $sql = 'UPDATE `movie` SET `title` = ?, `description` = ?, `genre` = ?, `premiere` = ?, `age_limit` = ?, `language` = ?, `subtitles` = ?, `length` = ?, `showing` = ? WHERE `movie`.`movie_id` = ?;';
+            $sql = 'UPDATE `movie`
+                    SET `title` = ?, `description` = ?, `genre` = ?, `premiere` = ?, `age_limit` = ?, `language` = ?, `subtitles` = ?, `length` = ?, `screening` = ?
+                    WHERE `movie`.`movie_id` = ?;';
             $stmt = $this->conn->prepare($sql);
             $stmt->bind_param('sssiisiiii', $sanitizedInput['title'], $sanitizedInput['description'], $sanitizedInput['genre'], $sanitizedInput['premiere'], $sanitizedInput['age_limit'], $sanitizedInput['language'], $sanitizedInput['subtitles'], $sanitizedInput['length'], $sanitizedInput['screening'], $sanitizedInput['movie_id']);
             $stmt->execute();
@@ -174,21 +181,32 @@ class EditMovie
         }
     }
 
+    /**
+     * @throws Exception
+     */
     public function addActorsToMovie($actorIDs): void
     {
-        $movie_id = $_GET['id'];
+        $movie_id = mysqli_real_escape_string($this->conn, $_GET['id']);
+        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`)
+                VALUES (NULL, ?, ?);';
 
-        $sql = 'INSERT INTO `movie_actor` (`id`, `movie_id`, `actor_id`) VALUES (NULL, ?, ?);';
-        $checkSql = 'SELECT COUNT(*) FROM `movie_actor` WHERE `movie_id` = ? AND `actor_id` = ?;';
+        $checkSql = 'SELECT COUNT(*)
+                    FROM `movie_actor`
+                    WHERE `movie_id` = ?
+                    AND `actor_id` = ?;';
+
         $stmt = $this->conn->prepare($sql);
         $checkStmt = $this->conn->prepare($checkSql);
+
         foreach ($actorIDs as $actorID) {
             $checkStmt->bind_param('ii', $movie_id, $actorID);
             $checkStmt->execute();
             $checkResult = $checkStmt->get_result();
             $count = $checkResult->fetch_array()[0];
+
             if ($count == 0) {
                 $stmt->bind_param('ii', $movie_id, $actorID);
+
                 if (!$stmt->execute()) {
                     throw new Exception('Failed to associate actor(s) with movie.');
                 }
