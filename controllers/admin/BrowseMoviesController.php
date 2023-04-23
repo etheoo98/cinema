@@ -1,6 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/admin/BrowseMovies.php');
 require_once(BASE_PATH . '/models/Session.php');
+require_once(BASE_PATH . '/public/scripts/BrowseMoviesControllerMiddleware.php');
 
 class BrowseMoviesController
 {
@@ -58,6 +59,50 @@ class BrowseMoviesController
         require_once(BASE_PATH . '/views/admin/header.php');
         require_once(BASE_PATH . '/views/admin/browse-movies/index.php');
         echo '<script src="/cinema/public/js/admin.js"></script>';
+        echo '<script src="/cinema/public/js/browse-movies.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
+    }
+
+    /**
+     * This function handles incoming AJAX requests.
+     *
+     * The AJAX request must include a 'action' to be taken. The action is handled through a Match
+     * Expression. On valid action, an appropriate method call is made. The response is finally encoded as
+     * JSON and returned to the AJAX request.
+     */
+    public function ajaxHandler(): void
+    {
+        $action = $_POST['action'] ?? null;
+        $response = match ($action) {
+            'search' => $this->getMovieData(),
+            default => [
+                'status' => false,
+                'message' => 'Invalid action'
+            ],
+        };
+        header("Content-Type: application/json");
+        echo json_encode($response);
+    }
+
+    public function getMovieData(): array
+    {
+        $movieData = $this->browseMoviesModel->searchMovies(); // replace this with your actual code to fetch movie data
+        $movies = [];
+        foreach ($movieData as $movie) {
+            $movies[] = [
+                'poster' => $movie['poster'],
+                'title' => $movie['title'],
+                'genre' => $movie['genre'],
+                'age_limit' => $movie['age_limit'],
+                'length' => $movie['length'],
+                'movie_id' => $movie['movie_id'],
+                'showing' => $movie['showing']
+            ];
+        }
+        $response = [
+            'status' => true,
+            'data' => $movies
+        ];
+        return $response;
     }
 }
