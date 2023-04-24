@@ -52,7 +52,7 @@ class SignIn
      */
     public function signIn($sanitizedInput): void
     {
-        $sql = "SELECT user_id, email, username, password
+        $sql = "SELECT user_id, email, username, password, role
                 FROM user
                 WHERE email=?";
 
@@ -75,6 +75,7 @@ class SignIn
         $_SESSION['user_id'] = $user['user_id'];
         $_SESSION['email'] = $user['email'];
         $_SESSION['username'] = $user['username'];
+        $_SESSION['role'] = $user['role'];
 
         # Update the user's last seen timestamp
         $sql = "UPDATE user
