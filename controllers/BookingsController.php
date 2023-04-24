@@ -29,6 +29,7 @@ class BookingsController
      * the index view.
      *
      * @throws Exception
+     *
      */
     public function initializeView(): void
     {
@@ -48,6 +49,7 @@ class BookingsController
      * Note: $this->sessionIsValid can never truly be false, as users are redirected to
      * the sign-in page if their session is invalid, through session model's
      * validateSession method.
+     *
      */
     private function renderView(): void
     {
@@ -71,6 +73,7 @@ class BookingsController
      * The AJAX request must include a 'action' to be taken. The action is handled through a Match
      * Expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
+     *
      */
     public function ajaxHandler(): void
     {

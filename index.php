@@ -19,7 +19,7 @@ if (isset($_GET['url'])) {
 switch ($url_parts[0]) {
     case 'home':
         require_once('./controllers/HomeController.php');
-        $controller = new HomeController();
+        $controller = new HomeController($conn);
         $controller->initializeView();
         break;
     case 'sign-in':

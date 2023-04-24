@@ -1,0 +1,81 @@
+* {box-sizing: border-box}
+body {font-family: Verdana, sans-serif; margin:0}
+.mySlides {display: none}
+img {vertical-align: middle;}
+
+/* Slideshow container */
+.slideshow-container {
+    position: relative;
+    margin: auto;
+    height: 70vh;
+}
+.mySlides {
+    display: flex;
+    height: 100%;
+    justify-content: center;
+    align-items: flex-end;
+}
+.hero-container::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,1), rgba(0,0,0,0));
+    z-index: 1;
+}
+.movie-hero-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    object-position: top;
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+}
+
+.logo-container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Caption text */
+.movie-logo {
+    max-height: 320px;
+    max-width: 320px;
+    height: auto;
+    width: auto;
+    text-align: center;
+}
+/* The dots/bullets/indicators */
+.dot {
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+    margin: 0 2px;
+    background-color: #bbb;
+    border-radius: 50%;
+    display: inline-block;
+    transition: background-color 0.6s ease;
+}
+
+.active, .dot:hover {
+    background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+    animation-name: fade;
+    animation-duration: 1.5s;
+}
+
+@keyframes fade {
+    from {opacity: .4}
+    to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+    .prev, .next,.text {font-size: 11px}
+}
