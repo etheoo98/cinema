@@ -97,4 +97,3 @@
         </div>
     </div>
 </main>
-<script src="./public/js/settings.js"></script>

@@ -1,7 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/Movie.php');
 require_once (BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/MovieControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/MovieControllerMiddleware.php');
 
 class MovieController
 {
@@ -53,6 +53,7 @@ class MovieController
     {
         $title = $this->movieData['title'];
         $css = ["main.css", "movie.css"];
+        $js = ["add-booking.js"];
 
         require_once(BASE_PATH . '/views/shared/header.php');
 
@@ -62,7 +63,7 @@ class MovieController
         else {
             require_once(BASE_PATH . '/views/shared/error.php');
         }
-        echo '<script src="/cinema/public/js/add-booking.js"></script>';
+
         require_once(BASE_PATH . '/views/shared/footer.php');
 
     }

@@ -15,7 +15,7 @@ class User
                 WHERE user_id = ?
                 OR username = ?';
 
-        $stmt = $this->conn->prepare("");
+        $stmt = $this->conn->prepare($sql);
         $stmt->bind_param('is', $user_id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();

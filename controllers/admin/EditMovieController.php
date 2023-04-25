@@ -2,7 +2,7 @@
 require_once(BASE_PATH . '/models/admin/EditMovie.php');
 require_once(BASE_PATH . '/models/admin/AddMovie.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/EditMovieControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/EditMovieControllerMiddleware.php');
 
 class EditMovieController
 {
@@ -38,7 +38,6 @@ class EditMovieController
         $sessionIsAdmin = $this->sessionModel->requireAdminRole();
 
         if ($sessionIsAdmin) {
-
             $this->movieData = $this->editMovieModel->getMovieData();
             $this->actorData = $this->editMovieModel->getActorData();
             $this->renderView();
@@ -60,11 +59,10 @@ class EditMovieController
 
         $title = 'Edit Movie - ' . $this->movieData['title'];
         $css = ["admin/main.css", "admin/add-movie.css"];
+        $js = ["admin/admin.js", "admin/edit-movie.js"];
 
-        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/shared/header.php');
         require_once(BASE_PATH . '/views/admin/edit-movie/index.php');
-        echo '<script src="/cinema/public/js/edit-movie.js"></script>';
-        echo '<script src="/cinema/public/js/admin.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 

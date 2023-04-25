@@ -1,7 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/admin/Admin.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/AdminControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/AdminControllerMiddleware.php');
 
 class AdminController
 {
@@ -46,8 +46,9 @@ class AdminController
     {
         $title = "Admin";
         $css = ["admin/main.css"];
+        $js = ["admin/admin.js"];
 
-        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/shared/header.php');
 
         echo '<script src="/cinema/public/js/admin.js"></script>';
         echo '<script src="/cinema/public/js/add-movie.js"></script>';

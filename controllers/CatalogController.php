@@ -1,7 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Catalog.php');
 require_once (BASE_PATH . '/models/Session.php');
-require_once (BASE_PATH . '/public/scripts/CatalogControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/CatalogControllerMiddleware.php');
 
 class CatalogController
 {
@@ -82,7 +82,7 @@ class CatalogController
 
     public function getMovieData(): array
     {
-        $movieData = $this->catalogModel->searchMovies(); // replace this with your actual code to fetch movie data
+        $movieData = $this->catalogModel->searchMovies();
         $movies = [];
         foreach ($movieData as $movie) {
             $movies[] = [

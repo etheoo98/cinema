@@ -22,7 +22,7 @@ class Catalog
 
     public function searchMovies(): false|mysqli_result
     {
-        $query = $_POST['query'];
+        $query = mysqli_real_escape_string($this->conn, $_POST['query']);
         $sql = "SELECT `poster`, `title`, `genre`, `age_limit`, `length`, `movie`.`movie_id` 
                 FROM `image`, `movie` 
                 WHERE `screening`=1 
@@ -31,7 +31,7 @@ class Catalog
                 ORDER BY `movie`.`movie_id` DESC;";
 
         $stmt = $this->conn->prepare($sql);
-        $query = "%" . $query . "%"; // wrap search term with % so it matches partial strings
+        $query = "%" . $query . "%";
         $stmt->bind_param("ss", $query, $query);
         $stmt->execute();
         return $stmt->get_result();

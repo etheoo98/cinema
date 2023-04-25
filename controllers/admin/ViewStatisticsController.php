@@ -1,7 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/admin/ViewStatistics.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once (BASE_PATH . '/public/scripts/ViewStatisticsControllerMiddleware.php');
+require_once (BASE_PATH . '/middleware/ViewStatisticsControllerMiddleware.php');
 
 class ViewStatisticsController
 {
@@ -55,11 +55,10 @@ class ViewStatisticsController
 
         $title = "View Statistics";
         $css = ["admin/main.css"];
+        $js = ["admin/admin.js", "admin/view-statistics.js"];
 
-        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/shared/header.php');
         require_once(BASE_PATH . '/views/admin/view-statistics/index.php');
-        echo '<script src="/cinema/public/js/view-statistics.js"></script>';
-        echo '<script src="/cinema/public/js/admin.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 

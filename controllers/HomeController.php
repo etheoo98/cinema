@@ -19,6 +19,8 @@ class HomeController {
     {
         $title = 'Home';
         $css = ["main.css", "home.css"];
+        $js = ["home.js"];
+
         require_once (BASE_PATH . '/views/shared/header.php');
 
         if($this->movieData) {
@@ -26,8 +28,6 @@ class HomeController {
         } else {
             require_once(BASE_PATH . '/views/shared/error.php');
         }
-
-        echo '<script src="/cinema/public/js/home.js"></script>';
 
         require_once (BASE_PATH . '/views/shared/footer.php');
     }

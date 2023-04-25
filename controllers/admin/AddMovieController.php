@@ -1,7 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/admin/AddMovie.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/AddMovieControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/AddMovieControllerMiddleware.php');
 
 class AddMovieController
 {
@@ -49,11 +49,10 @@ class AddMovieController
 
         $title = "Add Movie";
         $css = ["admin/main.css", "admin/add-movie.css"];
+        $js = ["admin/admin.js", "admin/add-movie.js"];
 
-        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/shared/header.php');
         require_once(BASE_PATH . '/views/admin/add-movie/index.php');
-        echo '<script src="/cinema/public/js/admin.js"></script>';
-        echo '<script src="/cinema/public/js/add-movie.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 

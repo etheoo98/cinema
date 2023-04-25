@@ -5,7 +5,10 @@ function onFileSelected(event, imgId) {
 
     reader.onload = function(event) {
         const img = document.getElementById(imgId);
-        img.src = event.target.result;
+        img.addEventListener('load', () => {
+            URL.revokeObjectURL(img.src);
+        });
+        img.src = URL.createObjectURL(file);
     };
 
     reader.readAsDataURL(file);

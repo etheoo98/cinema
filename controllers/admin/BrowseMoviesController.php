@@ -1,7 +1,7 @@
 <?php
 require_once(BASE_PATH . '/models/admin/BrowseMovies.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/BrowseMoviesControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/BrowseMoviesControllerMiddleware.php');
 
 class BrowseMoviesController
 {
@@ -49,17 +49,17 @@ class BrowseMoviesController
      * If the request has been determined to by an 'admin', the view will render.
      * The contents of movie tag for this specific view is set here the controller, along with
      * what stylesheets apply to this view in particular.
+     *
      */
     public function renderView(): void
     {
 
         $title = "Browse Titles";
         $css = ["admin/main.css", "admin/browse-movies.css"];
+        $js = ["admin/admin.js", "admin/browse-movies.js"];
 
-        require_once(BASE_PATH . '/views/admin/header.php');
+        require_once(BASE_PATH . '/views/admin/shared/header.php');
         require_once(BASE_PATH . '/views/admin/browse-movies/index.php');
-        echo '<script src="/cinema/public/js/admin.js"></script>';
-        echo '<script src="/cinema/public/js/browse-movies.js"></script>';
         require_once(BASE_PATH . '/views/shared/small-footer.php');
     }
 
@@ -69,6 +69,7 @@ class BrowseMoviesController
      * The AJAX request must include a 'action' to be taken. The action is handled through a Match
      * Expression. On valid action, an appropriate method call is made. The response is finally encoded as
      * JSON and returned to the AJAX request.
+     *
      */
     public function ajaxHandler(): void
     {

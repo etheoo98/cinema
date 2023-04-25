@@ -9,7 +9,7 @@
                  <h2>Sign in to existing account</h2>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                     <input type="text" name="email" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$">
+                     <input type="text" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
                      <label for="email">Email</label>
                  </div>
                  <div class="input-box">
@@ -34,7 +34,7 @@
                  </div>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-user"></i></span>
-                     <input id="username" type="text" name="username" required pattern="[a-zA-Z0-9]+" title="Desired username. Only uppercase, lowercase and numbers allowed.">
+                     <input id="username" type="text" name="username" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$" title="Desired username. Only uppercase, lowercase and numbers allowed.">
                      <label for="username">Username</label>
                  </div>
                  <div class="input-box">

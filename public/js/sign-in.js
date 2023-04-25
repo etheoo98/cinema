@@ -22,37 +22,33 @@ $(function() {
 
     $('#page-container').on('submit', 'form', function(e) {
         e.preventDefault();
-        if ($(this).valid()) {
 
-            let formData = new FormData(this);
-            let action = $(this).data('action');
-            console.log('Action:', action);
-            formData.append('action', action);
+        let formData = new FormData(this);
+        let action = $(this).data('action');
+        console.log('Action:', action);
+        formData.append('action', action);
 
-            $.ajax({
-                type: 'POST',
-                data: formData,
-                contentType: false,
-                processData:false,
-                success: function(response) {
-                    console.log('Server Response:', response);
-                    if (response.trim() !== '') {
-                        let responseObject = JSON.parse(response);
+        $.ajax({
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData:false,
+            success: function(response) {
+                console.log('Server Response:', response);
 
-                        if (responseObject.status === 'Sign-In Failed' || responseObject.status === 'Sign-Up Failed') {
-                            $('.error-message').find('span').html(responseObject.message);
-                            $('.error-message').css('visibility', 'unset');
-                        } else {
-                            // Redirect to a new page
-                            window.location.replace('catalog');
-                        }
+                    let responseObject = JSON.parse(response);
+                    if (responseObject.status === false) {
+                        $('.error-message').find('span').html(responseObject.message);
+                        $('.error-message').css('visibility', 'unset');
+                    } else {
+                        // Redirect to a new page
+                        window.location.replace('catalog');
                     }
-                },
-                error: function(xhr, status, error) {
-                    console.error('AJAX Error:', status, error);
-                }
-            });
-        }
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', status, error);
+            }
+        });
     });
 
 });

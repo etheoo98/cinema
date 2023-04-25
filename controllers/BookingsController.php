@@ -1,7 +1,7 @@
 <?php
 require_once (BASE_PATH . '/models/Bookings.php');
 require_once (BASE_PATH . '/models/Session.php');
-require_once (BASE_PATH . '/public/scripts/BookingsControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/BookingsControllerMiddleware.php');
 
 class BookingsController
 {
@@ -55,6 +55,8 @@ class BookingsController
     {
         $title = "Bookings";
         $css = ["main.css", "catalog.css", "bookings.css"];
+        $js = ["bookings.js"];
+
         require_once (BASE_PATH . '/views/shared/header.php');
 
         if ($this->sessionIsValid && isset($this->bookingsData)) {
@@ -63,7 +65,6 @@ class BookingsController
         else {
             require_once(BASE_PATH . '/views/shared/error.php');
         }
-        echo '<script src="/cinema/public/js/bookings.js"></script>';
         require_once(BASE_PATH . '/views/shared/footer.php');
     }
 

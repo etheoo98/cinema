@@ -2,7 +2,7 @@
 require_once(BASE_PATH . '/models/SignIn.php');
 require_once(BASE_PATH . '/models/SignUp.php');
 require_once(BASE_PATH . '/models/Session.php');
-require_once(BASE_PATH . '/public/scripts/SignInControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/SignInControllerMiddleware.php');
 
 class SignInController {
 
@@ -47,10 +47,10 @@ class SignInController {
     {
         $title = "Sign-In/Up";
         $css = ["main.css", "sign-in.css"];
+        $js = ["sign-in.js"];
 
         require_once (BASE_PATH . '/views/shared/header.php');
         require_once (BASE_PATH . '/views/sign-in/index.php');
-        echo '<script src="/cinema/public/js/sign-in.js"></script>';
         require_once (BASE_PATH . '/views/shared/small-footer.php');
     }
 
@@ -77,11 +77,11 @@ class SignInController {
                     $sessionData = $this->sessionModel->getSessionData();
                     $this->sessionModel->addSession($sessionData);
                     $response = [
-                        'status' => 'Sign-In Success'
+                        'status' => true
                     ];
                 } catch (Exception $e) {
                     $response = [
-                        'status' => 'Sign-In Failed',
+                        'status' => false,
                         'message' => $e->getMessage()
                     ];
                 }
@@ -96,18 +96,18 @@ class SignInController {
                     $sanitizedInput = $this->signUpModel->passwordEncryption($sanitizedInput);
                     $this->signUpModel->addUser($sanitizedInput);
                     $response = [
-                        'status' => 'Sign-Up Success'
+                        'status' => true
                     ];
                 } catch (Exception $e) {
                     $response = [
-                        'status' => 'Sign-Up Failed',
+                        'status' => false,
                         'message' => $e->getMessage()
                     ];
                 }
                 break;
             default:
                 $response = [
-                    'status' => 'error',
+                    'status' => false,
                     'message' => 'Invalid action'
                 ];
                 break;

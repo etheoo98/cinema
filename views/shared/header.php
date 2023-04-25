@@ -14,15 +14,23 @@ if (isset($_SESSION['user_id'])) {
 <head>
     <title><?php if (isset($title)) echo $title . ' - '; ?>Cinema</title>
     <meta charset="UTF-8">
+
     <?php if (isset($css)):
         foreach ($css as $file): ?>
             <link rel="stylesheet" type="text/css" href="/cinema/public/css/<?php echo $file; ?>">
         <?php endforeach;
     endif; ?>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://kit.fontawesome.com/2354648d6d.js" crossorigin="anonymous"></script>
-    <script src="/cinema/lib/jquery-3.6.4.min.js"></script>
-    <script src="/cinema/lib/jquery.validate.min.js"></script>
+    <script src="/cinema/public/lib/jquery-3.6.4.min.js"></script>
+    <!-- <script src="/cinema/lib/jquery.validate.min.js"></script> -->
+
+    <?php if (isset($js)):
+        foreach ($js as $file): ?>
+            <script src="/cinema/public/js/<?php echo $file; ?>"></script>
+        <?php endforeach;
+    endif; ?>
 </head>
 
 <body>

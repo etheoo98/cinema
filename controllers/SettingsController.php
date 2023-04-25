@@ -2,7 +2,7 @@
 require_once (BASE_PATH . '/models/Settings.php');
 require_once (BASE_PATH . '/models/Session.php');
 require_once (BASE_PATH . '/models/SignUp.php');
-require_once (BASE_PATH . '/public/scripts/SettingsControllerMiddleware.php');
+require_once(BASE_PATH . '/middleware/SettingsControllerMiddleware.php');
 
 #[AllowDynamicProperties] class SettingsController {
     private mysqli $conn;
@@ -47,6 +47,7 @@ require_once (BASE_PATH . '/public/scripts/SettingsControllerMiddleware.php');
     {
         $title = "Settings";
         $css = ["main.css", 'settings.css'];
+        $js = ["settings.js"];
 
         require_once (dirname(__DIR__) . '/views/shared/header.php');
 
