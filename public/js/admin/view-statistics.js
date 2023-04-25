@@ -28,8 +28,8 @@ $.ajax({
         };
 
         // loop through the registration dates and count the number of users for each month
-        for (var i = 0; i < data.length; i++) {
-            var date = new Date(data[i]);
+        for (let i = 0; i < data.length; i++) {
+            const date = new Date(data[i]);
             month = date.toLocaleString('en-US', {month: 'long'});
             if (month in countsByMonth) {
                 countsByMonth[month]++;

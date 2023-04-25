@@ -17,11 +17,7 @@ function onFileSelected(event, imgId) {
 
 // Responsive nav
 function handleCheckbox() {
-    var checkbox = document.getElementById("nav-toggle");
-    if (window.innerWidth <= 768) { // max-width is 768px
-        checkbox.checked = false;
-    } else {
-        checkbox.checked = true;
-    }
+    const checkbox = document.getElementById("nav-toggle");
+    checkbox.checked = window.innerWidth > 768;
 }
 handleCheckbox();

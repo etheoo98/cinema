@@ -18,8 +18,7 @@ class EditMovie
      */
     public function getMovieData(): ?array
     {
-        #TODO: Sanitize
-        $movie_id = $_GET['id'];
+        $movie_id= mysqli_real_escape_string ($this->conn, $_GET['id']);
 
         $sql = "SELECT * FROM `image`, `movie`
                 WHERE `movie`.`movie_id` = ?

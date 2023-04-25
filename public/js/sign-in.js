@@ -13,7 +13,7 @@ function toggleForms() {
         Sign_Up.style.display = "flex";
     }
     // Hide error messages
-    for (var i = 0; i < Error_Messages.length; i++) {
+    for (let i = 0; i < Error_Messages.length; i++) {
         Error_Messages[i].style.visibility = "hidden";
     }
 }

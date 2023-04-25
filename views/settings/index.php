@@ -73,7 +73,10 @@
             <div class="section">
                 <form class="sessions" id="terminate-session-form" method="POST" data-action="terminate-session">
                     <div class="grid-container">
-                        <div class="grid-item"><input type="checkbox" onClick="toggle(this)"></div>
+                        <div class="grid-item">
+                            <label for="toggle-all" style="display: none">Toggle All</label>
+                            <input id="toggle-all" type="checkbox" onClick="toggle(this)">
+                        </div>
                         <div class="grid-item">Signed In</div>
                         <div class="grid-item">Country</div>
                         <div class="grid-item">User Agent</div>

@@ -1,7 +1,7 @@
 <main class="main">
     <header class="movie-header">
         <div class="hero-container">
-            <img class="movie-hero-image" src="../public/img/movie/hero/<?php echo $this->movieData["hero"] ?>">
+            <img class="movie-hero-image" src="../public/img/movie/hero/<?php echo $this->movieData["hero"] ?>" alt="Hero image of <?php echo $this->movieData["title"]; ?>">
         </div>
         <div class="movie-main">
             <div class="container">

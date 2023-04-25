@@ -29,9 +29,6 @@ main {
 .date-booked {
   font-size: 0.8em;
 }
-.fa-star {
-  font-size: 1em;
-}
 .rating-container {
   display: flex;
   flex-direction: row;

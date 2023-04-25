@@ -54,7 +54,7 @@ main .container {
 
 #search-input {
   color: var(--primary-white);
-  border: 0px solid;
+  border: 0 solid;
   background-color: transparent;
   outline: none;
 }

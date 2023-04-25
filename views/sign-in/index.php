@@ -9,12 +9,12 @@
                  <h2>Sign in to existing account</h2>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-envelope"></i></span>
-                     <input type="text" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
+                     <input id="email" type="text" name="email" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$">
                      <label for="email">Email</label>
                  </div>
                  <div class="input-box">
                      <span class="icon"><i class="fa-solid fa-lock"></i></span>
-                     <input type="password" required name="password">
+                     <input id="password" type="password" required name="password">
                      <label for="password">Password</label>
                  </div>
                  <div class="error-message"><i class="fa-solid fa-triangle-exclamation"></i><span>Error Message</span></div>

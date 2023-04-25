@@ -13,12 +13,11 @@ class Session {
      *
      * This function retrieves the IP address and country code of the client accessing the
      * website by making requests to ipify and geoplugin APIs, and returns them as an array.
+     *
+     * TODO: Remove ipify if "$_SERVER['REMOTE_ADDR']" works for clients except server
      */
     public function getSessionData(): array
     {
-        # TODO: Remove ipify if "$_SERVER['REMOTE_ADDR']" works for clients except server
-        # This function slows down sign in considerably!
-
         # Request IP from ipify API
         $ip_address = file_get_contents('https://api.ipify.org');
 
@@ -182,7 +181,6 @@ class Session {
         }
 
         # If the current phpsessid is not stored in the database, and page requires sign in, redirect.
-        # TODO: When terminating current session, redirect doesn't happen unless refresh page
         elseif (!$row) {
             header("LOCATION: /cinema/sign-in");
         }

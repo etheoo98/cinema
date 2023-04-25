@@ -32,13 +32,9 @@ main .container {
     float: right;
     border-radius: 6px;
 }
-
-/*noinspection ALL*/
 .collapsible.active {
     color: var(--primary-red);
 }
-
-/*noinspection ALL*/
 .collapsible.active:after {
     background-color: var(--primary-red);
     content: "\2796"; /* Unicode character for "minus" sign (-) */

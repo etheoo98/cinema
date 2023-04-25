@@ -1,5 +1,6 @@
 <div class="search-bar">
     <form id="search-form">
+        <label for="search-input" style="display: none">Search</label>
         <input type="text" id="search-input" placeholder="Search title or genre">
         <button class="search-button" type="submit" id="search-button">
             <div class="svg-container">
