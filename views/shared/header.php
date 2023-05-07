@@ -22,7 +22,6 @@ if (isset($_SESSION['user_id'])) {
     endif; ?>
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://kit.fontawesome.com/2354648d6d.js" crossorigin="anonymous"></script>
     <script src="/cinema/public/lib/jquery-3.6.4.min.js"></script>
     <!-- <script src="/cinema/lib/jquery.validate.min.js"></script> -->
 
@@ -36,7 +35,7 @@ if (isset($_SESSION['user_id'])) {
 <body>
 <header class="header">
     <div class="container">
-        <img class="logo" src="/cinema/public/img/cinema-logo.png" alt="Cinema logo">
+        <img class="logo" src="/cinema/public/img/cinema-logo.webp" alt="Cinema logo">
         <nav role="navigation" >
             <input type="checkbox" id="nav-toggle">
             <div class="mobile-overlay"></div>

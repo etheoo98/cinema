@@ -118,20 +118,20 @@ main .container {
     margin: 0 auto;
 }
 
-.error-message {
+.alert-box {
     display: flex;
     align-items: center;
     margin-bottom: 16px;
     visibility: hidden;
 }
-.error-icon {
+.alert-icon {
     width: 26px;
     height: 26px;
 }
-.error-icon path {
+.alert-icon path {
     fill: orange;
 }
-.error-message span {
+.alert-box span {
     margin-left: 8px;
 }
 .input-label {

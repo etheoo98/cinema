@@ -100,7 +100,7 @@ class EditMovieController
     public function updateMovie(): array
     {
         try {
-            $sanitizedInput = $this->editMovieModel->sanitizeInput();
+            /**$sanitizedInput = $this->editMovieModel->sanitizeInput();
             $sanitizedActors = $this->addMovieModel->sanitizeActors();
 
             $actorsObject = $this->addMovieModel->actorLookup($sanitizedActors);
@@ -113,7 +113,7 @@ class EditMovieController
             $this->editMovieModel->updateMovie($sanitizedInput);
             $actorIDs = $this->addMovieModel->getActorID($actorsObject);
             $this->editMovieModel->addActorsToMovie($actorIDs);
-
+             */
             $response = [
                 'status' => true,
                 'message' => 'Movie Successfully Updated'

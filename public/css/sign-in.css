@@ -75,6 +75,8 @@ form {
     padding: 0 35px 0 5px;
 }
 .input-box .icon {
+    height: 20px;
+    width: 20px;
     position: absolute;
     z-index: 1;
     right: 8px;
@@ -86,7 +88,9 @@ form {
     visibility: hidden;
     margin-bottom: 1em;
 }
-.error-message i {
+.error-message svg {
+    height: 20px;
+    width: 20px;
     margin-right: 6px;
     color: orange;
 }

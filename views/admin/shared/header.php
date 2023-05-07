@@ -12,7 +12,6 @@
     endif; ?>
 
     <script src="/cinema/public/lib/jquery-3.6.4.min.js"></script>
-    <!-- <script src="/cinema/lib/jquery.validate.min.js"></script> -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <?php if (isset($js)):

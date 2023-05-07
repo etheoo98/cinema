@@ -104,14 +104,14 @@ class ManageRolesController
                 $sanitizedInput = $this->manageRolesModel->usernameLookup($sanitizedInput);
                 $this->manageRolesModel->promoteUserToAdmin($sanitizedInput);
                 $response = [
-                    'status' => 'Success',
+                    'status' => true,
                     'message' => 'User successfully promoted to Admin',
                     'user_id' => $sanitizedInput['user_id'],
                     'username' => $sanitizedInput['promote_username']
                 ];
             } catch (Exception $e) {
                 $response = [
-                    'status' => 'Failed',
+                    'status' => false,
                     'message' => $e->getMessage()
                 ];
             }
@@ -139,13 +139,13 @@ class ManageRolesController
                 $sanitizedInput = $this->manageRolesModel->usernameLookup($sanitizedInput);
                 $this->manageRolesModel->demoteAdminToUser($sanitizedInput);
                 $response = [
-                    'status' => 'Success',
+                    'status' => true,
                     'message' => 'Admin successfully demoted to user',
                     'username' => $sanitizedInput['demote_username']
                 ];
             } catch (Exception $e) {
                 $response = [
-                    'status' => 'Failed',
+                    'status' => false,
                     'message' => $e->getMessage()
                 ];
             }

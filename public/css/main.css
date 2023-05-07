@@ -369,15 +369,20 @@ footer .cell a {
 .footer-socials {
   flex: 1;
   order: 3;
+  align-items: center;
 }
 .footer-bottom ul {
   display: flex;
   justify-content: flex-end;
 }
 
-.footer-socials i {
-  color: #fff;
-  font-size: 1.4rem;
+.footer-socials .svg-container {
+  height: 22px;
+  width: 22px;
+}
+
+.footer-socials .svg-container path {
+  fill: white;
 }
 
 .footer-socials li:not(:last-of-type) {

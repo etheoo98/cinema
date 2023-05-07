@@ -1,3 +1,5 @@
+$(document).ready(function() {
+
 // get the canvas element
 const ctx = document.getElementById('totalUsersChart').getContext('2d');
 
@@ -68,4 +70,6 @@ $.ajax({
     error: function(xhr, status, error) {
         console.log('Error: ' + error.message);
     }
+});
+
 });

@@ -111,7 +111,6 @@ class AddMovieController
             $movie_id = $this->addMovieModel->addMovie($sanitizedInput);
             $actorIDs = $this->addMovieModel->getActorID($actorsObject);
             $this->addMovieModel->addActorsToMovie($movie_id, $actorIDs);
-
             $response = [
                 'status' => true,
                 'message' => 'Movie Added Successfully.'
