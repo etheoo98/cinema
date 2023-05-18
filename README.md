@@ -11,4 +11,4 @@ This is a PHP application, intended for a fictional cinema.
 
 ## Deployment
 
-As of 18/05-23, the application is **not** feature complete, and does not offer database deployment. This may or may not change in the future.
+As of May 18, 2023, this application is **not** feature complete, and does not offer database deployment. This may or may not change in the future.
